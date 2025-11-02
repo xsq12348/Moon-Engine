@@ -17,20 +17,23 @@
 #define ENTITYNUMBER	10000
 
 /*
-∏√œÓƒøº∏∫ıœ‡µ±”⁄StarEngineœÓƒøµƒ÷ÿππ£¨StarœÓƒø«Îº˚:https://github.com/xsq12348/star
+ËØ•È°πÁõÆÂá†‰πéÁõ∏ÂΩì‰∫éStarEngineÈ°πÁõÆÁöÑÈáçÊûÑÔºåStarÈ°πÁõÆËØ∑ËßÅ:https://github.com/xsq12348/star
 
-◊˜’ﬂ:xsq12348
+‰ΩúËÄÖ:xsq12348
 Email:1993346266@qq.com
-¥¥Ω®»’∆⁄:2025.10.29
-∞Ê±æ
-◊Ó∫Û“ª∏ˆ «–ﬁ∏ƒBUG/÷ÿππ∫Ø ˝–¬∞Ê±æ∫≈,µ⁄∂˛∏ˆ «ÃÌº”∫Ø ˝,µ⁄»˝∏ˆ «÷ÿππ,µ⁄Àƒ∏ˆ «’˝ Ωµƒ¥Û∞Ê±æ∫≈
+ÂàõÂª∫Êó•Êúü:2025.10.29
+ÁâàÊú¨
+ÊúÄÂêé‰∏Ä‰∏™ÊòØ‰øÆÊîπBUG/ÈáçÊûÑÂáΩÊï∞Êñ∞ÁâàÊú¨Âè∑,Á¨¨‰∫å‰∏™ÊòØÊ∑ªÂä†ÂáΩÊï∞,Á¨¨‰∏â‰∏™ÊòØÈáçÊûÑ,Á¨¨Âõõ‰∏™ÊòØÊ≠£ÂºèÁöÑÂ§ßÁâàÊú¨Âè∑
 * 0.0.0.0
-* 1.0.0.0  2025.10.29  ÕÍ≥…¡Àª˘±æøÚº‹µƒ¥ÓΩ®
+* 1.0.0.0  2025.10.29  ÂÆåÊàê‰∫ÜÂü∫Êú¨Ê°ÜÊû∂ÁöÑÊê≠Âª∫
+* 1.0.0.1  2025.10.30  Ëß£ÂÜ≥‰∫ÜÊåâÈîÆÊ£ÄÊµãÔºåÁ™óÂè£ËæìÂÖ•ÔºåÊ∂àÊÅØÂæ™ÁéØBUG,Ê∑ªÂä†‰∫Ü‰∏Ä‰∏™Á∫øÁ®ãÁî®Êù•ËÆ∞ÂΩïÈ°πÁõÆËøêË°å‰∏≠ÁöÑÂêÑÁßçÂ±ûÊÄß
+* 1.0.0.2  2025.10.31  Ëß£ÂÜ≥‰∫ÜÂ∏ßÊï∞ÊòæÁ§∫‰∏çÂá∫Êù•ÁöÑÈóÆÈ¢ò
+* 1.0.0.3  2025.11.2   Âä†ÂÖ•‰∫ÜÂä®ÁîªÁ≥ªÁªü
 */
 
-//¥¥Ω®œﬂ≥Ã∫Ø ˝πÿº¸◊÷
+//ÂàõÂª∫Á∫øÁ®ãÂáΩÊï∞ÂÖ≥ÈîÆÂ≠ó
 typedef DWORD THREAD;
-//∂® ±∆˜
+//ÂÆöÊó∂Âô®
 typedef struct
 {
     int time1;
@@ -38,30 +41,28 @@ typedef struct
     int timeload;
     BOOL timeswitch;
 }TIMELOAD;
-//∂‘œÛ
+//ÂØπË±°
 typedef struct
 {
 	char* nameid;
 	int length;
 	void* entityindex;
-}ENTITYINDEX;																																			// µÃÂ
+}ENTITYINDEX;																																		//ÂÆû‰Ωì
 typedef struct PROJECTGOD
 {
-	LPCWSTR project_name;		//√˚◊÷
-	HWND hwnd;					//¥∞ø⁄æ‰±˙
-	HDC hdc;					//¥∞ø⁄…œœ¬Œƒ
-	int window_coord_x;			//ÀÆ∆Ω◊¯±Í
-	int window_coord_y;			//¥π÷±◊¯±Í
-	int window_width;			//øÌ∂»
-	int window_height;			//∏ﬂ∂»
-	int DEAD;					//œÓƒøΩ· ¯
-	int GamePower;				//∏ﬂ–‘ƒ‹ƒ£ Ω
-	ENTITYINDEX entityindex[ENTITYNUMBER];//∂‘œÛ≥ÿ◊¢≤·±Ì
-	TIMELOAD timeload;			//º∆ ±∆˜
-	TIMELOAD fps;				//÷°¬ 
-	THREAD(*Logic)(struct PROJECTGOD*);		//∂‡œﬂ≥Ã¬ﬂº≠∫Ø ˝
-}PROJECTGOD;																																//œÓƒøΩ·ππÃÂ÷––ƒ
-//À´ª∫≥ÂªÊÕº
+	LPCWSTR project_name;		//ÂêçÂ≠ó
+	HWND hwnd;					//Á™óÂè£Âè•ÊüÑ
+	int window_coord_x;			//Ê∞¥Âπ≥ÂùêÊ†á
+	int window_coord_y;			//ÂûÇÁõ¥ÂùêÊ†á
+	int window_width;			//ÂÆΩÂ∫¶
+	int window_height;			//È´òÂ∫¶
+	int DEAD;					//È°πÁõÆÁªìÊùü
+	int GamePower;				//È´òÊÄßËÉΩÊ®°Âºè
+	ENTITYINDEX entityindex[ENTITYNUMBER];//ÂØπË±°Ê±†Ê≥®ÂÜåË°®
+	TIMELOAD timeload;			//ËÆ°Êó∂Âô®
+	THREAD(*Logic)(struct PROJECTGOD*);		//Â§öÁ∫øÁ®ãÈÄªËæëÂáΩÊï∞
+}PROJECTGOD;																															//È°πÁõÆÁªìÊûÑ‰Ωì‰∏≠ÂøÉ
+//ÂèåÁºìÂÜ≤ÁªòÂõæ
 typedef struct
 {
 	HDC hdc;
@@ -69,7 +70,7 @@ typedef struct
 	int width;
 	int height;
 }DOUBLEBUFFER;
-//µ„Ω·ππÃÂ
+//ÁÇπÁªìÊûÑ‰Ωì
 typedef struct
 {
 	int x;
@@ -81,53 +82,73 @@ typedef struct
 	float y;
 	float z;
 }POINT3D;
+//ÂõæÁâá
+typedef struct
+{
+	POINT lengths;				//ÂõæÁâáÂ§ßÂ∞è
+	DOUBLEBUFFER image;			//ÂõæÁâá
+}IMAGE;
+//Âä®ÁîªÁªìÊûÑ‰Ωì
+typedef struct
+{
+	LPCSTR Name;
+	IMAGE* sequenceframes;		//Â∫èÂàóÂ∏ßÊï∞ÁªÑ
+	long long int number;		//ÂΩìÂâçÂ∫èÂàóÂ∏ß
+	int totalnumber;			//Â∫èÂàóÂ∏ßÊÄªÊï∞
+	BOOL animeswitch;			//Âä®ÁîªÂä®ÁîªÊí≠ÊîæÂºÄÂÖ≥
+	TIMELOAD timeload;			//ÂÆöÊó∂Âô®
+}ANIME;
 
-//-------------------------------------------------------------------------------------------ª˘¥°π§æﬂ∫Ø ˝-----------------------------------------------------------------------------//
+//-------------------------------------------------------------------------------------------Âü∫Á°ÄÂ∑•ÂÖ∑ÂáΩÊï∞-----------------------------------------------------------------------------//
 
 unsigned int Hash(char* text);
-#define DegRad(phi) (Pi * (phi) * 1.f / 180.f)																															//Ω«∂»◊™ª°∂»
-#define Lerp(alpha, beta, t) ((1. - t) * alpha + t * beta)																												//œﬂ–‘≤Â÷µ
-#define RANGE(alpha, alpha_min, alpha_max) (min(max(alpha,alpha_min),alpha_max))																						//œﬂ–‘≤Â÷µ
+#define DegRad(phi) (Pi * (phi) * 1.f / 180.f)																															//ËßíÂ∫¶ËΩ¨ÂºßÂ∫¶
+extern int KeyState(int Key);																																			//Ëé∑ÂèñÊåâÈîÆÁöÑÂÄº
+#define Lerp(alpha, beta, t) ((1. - t) * alpha + t * beta)																												//Á∫øÊÄßÊèíÂÄº
+#define RANGE(alpha, alpha_min, alpha_max) (min(max(alpha,alpha_min),alpha_max))																						//Á∫øÊÄßÊèíÂÄº
 
-//------------------------------------∂® ±∫Ø ˝------------------------------------------------//
+//------------------------------------ÂÆöÊó∂ÂáΩÊï∞--------------------------------------------------//
 
-//∂® ±∆˜ƒ£øÈ
-extern void TimeLoadInit(TIMELOAD* Timeload, int load);																													//≥ı ºªØ∂® ±∆˜
-extern int TimeLoad(TIMELOAD* Timeload, int mode);																														//‘À––∂® ±∆˜
+//ÂÆöÊó∂Âô®Ê®°Âùó
+extern void TimeLoadInit(TIMELOAD* Timeload, int load);																													//ÂàùÂßãÂåñÂÆöÊó∂Âô®
+extern int TimeLoad(TIMELOAD* Timeload, int mode);																														//ËøêË°åÂÆöÊó∂Âô®
 
-//------------------------------------ µÃÂ∫Ø ˝------------------------------------------------//
+//------------------------------------ÂÆû‰ΩìÂáΩÊï∞--------------------------------------------------//
 
-#define HashFindEntityIndex(nameid) (Hash(nameid) % ENTITYNUMBER)																										//hash—∞’“ µÃÂ
-extern int CreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid, int length);																			//◊¢≤· µÃÂ
+#define HashFindEntity(projectgod, nameid, type, entity) type* entity = (type*)project->entityindex[(Hash(nameid) % ENTITYNUMBER)].entityindex							//hashÂØªÊâæÂÆû‰Ωì
+extern int CreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid, int length);																			//Ê≥®ÂÜåÂÆû‰Ωì
 
-//------------------------------------À´ª∫≥Â∫Ø ˝------------------------------------------------//
+//------------------------------------ÂèåÁºìÂÜ≤ÂáΩÊï∞------------------------------------------------//
 
-extern void CreateDoubleBuffer(PROJECTGOD* project, DOUBLEBUFFER* doublebuffer, int bmpwidth, int bmpheight);															//¥¥Ω®À´ª∫≥ÂªÊÕºªÊÕº«¯
-extern void RUNDoubleBuffer(DOUBLEBUFFER* doublebuffer_1, DOUBLEBUFFER* doublebuffer_2, int x, int y);																	//‘À––À´ª∫≥ÂªÊÕº
-extern void DeletBuffer(HBITMAP hBitmap, HDC hdcMem);																													//…æ≥˝À´ª∫≥ÂªÊÕºªÊÕº«¯
+extern void CreateDoubleBuffer(PROJECTGOD* project, DOUBLEBUFFER* doublebuffer, int bmpwidth, int bmpheight);															//ÂàõÂª∫ÂèåÁºìÂÜ≤ÁªòÂõæÁªòÂõæÂå∫
+extern void RUNDoubleBuffer(DOUBLEBUFFER* doublebuffer_1, DOUBLEBUFFER* doublebuffer_2, int x, int y);																	//ËøêË°åÂèåÁºìÂÜ≤ÁªòÂõæ
+extern void DeletBuffer(DOUBLEBUFFER* doublebuffer);																													//Âà†Èô§ÂèåÁºìÂÜ≤ÁªòÂõæÁªòÂõæÂå∫
 
-//-------------------------------------------------------------------------------------------∂‡œﬂ≥Ã∫Ø ˝------------------------------------------------------------------------------//
+//------------------------------------Â§öÁ∫øÁ®ãÂáΩÊï∞------------------------------------------------//
 
-#define CREATETHREADFUNCTION(NAME)        THREAD NAME(LPARAM lparam)																									//¥¥Ω®∂‡œﬂ≥Ã∫Ø ˝
-#define CREATETHREAD(fuction,resource)   CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)fuction, (LPVOID)resource, 0, NULL);												//¥¥Ω®≤¢‘À––∂‡œﬂ≥Ã∫Ø ˝
-#define GETTHREADRESOURCE(type,resource) type resource = (type)lparam;																									//ªÒ»°Õ‚≤øµº»Îµƒ◊ ‘¥
+#define CREATETHREADFUNCTION(NAME)        THREAD NAME(LPARAM lparam)																									//ÂàõÂª∫Â§öÁ∫øÁ®ãÂáΩÊï∞
+#define CREATETHREAD(fuction,resource)   CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)fuction, (LPVOID)resource, 0, NULL);												//ÂàõÂª∫Âπ∂ËøêË°åÂ§öÁ∫øÁ®ãÂáΩÊï∞
+#define GETTHREADRESOURCE(type,resource) type resource = (type)lparam;																									//Ëé∑ÂèñÂ§ñÈÉ®ÂØºÂÖ•ÁöÑËµÑÊ∫ê
 
-//-------------------------------------------------------------------------------------------Windows∫Ø ˝----------------------------------------------------------------------------//
+//-------------------------------------------------------------------------------------------WindowsÂáΩÊï∞----------------------------------------------------------------------------//
 
-extern HWND Window(LPCWSTR name,int window_coord_x, int window_coord_y, int window_width, int window_height);															//¥¥Ω®¥∞ø⁄
-extern void RunWindow();																																				//¥∞ø⁄œ˚œ¢
+extern HWND Window(LPCWSTR name,int window_coord_x, int window_coord_y, int window_width, int window_height);															//ÂàõÂª∫Á™óÂè£
+extern void RunWindow();																																				//Á™óÂè£Ê∂àÊÅØ
 
-//-------------------------------------------------------------------------------------------¡˜≥Ã∫Ø ˝--------------------------------------------------------------------------------//
+//-------------------------------------------------------------------------------------------ÊµÅÁ®ãÂáΩÊï∞--------------------------------------------------------------------------------//
 
-extern void ProjectInit(PROJECTGOD* project, LPCWSTR project_name, int x, int y, int width, int height, int fps,void (*ProjectSetting_1)(PROJECTGOD*));					//¥¥Ω®œÓƒø
-extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*), THREAD(*ProjectLogic)(PROJECTGOD*), void(*ProjectDrawing)(PROJECTGOD*));				//‘À––œÓƒø
-extern void ProjectOver(PROJECTGOD* project);																															//Ω· ¯œÓƒø
-#define PROJECTSETTING(NAME) NAME(PROJECTGOD* project)																													//¥¥Ω®…Ë÷√—°œÓ
+extern void ProjectInit(PROJECTGOD* project, LPCWSTR project_name, int x, int y, int width, int height, int fps,void (*ProjectSetting_1)(PROJECTGOD*));					//ÂàõÂª∫È°πÁõÆ
+extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*), THREAD(*ProjectLogic)(PROJECTGOD*), void(*ProjectDrawing)(PROJECTGOD*));				//ËøêË°åÈ°πÁõÆ
+extern void ProjectOver(PROJECTGOD* project);																															//ÁªìÊùüÈ°πÁõÆ
+#define PROJECTSETTING(NAME) NAME(PROJECTGOD* project)																													//ÂàõÂª∫ËÆæÁΩÆÈÄâÈ°π
+extern void ProjectError(void* alpha, int degree, char* text);																											//ÈîôËØØÂ§ÑÁêÜ
 
-//-------------------------------------------------------------------------------------------ªÊ÷∆∫Ø ˝--------------------------------------------------------------------------------//
+//-------------------------------------------------------------------------------------------ÁªòÂà∂ÂáΩÊï∞--------------------------------------------------------------------------------//
 
-#define Pix(projectgod, x, y, color) SetPixel(project->hdc, x, y, color);																								//ªÊ÷∆µ„
-extern void Line(PROJECTGOD* project, int x1, int y1, int x2, int y2, int width, int color);																			//ªÊ÷∆œﬂ
-//void Pix(PROJECTGOD* project, int x, int y, int color);																													
-extern void Box(PROJECTGOD* project, int x1, int y1, int x2, int y2,int color);																							//ªÊ÷∆æÿ–Œ
-extern void BoxFull(PROJECTGOD* project, int x1, int y1, int x2, int y2,int color);																						//ªÊ÷∆ÃÓ≥‰æÿ–Œ
+//------------------------------------ ------------------------------------------------//
+
+extern void DrawingArea(DOUBLEBUFFER* doublebuffer,PROJECTGOD* project);																								//ÁîªÊùø
+extern void Pix(doublebuffer, x, y, color);																																//ÁªòÂà∂ÁÇπ
+extern void Line(DOUBLEBUFFER* doublebuffer, int x1, int y1, int x2, int y2, int width, int color);																		//ÁªòÂà∂Á∫ø
+extern void Box(DOUBLEBUFFER* doublebuffer, int x1, int y1, int x2, int y2, int width, int color);																		//ÁªòÂà∂Áü©ÂΩ¢
+extern void BoxFull(DOUBLEBUFFER* doublebuffer, int x1, int y1, int x2, int y2,int color);																				//ÁªòÂà∂Â°´ÂÖÖÁü©ÂΩ¢
