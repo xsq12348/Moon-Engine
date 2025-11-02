@@ -1,13 +1,24 @@
 #include"Moon.h"
 
+static TIMELOAD projectfps;
+static int fpsmax, fpsmax2;
+static DOUBLEBUFFER projectdoublebuffer;
+static HDC projecthdc;
+static POINT projectmousecoord;
+static int KEYSTATEbuffer[255];
+
 static LRESULT WINAPI WndPorc(HWND hwnd, UINT msgid, WPARAM wparam, LPARAM lparam)
 {
 	switch (msgid)
 	{
 	case WM_DESTROY: PostQuitMessage(0); break;
-	case WM_PAINT: break;
 	case WM_SETCURSOR:
-	switch (LOWORD(lparam)) { default:SetCursor(LoadCursor(NULL, IDC_CROSS)); break; }
+		switch (LOWORD(lparam))
+		{
+		default:SetCursor(LoadCursor(NULL, IDC_CROSS));
+			break;
+		}
+		break;
 	}
 	return DefWindowProc(hwnd, msgid, wparam, lparam);
 }
@@ -34,8 +45,8 @@ extern int TimeLoad(TIMELOAD* Timeload, int mode)
 	if (!mode)return 0;
 	else if (Timeload == NULL)
 		{
-			printf("[TimeLoadº¯Êı´íÎó!]´æÔÚ¿ÕÖ¸Õë");
-			return 0;
+			printf("Error:[TimeLoadå‡½æ•°é”™è¯¯!]å­˜åœ¨ç©ºæŒ‡é’ˆ");
+			return Error;
 		}
 		if (!Timeload->timeswitch)
 		{
@@ -67,20 +78,31 @@ extern int CreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid,
 			project->entityindex[index].nameid = nameid;
 			project->entityindex[index].length = length;
 		}
-		else printf("·Ç·¨µÄ×Ö·û´®[%s],ÎŞ·¨Í¨¹ıÕâ¸ö×Ö·û´®µÃµ½¹şÏ£Öµ", nameid);
+		else printf("éæ³•çš„åç§°[%s],æ— æ³•é€šè¿‡è¿™ä¸ªå­—ç¬¦ä¸²å¾—åˆ°åˆæ³•çš„ç´¢å¼•", nameid);
 	}
 	else
 	{
-		printf("[%s]Õâ¸öÃû×Ö²»ºÏ·¨£¬Çë»»Ò»¸öÃû×Ö", nameid);
+		printf("éæ³•çš„åç§°[%s]ï¼Œè¯·æ¢ä¸€ä¸ªåå­—", nameid);
 		index = NOTFOUND;
 	}
 	return index;
 }
 
+extern int KeyState(int Key)
+{
+	int state = GetAsyncKeyState(Key);
+	if (state & 0x8000)
+	{
+		if (KEYSTATEbuffer[Key] == 0) { KEYSTATEbuffer[Key] = 1; return 1; }
+		return 0;
+	}
+	else { KEYSTATEbuffer[Key] = 0; return 0; }
+}
+
 extern HWND Window(LPCWSTR name,int window_coord_x, int window_coord_y, int window_width, int window_height)
 {
 	HINSTANCE hinstance = GetModuleHandle(NULL);
-	WNDCLASS wndclass;
+	WNDCLASS wndclass = { 0 };
 	wndclass.cbClsExtra = NULL;
 	wndclass.cbWndExtra = NULL;
 	wndclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
@@ -94,11 +116,12 @@ extern HWND Window(LPCWSTR name,int window_coord_x, int window_coord_y, int wind
 	RegisterClass(&wndclass);
 	HWND hwnd = CreateWindow(name, name, WS_SYSMENU, window_coord_x, window_coord_y, window_width, window_height, NULL, NULL, hinstance, NULL);
 	ShowWindow(hwnd, SW_SHOW);
+	return hwnd;
 }
 
 extern void RunWindow()
 {
-	//ÏûÏ¢Ñ­»·
+	//æ¶ˆæ¯å¾ªç¯
 	MSG msg = { 0 };
 	while (GetMessage(&msg, NULL, 0, 0))
 	{
@@ -111,51 +134,107 @@ static CREATETHREADFUNCTION(ProjectLogic)
 {	
 	GETTHREADRESOURCE(PROJECTGOD*, project);
 	while (!project->DEAD)
-	{
 		project->Logic(project);
+}
+
+static CREATETHREADFUNCTION(ProjectAttribute)
+{
+	GETTHREADRESOURCE(PROJECTGOD*, project);
+	HashFindEntity(project,"ProjectMouseCoord", POINT, mousecoord);
+	HashFindEntity(project,"ProjectFPS", int, fpsnumber);
+
+	while (!project->DEAD)
+	{
+		GetCursorPos(mousecoord);
+		ScreenToClient(project->hwnd, mousecoord);
+		Sleep(1);
 	}
 }
 
-extern void ProjectInit(PROJECTGOD* project, LPCWSTR project_name, int x, int y, int width, int height,int fps, void (*ProjectSetting_1)(PROJECTGOD*))
+extern void ProjectInit(PROJECTGOD* project, LPCWSTR project_name, int x, int y, int width, int height, int fps, void (*ProjectSetting_1)(PROJECTGOD*))
 {
 	project->hwnd = Window(project_name, x, y, width, height);
 	project->project_name = project_name;
+	projecthdc = GetDC(project->hwnd);
 	project->window_coord_x = x;
 	project->window_coord_y = y;
 	project->window_height = height;
 	project->window_width = width;
 	project->DEAD = FALSE;
-	TimeLoadInit(&project->timeload, 1000 / fps);	//³õÊ¼»¯¶¨Ê±Æ÷,ÓÃÓÚÖ¡ÂÊ¿ØÖÆ
-	TimeLoadInit(&project->fps, 1000);				//¼ÇÂ¼Ö¡ÂÊ
+	TimeLoadInit(&project->timeload, 1000 / (fps > 0 ? fps : 60));
+	TimeLoadInit(&projectfps, 1000);
+	CreateDoubleBuffer(project, &projectdoublebuffer, project->window_width, project->window_height);
+	CreateEntityIndex(project, &fpsmax2, "ProjectFPS", 1);
+	CreateEntityIndex(project, &projectmousecoord, "ProjectMouseCoord", 1);
+	CreateEntityIndex(project, &projectdoublebuffer, "ProjectBitmap", 1);
 	if (ProjectSetting_1 != NULL)ProjectSetting_1(project);
 }
 
 extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*), THREAD(*LogicThread)(PROJECTGOD*), void(*ProjectDrawing)(PROJECTGOD*))
 {
 	MSG msg = { 0 };
+	HDC hdc = GetDC(project->hwnd);
 	project->Logic = LogicThread;
-	if (ProjectDrawing == NULL) { printf("\nError:[Î´´«ÈëÈÎºÎÓĞĞ§µÄ»æÖÆº¯Êı],µÈ¼¶[Serious/ÑÏÖØ]\n"); return; }
+	if (ProjectDrawing == NULL)
+	{
+		ProjectError(ProjectDrawing, 1,"ç»˜å›¾å‡½æ•°ä¼ å…¥å¤±è´¥!");
+		return;
+	}
 	if (ProjectSetting_2 != NULL)ProjectSetting_2(project);
-	DOUBLEBUFFER doublebuffer;
-
-	if (ProjectLogic != NULL) CREATETHREAD(ProjectLogic, project);
+	if (LogicThread != NULL) CREATETHREAD(ProjectLogic, project);
+	CREATETHREAD(ProjectAttribute, project);
 	while (!project->DEAD)
-		if (PeekMessage(&msg, NULL, NULL, NULL, NULL))
+	{
+		if (!TimeLoad(&project->timeload, !project->GamePower))Sleep(project->timeload.timeload);
+		if (!IsWindow(project->hwnd))project->DEAD = YES;
+		{
+			if (!TimeLoad(&projectfps, TRUE))fpsmax++;
+			else { fpsmax2 = fpsmax; fpsmax = 0; }
+		}
+		{
+			BoxFull(project, 0, 0, project->window_width, project->window_height, RGB(0, 0, 0));
+			ProjectDrawing(project);
+			BitBlt(projecthdc, 0, 0, project->window_width, project->window_height, hdc, 0, 0, SRCCOPY);
+		}
+		if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
-			if (!IsWindow(project->hwnd))project->DEAD = YES;
-			if (TimeLoad(&project->timeload, !project->GamePower))Sleep(1);		//¿ØÖÆÖ¡ÂÊ
-			ProjectDrawing(project);
 		}
+	}
 }
 
 extern void ProjectOver(PROJECTGOD* project)
 {
-	for (int i = 0; i = 0; i < ENTITYNUMBER)
+	if (project == NULL)
+	{
+		ProjectError(project, 2, "æ ¸å¿ƒå¯¹è±¡[projectgod]ä¸¢å¤±!");
+		return;
+	}
+	HashFindEntity(project, "ProjectBitmap", DOUBLEBUFFER, projectbitmap);
+	DeletBuffer(projectbitmap);
+	for (int i = 0; i < ENTITYNUMBER; i++)
 	{
 		project->entityindex[i].entityindex = NULL;
 		project->entityindex[i].length		= NULL;
 		project->entityindex[i].nameid		= NULL;
 	}
+}
+
+extern void ProjectError(void* alpha, int degree, char* text)
+{
+	enum
+	{
+		Serious = 1,
+		General,
+		Mild,
+	};
+	printf("\næ¥è‡ª[%p]çš„[%s]å‘ç”Ÿé”™è¯¯!ç°åœ¨è½¬å…¥é”™è¯¯å¤„ç†å‡½æ•°[ProjectError]", alpha, text);
+	switch (degree)
+	{
+	case Serious:printf("\tç­‰çº§[Serious/ä¸¥é‡]\n"); break;
+	case General:printf("\tç­‰çº§[General/ä¸€èˆ¬]\n"); break;
+	case Mild:printf("\tç­‰çº§[Mild/è½»å¾®]\n"); break;
+	}
+	while (!KeyState(VK_ESCAPE)) Sleep(1);
 }
