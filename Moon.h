@@ -145,10 +145,15 @@ extern void ProjectError(void* alpha, int degree, char* text);																		
 
 //-------------------------------------------------------------------------------------------绘制函数--------------------------------------------------------------------------------//
 
-//------------------------------------ ------------------------------------------------//
-
-extern void DrawingArea(DOUBLEBUFFER* doublebuffer,PROJECTGOD* project);																								//画板
+extern void DrawingArea(DOUBLEBUFFER* doublebuffer_1, DOUBLEBUFFER* doublebuffer_2, int x, int y, int width, int height);												//画板
 extern void Pix(doublebuffer, x, y, color);																																//绘制点
 extern void Line(DOUBLEBUFFER* doublebuffer, int x1, int y1, int x2, int y2, int width, int color);																		//绘制线
 extern void Box(DOUBLEBUFFER* doublebuffer, int x1, int y1, int x2, int y2, int width, int color);																		//绘制矩形
 extern void BoxFull(DOUBLEBUFFER* doublebuffer, int x1, int y1, int x2, int y2,int color);																				//绘制填充矩形
+
+extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber);																								//加载图片
+
+//------------------------------------动画------------------------------------------------//
+
+extern int InitialisationAnime(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height);									//初始化动画
+extern int RunAnime(DOUBLEBUFFER* doublebuffer, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);											//运行动画
