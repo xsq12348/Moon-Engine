@@ -3,7 +3,6 @@
 static TIMELOAD projectfps;
 static int fpsmax, fpsmax2;
 static DOUBLEBUFFER projectdoublebuffer;
-static HDC projecthdc;
 static POINT projectmousecoord;
 static int KEYSTATEbuffer[255];
 
@@ -155,7 +154,6 @@ extern void ProjectInit(PROJECTGOD* project, LPCWSTR project_name, int x, int y,
 {
 	project->hwnd = Window(project_name, x, y, width, height);
 	project->project_name = project_name;
-	projecthdc = GetDC(project->hwnd);
 	project->window_coord_x = x;
 	project->window_coord_y = y;
 	project->window_height = height;
@@ -194,7 +192,7 @@ extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*
 		{
 			BoxFull(project, 0, 0, project->window_width, project->window_height, RGB(0, 0, 0));
 			ProjectDrawing(project);
-			BitBlt(projecthdc, 0, 0, project->window_width, project->window_height, hdc, 0, 0, SRCCOPY);
+			BitBlt(hdc, 0, 0, project->window_width, project->window_height, projectdoublebuffer.hdc, 0, 0, SRCCOPY);
 		}
 		if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE))
 		{
