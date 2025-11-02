@@ -181,6 +181,7 @@ extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*
 	if (ProjectSetting_2 != NULL)ProjectSetting_2(project);
 	if (LogicThread != NULL) CREATETHREAD(ProjectLogic, project);
 	CREATETHREAD(ProjectAttribute, project);
+	HashFindEntity(project, "ProjectBitmap", DOUBLEBUFFER, projectbitmap);
 	while (!project->DEAD)
 	{
 		if (!TimeLoad(&project->timeload, !project->GamePower))Sleep(project->timeload.timeload);
@@ -190,9 +191,9 @@ extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*
 			else { fpsmax2 = fpsmax; fpsmax = 0; }
 		}
 		{
-			BoxFull(project, 0, 0, project->window_width, project->window_height, RGB(0, 0, 0));
+			BoxFull(projectbitmap, 0, 0, project->window_width, project->window_height, RGB(0, 0, 0));
 			ProjectDrawing(project);
-			BitBlt(hdc, 0, 0, project->window_width, project->window_height, projectdoublebuffer.hdc, 0, 0, SRCCOPY);
+			BitBlt(hdc, 0, 0, project->window_width, project->window_height, projectbitmap->hdc, 0, 0, SRCCOPY);
 		}
 		if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE))
 		{
