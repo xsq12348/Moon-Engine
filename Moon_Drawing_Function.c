@@ -57,7 +57,6 @@ extern void BoxFull(DOUBLEBUFFER* doublebuffer, int x1, int y1, int x2, int y2, 
 	DeleteObject(hbs);
 }
 
-//加载图片
 extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber)
 {
 	if (imagenumber == 1)
@@ -91,8 +90,7 @@ extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber)
 		}
 }
 
-//初始化动画
-static int InitialisationAnime(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height)
+extern int InitialisationAnime(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height)
 {
 	anime->Name = name;
 	Color(0x07);
@@ -111,8 +109,7 @@ static int InitialisationAnime(ANIME* anime, LPCSTR name, IMAGE* sequenceframes,
 	return YES;
 }
 
-//运行动画
-static int RunAnime(DOUBLEBUFFER* doublebuffer, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize)
+extern int RunAnime(DOUBLEBUFFER* doublebuffer, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize)
 {
 	if (!animeswitch)return 0;
 	else
