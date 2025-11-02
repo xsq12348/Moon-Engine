@@ -93,7 +93,6 @@ extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber)
 extern int InitialisationAnime(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height)
 {
 	anime->Name = name;
-	Color(0x07);
 	if (totalnumber <= 0) { printf("[InitialisationAnime函数错误]动画序列帧总数有问题,请检查名为[%s]的动画!\n", name); return Error; }
 	if (sequenceframes == NULL) { printf("[InitialisationAnime函数错误]动画序列帧有问题,请检查名为[%s]的动画是否存在!\n", name); return Error; }
 	anime->animeswitch = 0;
@@ -120,3 +119,4 @@ extern int RunAnime(DOUBLEBUFFER* doublebuffer, ANIME* anime, int animeswitch, i
 	if (TimeLoad(&(anime->timeload), 1)) ++anime->number;	//添加下一帧	
 	return anime->number;
 }
+
