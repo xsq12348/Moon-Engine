@@ -41,7 +41,7 @@ extern void TimeLoadInit(TIMELOAD* Timeload, int load)
 
 extern int TimeLoad(TIMELOAD* Timeload, int mode)
 {
-	if (!mode)return 0;
+	if (!mode)return FALSE;
 	else if (Timeload == NULL)
 		{
 			printf("Error:[TimeLoad函数错误!]存在空指针");
@@ -165,7 +165,7 @@ extern void ProjectInit(PROJECTGOD* project, LPCWSTR project_name, int x, int y,
 	project->window_height = height;
 	project->window_width = width;
 	project->DEAD = FALSE;
-	TimeLoadInit(&project->timeload, 1000 / (fps > 0 ? fps : 60));
+	TimeLoadInit(&project->timeload, 1000.f / (fps > 0 ? fps : 60));
 	TimeLoadInit(&projectfps, 1000);
 	CreateDoubleBuffer(project, &projectdoublebuffer, project->window_width, project->window_height);
 	CreateEntityIndex(project, &fpsmax2, "ProjectFPS", 1);
@@ -188,9 +188,10 @@ extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*
 	if (LogicThread != NULL) CREATETHREAD(ProjectLogic, project);
 	CREATETHREAD(ProjectAttribute, project);
 	HashFindEntity(project, "ProjectBitmap", IMAGE, projectbitmap);
+	int runload[3] = { 0 };
 	while (!project->DEAD)
 	{
-		!project->Power && !TimeLoad(&project->timeload, TRUE) && MoonSleep(project->timeload.timeload);
+		runload[0] = clock();
 		if (!IsWindow(project->hwnd))project->DEAD = YES;
 		{
 			if (!TimeLoad(&projectfps, TRUE))fpsmax++;
@@ -206,6 +207,9 @@ extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
+		runload[1] = clock();
+		runload[2] = runload[1] - runload[0];
+		!project->Power&& runload[2] < project->timeload.timeload && !TimeLoad(&project->timeload, TRUE) && MoonSleep((project->timeload.timeload - runload[2]));
 	}
 }
 
