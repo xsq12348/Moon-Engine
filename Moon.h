@@ -1,5 +1,6 @@
 #pragma once
 #include<stdio.h>
+#include<time.h>
 #include<math.h>
 #include<string.h>
 #include<stdlib.h>
@@ -57,7 +58,7 @@ typedef struct PROJECTGOD
 	int window_width;			//宽度
 	int window_height;			//高度
 	int DEAD;					//项目结束
-	int GamePower;				//高性能模式
+	int Power;					//高性能模式
 	ENTITYINDEX entityindex[ENTITYNUMBER];//对象池注册表
 	TIMELOAD timeload;			//计时器
 	THREAD(*Logic)(struct PROJECTGOD*);		//多线程逻辑函数
@@ -108,6 +109,7 @@ extern int KeyState(int Key);																																			//获取按键�
 //定时器模块
 extern void TimeLoadInit(TIMELOAD* Timeload, int load);																													//初始化定时器
 extern int TimeLoad(TIMELOAD* Timeload, int mode);																														//运行定时器
+extern int MoonSleep(int timeload);																																			//暂停
 
 //------------------------------------实体函数--------------------------------------------------//
 
@@ -116,7 +118,7 @@ extern int CreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid,
 
 //------------------------------------双缓冲函数------------------------------------------------//
 
-extern void CreateDoubleBuffer(PROJECTGOD* project, IMAGE* image, int bmpwidth, int bmpheight);															//创建双缓冲绘图绘图区
+extern void CreateDoubleBuffer(PROJECTGOD* project, IMAGE* image, int bmpwidth, int bmpheight);																			//创建双缓冲绘图绘图区
 extern void DeletBuffer(DOUBLEBUFFER* doublebuffer);																													//删除双缓冲绘图绘图区
 
 //------------------------------------多线程函数------------------------------------------------//
