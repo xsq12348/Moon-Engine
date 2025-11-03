@@ -121,7 +121,7 @@ extern int CreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid,
 
 //------------------------------------双缓冲函数------------------------------------------------//
 
-extern void CreateDoubleBuffer(PROJECTGOD* project, IMAGE* image, int bmpwidth, int bmpheight);																			//创建双缓冲绘图绘图区
+extern void CreateImage(PROJECTGOD* project, IMAGE* image, int bmpwidth, int bmpheight);																			//创建双缓冲绘图绘图区
 extern void DeletBuffer(DOUBLEBUFFER* doublebuffer);																													//删除双缓冲绘图绘图区
 
 //------------------------------------多线程函数------------------------------------------------//
@@ -146,14 +146,17 @@ extern void ProjectError(void* alpha, int degree, char* text);																		
 //-------------------------------------------------------------------------------------------绘制函数--------------------------------------------------------------------------------//
 
 extern void DrawingArea(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height);																			//画板
+extern void DrawingAreaAlpha(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height, int transparent_color);												//画板2
 extern void Pix(IMAGE* image, int x, int y, int color);																													//绘制点
 extern void Line(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																					//绘制线
 extern void Box(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																					//绘制矩形
 extern void BoxFull(IMAGE* image, int x1, int y1, int x2, int y2,int color);																							//绘制填充矩形
 
+//------------------------------------图片------------------------------------------------//
+
 extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber);																								//加载图片
 
 //------------------------------------动画------------------------------------------------//
 
-extern int InitialisationAnime(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height);									//初始化动画
-extern int RunAnime(DOUBLEBUFFER* doublebuffer, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);											//运行动画
+extern int AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height);											//初始化动画
+extern int AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);															//运行动画
