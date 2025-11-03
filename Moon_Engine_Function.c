@@ -25,9 +25,9 @@ static LRESULT WINAPI WndPorc(HWND hwnd, UINT msgid, WPARAM wparam, LPARAM lpara
 unsigned int Hash(char* text)
 {
 	if (text == NULL)return Error;
-	unsigned int length = strlen(text), hash = 0;
+	unsigned int length = (unsigned)strlen(text), hash = 0;
 	if (length <= 0)return Error;
-	for (int i = 0; i < length; i++)hash += text[i] * (i + 1);
+	for (unsigned int i = 0; i < length; i++)hash += text[i] * (i + 1);
 	return hash;
 }
 
@@ -62,6 +62,12 @@ extern int TimeLoad(TIMELOAD* Timeload, int mode)
 			Timeload->timeswitch = FALSE;
 		}
 		return Timeload->timeswitch;
+}
+
+extern int MoonSleep(int timeload)
+{
+	Sleep(timeload);
+	return 0;
 }
 
 extern int CreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid, int length)
@@ -175,7 +181,7 @@ extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*
 	project->Logic = LogicThread;
 	if (ProjectDrawing == NULL)
 	{
-		ProjectError(ProjectDrawing, 1,"绘图函数传入失败!");
+		ProjectError(ProjectDrawing, 1, "绘图函数传入失败!");
 		return;
 	}
 	if (ProjectSetting_2 != NULL)ProjectSetting_2(project);
@@ -184,7 +190,7 @@ extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*
 	HashFindEntity(project, "ProjectBitmap", IMAGE, projectbitmap);
 	while (!project->DEAD)
 	{
-		if (!TimeLoad(&project->timeload, !project->GamePower))Sleep(project->timeload.timeload);
+		!project->Power && !TimeLoad(&project->timeload, TRUE) && MoonSleep(project->timeload.timeload);
 		if (!IsWindow(project->hwnd))project->DEAD = YES;
 		{
 			if (!TimeLoad(&projectfps, TRUE))fpsmax++;
