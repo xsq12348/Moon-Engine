@@ -2,7 +2,7 @@
 
 static TIMELOAD projectfps;
 static int fpsmax, fpsmax2;
-static DOUBLEBUFFER projectdoublebuffer;
+static IMAGE projectdoublebuffer;
 static POINT projectmousecoord;
 static int KEYSTATEbuffer[255];
 
@@ -181,7 +181,7 @@ extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*
 	if (ProjectSetting_2 != NULL)ProjectSetting_2(project);
 	if (LogicThread != NULL) CREATETHREAD(ProjectLogic, project);
 	CREATETHREAD(ProjectAttribute, project);
-	HashFindEntity(project, "ProjectBitmap", DOUBLEBUFFER, projectbitmap);
+	HashFindEntity(project, "ProjectBitmap", IMAGE, projectbitmap);
 	while (!project->DEAD)
 	{
 		if (!TimeLoad(&project->timeload, !project->GamePower))Sleep(project->timeload.timeload);
@@ -193,7 +193,7 @@ extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*
 		{
 			BoxFull(projectbitmap, 0, 0, project->window_width, project->window_height, RGB(0, 0, 0));
 			ProjectDrawing(project);
-			BitBlt(hdc, 0, 0, project->window_width, project->window_height, projectbitmap->hdc, 0, 0, SRCCOPY);
+			BitBlt(hdc, 0, 0, project->window_width, project->window_height, projectbitmap->image.hdc, 0, 0, SRCCOPY);
 		}
 		if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE))
 		{
