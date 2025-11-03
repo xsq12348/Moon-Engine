@@ -1,22 +1,20 @@
 #include"Moon.h"
 
-extern void DrawingArea(DOUBLEBUFFER* doublebuffer_1, DOUBLEBUFFER* doublebuffer_2,int x,int y,int width ,int height)
+extern void DrawingArea(IMAGE* image_1, IMAGE* image_2,int x,int y,int width ,int height)
 {
-	BitBlt(doublebuffer_1->hdc, x, y, width, height, doublebuffer_1->hdc, 0, 0, SRCCOPY);
+	BitBlt(image_1->image.hdc, x, y, width, height, image_2->image.hdc, 0, 0, SRCCOPY);
 }
 
-extern void CreateDoubleBuffer(PROJECTGOD* project, DOUBLEBUFFER *doublebuffer, int bmpwidth, int bmpheight)
+extern void CreateDoubleBuffer(PROJECTGOD* project, IMAGE* image, int bmpwidth, int bmpheight)
 {
-	doublebuffer->width = bmpheight;
+	image->lengths.x = bmpwidth;
+	image->lengths.y = bmpheight;
+	image->image.width = bmpwidth;
+	image->image.height = bmpheight;
 	HDC hdcMem = CreateCompatibleDC(GetDC(project->hwnd));
-	doublebuffer->hBitmap = CreateCompatibleBitmap(GetDC(project->hwnd), bmpwidth, bmpheight);
-	SelectObject(hdcMem, doublebuffer->hBitmap);
-	doublebuffer->hdc = hdcMem;
-}
-
-extern void RUNDoubleBuffer(DOUBLEBUFFER* doublebuffer_1, DOUBLEBUFFER* doublebuffer_2,int x,int y) 
-{ 
-	BitBlt(doublebuffer_1->hdc, x, y, doublebuffer_1->width, doublebuffer_1->height, doublebuffer_2->hdc, 0, 0, SRCCOPY); 
+	image->image.hBitmap = CreateCompatibleBitmap(GetDC(project->hwnd), bmpwidth, bmpheight);
+	SelectObject(hdcMem, image->image.hBitmap);
+	image->image.hdc = hdcMem;
 }
 
 extern void DeletBuffer(DOUBLEBUFFER* doublebuffer)
@@ -25,35 +23,35 @@ extern void DeletBuffer(DOUBLEBUFFER* doublebuffer)
 	DeleteDC(doublebuffer->hdc);
 }
 
-extern void Pix(DOUBLEBUFFER* doublebuffer, int x, int y, int color)
+extern void Pix(IMAGE* image, int x, int y, int color)
 {
-	SetPixel(doublebuffer->hdc, x, y, color);
+	SetPixel(image->image.hdc, x, y, color);
 }
 
-extern void Line(DOUBLEBUFFER* doublebuffer, int x1, int y1, int x2, int y2, int width, int color)
+extern void Line(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color)
 {
 	HPEN hpen = CreatePen(PS_SOLID, width, color);
-	HPEN holdpen = (HPEN)SelectObject(doublebuffer->hdc, hpen);
-	MoveToEx(doublebuffer->hdc, x2, y2, NULL);
-	LineTo(doublebuffer->hdc, x1, y1);
-	SelectObject(doublebuffer->hdc, holdpen);
+	HPEN holdpen = (HPEN)SelectObject(image->image.hdc, hpen);
+	MoveToEx(image->image.hdc, x2, y2, NULL);
+	LineTo(image->image.hdc, x1, y1);
+	SelectObject(image->image.hdc, holdpen);
 	DeleteObject(hpen);
 }
 
-extern void Box(DOUBLEBUFFER* doublebuffer, int x1, int y1, int x2, int y2,int width, int color)
+extern void Box(IMAGE* image, int x1, int y1, int x2, int y2,int width, int color)
 {
-	Line(doublebuffer, x1, y1, x2, y1, width, color);
-	Line(doublebuffer, x1, y1, x1, y2, width, color);
-	Line(doublebuffer, x1, y2, x2, y2, width, color);
-	Line(doublebuffer, x2, y1, x2, y2, width, color);
+	Line(image, x1, y1, x2, y1, width, color);
+	Line(image, x1, y1, x1, y2, width, color);
+	Line(image, x1, y2, x2, y2, width, color);
+	Line(image, x2, y1, x2, y2, width, color);
 }
 
-extern void BoxFull(DOUBLEBUFFER* doublebuffer, int x1, int y1, int x2, int y2, int color)
+extern void BoxFull(IMAGE* image, int x1, int y1, int x2, int y2, int color)
 {
 	PAINTSTRUCT ps;
 	HBRUSH hbs = CreateSolidBrush(color);
 	RECT rect = { x1,y1,x2,y2 };
-	FillRect(doublebuffer->hdc, &rect, hbs);
+	FillRect(image->image.hdc, &rect, hbs);
 	DeleteObject(hbs);
 }
 
