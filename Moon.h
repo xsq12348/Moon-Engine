@@ -30,6 +30,8 @@ Email:1993346266@qq.com
 * 1.0.0.1  2025.10.30  解决了按键检测，窗口输入，消息循环BUG,添加了一个线程用来记录项目运行中的各种属性
 * 1.0.0.2  2025.10.31  解决了帧数显示不出来的问题
 * 1.0.0.3  2025.11.2   加入了动画系统
+* 1.0.0.3  2025.11.3   修改了帧率控制不稳定的问题
+* 1.0.0.4			   将工具函数转移到了新的文件里
 */
 
 //创建线程函数关键字
@@ -97,19 +99,20 @@ typedef struct
 
 //-------------------------------------------------------------------------------------------基础工具函数-----------------------------------------------------------------------------//
 
-unsigned int Hash(char* text);
+extern unsigned int Hash(char* text);
 #define DegRad(phi) (Pi * (phi) * 1.f / 180.f)																															//角度转弧度
 extern int KeyState(int Key);																																			//获取按键的值
 #define Lerp(alpha, beta, t) ((1. - t) * alpha + t * beta)																												//线性插值
 #define RANGE(alpha, alpha_min, alpha_max) (min(max(alpha,alpha_min),alpha_max))																						//线性插值
 #define SETMOUSECOORD( X, Y) SetCursorPos(X, Y)																															//设置鼠标位置
+#define Random(A, B) (rand() % (B - A) + A)																																//随机数获取
+extern void Music(LPCWSTR File);																																		//播放音乐
 
 //------------------------------------定时函数--------------------------------------------------//
 
-//定时器模块
 extern void TimeLoadInit(TIMELOAD* Timeload, int load);																													//初始化定时器
 extern int TimeLoad(TIMELOAD* Timeload, int mode);																														//运行定时器
-extern int MoonSleep(int timeload);																																			//暂停
+extern int MoonSleep(int timeload);																																		//暂停
 
 //------------------------------------实体函数--------------------------------------------------//
 
