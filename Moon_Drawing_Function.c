@@ -24,7 +24,7 @@ extern void CreateImage(PROJECTGOD* project, IMAGE* image, int bmpwidth, int bmp
 	image->image.hdc = hdcMem;
 }
 
-extern void DeletBuffer(DOUBLEBUFFER* doublebuffer)
+extern void DeletImage(DOUBLEBUFFER* doublebuffer)
 {
 	DeleteObject(doublebuffer->hBitmap);
 	DeleteDC(doublebuffer->hdc);
@@ -124,3 +124,4 @@ extern int AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, i
 	if (TimeLoad(&(anime->timeload), 1)) ++anime->number;	//添加下一帧	
 	return anime->number;
 }
+
