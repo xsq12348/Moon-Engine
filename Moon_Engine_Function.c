@@ -89,7 +89,7 @@ extern void ProjectInit(PROJECTGOD* project, LPCWSTR project_name, int x, int y,
 	project->DEAD = FALSE;
 	TimeLoadInit(&project->timeload, 1000.f / (fps > 0 ? fps : 60));
 	TimeLoadInit(&projectfps, 1000);
-	CreateDoubleBuffer(project, &projectdoublebuffer, project->window_width, project->window_height);
+	CreateImage(project, &projectdoublebuffer, project->window_width, project->window_height);
 	CreateEntityIndex(project, &fpsmax2, "ProjectFPS", 1);
 	CreateEntityIndex(project, &projectmousecoord, "ProjectMouseCoord", 1);
 	CreateEntityIndex(project, &projectdoublebuffer, "ProjectBitmap", 1);
