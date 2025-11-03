@@ -73,11 +73,6 @@ typedef struct
 //点结构体
 typedef struct
 {
-	int x;
-	int y;
-}NEWPOINT;
-typedef struct
-{
 	float x;
 	float y;
 	float z;
@@ -106,6 +101,7 @@ unsigned int Hash(char* text);
 extern int KeyState(int Key);																																			//获取按键的值
 #define Lerp(alpha, beta, t) ((1. - t) * alpha + t * beta)																												//线性插值
 #define RANGE(alpha, alpha_min, alpha_max) (min(max(alpha,alpha_min),alpha_max))																						//线性插值
+#define SETMOUSECOORD( X, Y) SetCursorPos(X, Y)																															//设置鼠标位置
 
 //------------------------------------定时函数--------------------------------------------------//
 
@@ -120,8 +116,7 @@ extern int CreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid,
 
 //------------------------------------双缓冲函数------------------------------------------------//
 
-extern void CreateDoubleBuffer(PROJECTGOD* project, DOUBLEBUFFER* doublebuffer, int bmpwidth, int bmpheight);															//创建双缓冲绘图绘图区
-extern void RUNDoubleBuffer(DOUBLEBUFFER* doublebuffer_1, DOUBLEBUFFER* doublebuffer_2, int x, int y);																	//运行双缓冲绘图
+extern void CreateDoubleBuffer(PROJECTGOD* project, IMAGE* image, int bmpwidth, int bmpheight);															//创建双缓冲绘图绘图区
 extern void DeletBuffer(DOUBLEBUFFER* doublebuffer);																													//删除双缓冲绘图绘图区
 
 //------------------------------------多线程函数------------------------------------------------//
@@ -145,11 +140,11 @@ extern void ProjectError(void* alpha, int degree, char* text);																		
 
 //-------------------------------------------------------------------------------------------绘制函数--------------------------------------------------------------------------------//
 
-extern void DrawingArea(DOUBLEBUFFER* doublebuffer_1, DOUBLEBUFFER* doublebuffer_2, int x, int y, int width, int height);												//画板
-extern void Pix(doublebuffer, x, y, color);																																//绘制点
-extern void Line(DOUBLEBUFFER* doublebuffer, int x1, int y1, int x2, int y2, int width, int color);																		//绘制线
-extern void Box(DOUBLEBUFFER* doublebuffer, int x1, int y1, int x2, int y2, int width, int color);																		//绘制矩形
-extern void BoxFull(DOUBLEBUFFER* doublebuffer, int x1, int y1, int x2, int y2,int color);																				//绘制填充矩形
+extern void DrawingArea(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height);																			//画板
+extern void Pix(IMAGE* image, int x, int y, int color);																													//绘制点
+extern void Line(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																					//绘制线
+extern void Box(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																					//绘制矩形
+extern void BoxFull(IMAGE* image, int x1, int y1, int x2, int y2,int color);																							//绘制填充矩形
 
 extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber);																								//加载图片
 
