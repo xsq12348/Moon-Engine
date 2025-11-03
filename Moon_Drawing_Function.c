@@ -1,11 +1,18 @@
 #include"Moon.h"
 
+#define TRANSPARENTCOLOR RGB(255,0,255)
+
 extern void DrawingArea(IMAGE* image_1, IMAGE* image_2,int x,int y,int width ,int height)
 {
 	BitBlt(image_1->image.hdc, x, y, width, height, image_2->image.hdc, 0, 0, SRCCOPY);
 }
 
-extern void CreateDoubleBuffer(PROJECTGOD* project, IMAGE* image, int bmpwidth, int bmpheight)
+extern void DrawingAreaAlpha(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height,int transparent_color)
+{
+	TransparentBlt(image_1->image.hdc, 0, 0, image_2->lengths.x * width, image_2->lengths.y * height, image_2->image.hdc, 0, 0, image_2->lengths.x, image_2->lengths.y, transparent_color);
+}
+
+extern void CreateImage(PROJECTGOD* project, IMAGE* image, int bmpwidth, int bmpheight)
 {
 	image->lengths.x = bmpwidth;
 	image->lengths.y = bmpheight;
@@ -62,14 +69,14 @@ extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber)
 		HDC hdcmem;
 		BITMAP bitmap;
 		HBITMAP hBitmap = (HBITMAP)LoadImage(NULL, *imagefile, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-		GetObject(hBitmap, sizeof(BITMAP), &bitmap);
 		hdcmem = CreateCompatibleDC(image->image.hdc);
 		SelectObject(hdcmem, hBitmap);
-		TransparentBlt(image->image.hdc, 0, 0, bitmap.bmWidth, bitmap.bmHeight, hdcmem, 0, 0, bitmap.bmWidth, bitmap.bmHeight, RGB(1, 1, 1));
+		GetObject(hBitmap, sizeof(BITMAP), &bitmap);
+		TransparentBlt(image->image.hdc, 0, 0, bitmap.bmWidth, bitmap.bmHeight, hdcmem, 0, 0, bitmap.bmWidth, bitmap.bmHeight, TRANSPARENTCOLOR);
 		image->lengths.x = bitmap.bmWidth;
 		image->lengths.y = bitmap.bmHeight;
 		DeleteDC(hdcmem);
-		DeleteObject(hBitmap); // 释放位图资源
+		DeleteObject(hBitmap);
 	}
 	else if (imagenumber > 0)
 		for (int i = 0; i < imagenumber; i++)
@@ -77,18 +84,18 @@ extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber)
 			HDC hdcmem;
 			BITMAP bitmap;
 			HBITMAP hBitmap = (HBITMAP)LoadImage(NULL, imagefile[i], IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-			GetObject(hBitmap, sizeof(BITMAP), &bitmap);
 			hdcmem = CreateCompatibleDC(image[i].image.hdc);
 			SelectObject(hdcmem, hBitmap);
-			TransparentBlt(image[i].image.hdc, 0, 0, bitmap.bmWidth, bitmap.bmHeight, hdcmem, 0, 0, bitmap.bmWidth, bitmap.bmHeight, RGB(1, 1, 1));
+			GetObject(hBitmap, sizeof(BITMAP), &bitmap);
+			TransparentBlt(image[i].image.hdc, 0, 0, bitmap.bmWidth, bitmap.bmHeight, hdcmem, 0, 0, bitmap.bmWidth, bitmap.bmHeight, TRANSPARENTCOLOR);
 			image[i].lengths.x = bitmap.bmWidth;
 			image[i].lengths.y = bitmap.bmHeight;
 			DeleteDC(hdcmem);
-			DeleteObject(hBitmap); // 释放位图资源
+			DeleteObject(hBitmap);
 		}
 }
 
-extern int InitialisationAnime(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height)
+extern int AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height)
 {
 	anime->Name = name;
 	if (totalnumber <= 0) { printf("[InitialisationAnime函数错误]动画序列帧总数有问题,请检查名为[%s]的动画!\n", name); return Error; }
@@ -106,15 +113,14 @@ extern int InitialisationAnime(ANIME* anime, LPCSTR name, IMAGE* sequenceframes,
 	return YES;
 }
 
-extern int RunAnime(DOUBLEBUFFER* doublebuffer, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize)
+extern int AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize)
 {
 	if (!animeswitch)return 0;
 	else
 	{
 		anime->number %= anime->totalnumber;
-		TransparentBlt(doublebuffer->hdc, x, y, anime->sequenceframes[anime->number].lengths.x * widthsize, anime->sequenceframes[anime->number].lengths.y * heightsize, anime->sequenceframes[anime->number].image.hdc, 0, 0, anime->sequenceframes[anime->number].lengths.x, anime->sequenceframes[anime->number].lengths.y, RGB(1, 1, 1));
+		TransparentBlt(image->image.hdc, x, y, anime->sequenceframes[anime->number].lengths.x * widthsize, anime->sequenceframes[anime->number].lengths.y * heightsize, anime->sequenceframes[anime->number].image.hdc, 0, 0, anime->sequenceframes[anime->number].lengths.x, anime->sequenceframes[anime->number].lengths.y, TRANSPARENTCOLOR);
 	}
 	if (TimeLoad(&(anime->timeload), 1)) ++anime->number;	//添加下一帧	
 	return anime->number;
 }
-
