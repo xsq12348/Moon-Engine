@@ -143,7 +143,7 @@ extern void ProjectOver(PROJECTGOD* project)
 		return;
 	}
 	HashFindEntity(project, "ProjectBitmap", DOUBLEBUFFER, projectbitmap);
-	DeletBuffer(projectbitmap);
+	DeletImage(projectbitmap);
 	for (int i = 0; i < ENTITYNUMBER; i++)
 	{
 		project->entityindex[i].entityindex = NULL;
@@ -169,3 +169,4 @@ extern void ProjectError(void* alpha, int degree, char* text)
 	}
 	while (!KeyState(VK_ESCAPE)) Sleep(1);
 }
+
