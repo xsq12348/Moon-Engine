@@ -122,7 +122,7 @@ extern int CreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid,
 //------------------------------------双缓冲函数------------------------------------------------//
 
 extern void CreateImage(PROJECTGOD* project, IMAGE* image, int bmpwidth, int bmpheight);																			//创建双缓冲绘图绘图区
-extern void DeletBuffer(DOUBLEBUFFER* doublebuffer);																													//删除双缓冲绘图绘图区
+extern void DeletImage(DOUBLEBUFFER* doublebuffer);																													//删除双缓冲绘图绘图区
 
 //------------------------------------多线程函数------------------------------------------------//
 
@@ -160,3 +160,4 @@ extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber);							
 
 extern int AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height);											//初始化动画
 extern int AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);															//运行动画
+
