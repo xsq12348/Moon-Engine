@@ -1,4 +1,7 @@
 #pragma once
+
+#define WIN_Platform
+
 #include<stdio.h>
 #include<time.h>
 #include<math.h>
@@ -32,6 +35,7 @@ Email:1993346266@qq.com
 * 1.0.0.3  2025.11.2   加入了动画系统
 * 1.0.0.3  2025.11.3   修改了帧率控制不稳定的问题
 * 1.0.0.4			   将工具函数转移到了新的文件里
+* 1.0.0.5  2025.11.4   添加了字符函数
 */
 
 //创建线程函数关键字
@@ -121,14 +125,24 @@ extern int CreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid,
 
 //------------------------------------双缓冲函数------------------------------------------------//
 
-extern void CreateImage(PROJECTGOD* project, IMAGE* image, int bmpwidth, int bmpheight);																			//创建双缓冲绘图绘图区
-extern void DeletImage(DOUBLEBUFFER* doublebuffer);																													//删除双缓冲绘图绘图区
+extern void CreateImage(PROJECTGOD* project, IMAGE* image, int bmpwidth, int bmpheight);																				//创建双缓冲绘图绘图区
+extern void DeletImage(DOUBLEBUFFER* doublebuffer);																														//删除双缓冲绘图绘图区
 
 //------------------------------------多线程函数------------------------------------------------//
 
-#define CREATETHREADFUNCTION(NAME)        THREAD NAME(LPARAM lparam)																									//创建多线程函数
+#define CREATETHREADFUNCTION(NAME)       THREAD NAME(LPARAM lparam)																										//创建多线程函数
 #define CREATETHREAD(fuction,resource)   CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)fuction, (LPVOID)resource, 0, NULL);												//创建并运行多线程函数
 #define GETTHREADRESOURCE(type,resource) type resource = (type)lparam;																									//获取外部导入的资源
+
+//------------------------------------字符函数------------------------------------------------//
+
+#ifdef WIN_Platform
+
+extern LPCWSTR CharToLPCWSTR(char* str);																																//字符转换
+
+#endif
+
+extern void TextFont(IMAGE* image, int x, int y, LPCWSTR text, COLORREF color, BOOL back, LPCWSTR font, int sizewidth, int sizeheight, int texttilt, int fonttilt, int FW_, int underline, int deleteline, int DEFAULT_);	//显示字符
 
 //-------------------------------------------------------------------------------------------Windows函数----------------------------------------------------------------------------//
 
@@ -160,4 +174,3 @@ extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber);							
 
 extern int AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height);											//初始化动画
 extern int AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);															//运行动画
-
