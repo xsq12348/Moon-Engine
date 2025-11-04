@@ -11,15 +11,6 @@ extern unsigned int Hash(char* text)
 	return hash;
 }
 
-extern void Music(LPCWSTR File)
-{
-    TCHAR cmd[255];
-    wsprintf(cmd, TEXT("open \%s\ alias music"), File);
-    mciSendString(TEXT("close music"), 0, 0, 0);
-    mciSendString(cmd, NULL, 0, NULL);
-    mciSendString(TEXT("play music"), NULL, 0, NULL);
-}
-
 extern void TimeLoadInit(TIMELOAD* Timeload, int load)
 {
 	Timeload->time1 = NULL;
@@ -92,3 +83,36 @@ extern int KeyState(int Key)
 	}
 	else { KEYSTATEbuffer[Key] = 0; return 0; }
 }
+
+#ifdef WIN_Platform
+
+extern void Music(LPCWSTR File)
+{
+    TCHAR cmd[255];
+    wsprintf(cmd, TEXT("open \%s\ alias music"), File);
+    mciSendString(TEXT("close music"), 0, 0, 0);
+    mciSendString(cmd, NULL, 0, NULL);
+    mciSendString(TEXT("play music"), NULL, 0, NULL);
+}
+
+extern LPCWSTR CharToLPCWSTR(char* str)
+{
+	static wchar_t* wideStr;
+	wideStr = (wchar_t*)malloc(strlen(str) * sizeof(wchar_t));
+	MultiByteToWideChar(CP_UTF8, 0, str, -1, wideStr, strlen(str));
+	return wideStr;
+}
+
+extern void TextFont(IMAGE* image, int x, int y, LPCWSTR text, COLORREF color, BOOL back, LPCWSTR font, int sizewidth, int sizeheight, int texttilt, int fonttilt, int FW_, int underline, int deleteline, int DEFAULT_)
+{
+	if (!back)SetBkMode(image->image.hdc, TRANSPARENT);
+	HFONT hfont = CreateFont(sizeheight, sizewidth, texttilt, fonttilt, FW_, FALSE, underline, deleteline, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_, font);
+	SelectObject(image->image.hdc, hfont);
+	SetTextColor(image->image.hdc, color);
+	TextOut(image->image.hdc, x, y, text, wcslen(text));
+	HFONT hfontold = (HFONT)GetStockObject(SYSTEM_FONT);
+	SelectObject(image->image.hdc, hfontold);
+	DeleteObject(hfont);
+}
+
+#endif
