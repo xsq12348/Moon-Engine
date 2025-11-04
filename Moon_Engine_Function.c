@@ -5,6 +5,8 @@ static int fpsmax, fpsmax2;
 static IMAGE projectdoublebuffer;
 static POINT projectmousecoord;
 
+#ifdef WIN_Platform
+
 static LRESULT WINAPI WndPorc(HWND hwnd, UINT msgid, WPARAM wparam, LPARAM lparam)
 {
 	switch (msgid)
@@ -51,6 +53,9 @@ extern void RunWindow()
 		DispatchMessage(&msg);
 	}
 }
+
+#endif
+
 
 static CREATETHREADFUNCTION(ProjectLogic)
 {	
@@ -169,4 +174,3 @@ extern void ProjectError(void* alpha, int degree, char* text)
 	}
 	while (!KeyState(VK_ESCAPE)) Sleep(1);
 }
-
