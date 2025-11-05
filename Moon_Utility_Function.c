@@ -112,3 +112,8 @@ extern void TextFont(IMAGE* image, int x, int y, LPCWSTR text, COLORREF color, B
 	SelectObject(image->image.hdc, hfontold);
 	DeleteObject(hfont);
 }
+
+extern int GetColor(IMAGE* image, int x, int y)
+{
+	return GetPixel(image->image.hdc, x, y);
+}
