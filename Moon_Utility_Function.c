@@ -117,3 +117,16 @@ extern int GetColor(IMAGE* image, int x, int y)
 {
 	return GetPixel(image->image.hdc, x, y);
 }
+
+extern int TriangleDetection(POINT a, POINT b, POINT c, POINT p)
+{
+	int d1 = (p.x - b.x) * (a.y - b.y) - (a.x - b.x) * (p.y - b.y);
+	int d2 = (p.x - c.x) * (b.y - c.y) - (b.x - c.x) * (p.y - c.y);
+	int d3 = (p.x - a.x) * (c.y - a.y) - (c.x - a.x) * (p.y - a.y);
+	return (d1 * d2 > 0) && (d2 * d3 > 0);
+}
+
+extern void RunProgram(LPCWSTR name) 
+{ 
+	ShellExecute(NULL, L"open", name, NULL, NULL, SW_SHOW); 
+}
