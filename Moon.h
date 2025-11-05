@@ -17,6 +17,7 @@
 #define OFF				FALSE
 #define Pi				3.1415926f
 #define ENTITYNUMBER	10000
+#define TRANSPARENTCOLOR RGB(255,0,255)
 
 /*
 该项目几乎相当于StarEngine项目的重构，Star项目请见:https://github.com/xsq12348/star
@@ -34,6 +35,7 @@ Email:1993346266@qq.com
 * 1.0.0.3  2025.11.3   修改了帧率控制不稳定的问题
 * 1.0.0.4			   将工具函数转移到了新的文件里
 * 1.0.0.5  2025.11.4   添加了字符函数
+* 1.0.0.5  2025.11.5   添加了图片旋转
 */
 
 //创建线程函数关键字
@@ -156,7 +158,7 @@ extern void ProjectError(void* alpha, int degree, char* text);																		
 
 extern void DrawingArea(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height);																			//画板
 extern void DrawingAreaAlpha(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height, int transparent_color);												//画板2
-extern void DrawingAreaRound(IMAGE* image_1, IMAGE* image_2, int x, int y, int apx, int apy, int width, int height, int deg);										//画板3
+extern void DrawingAreaRound(IMAGE* image_1, IMAGE* image_2, int x, int y, int apx, int apy, int width, int height, int deg);											//画板3
 extern void Pix(IMAGE* image, int x, int y, int color);																													//绘制点
 extern void Line(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																					//绘制线
 extern void Box(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																					//绘制矩形
