@@ -1,7 +1,5 @@
 #include"Moon.h"
 
-#define TRANSPARENTCOLOR RGB(255,0,255)
-
 extern void DrawingArea(IMAGE* image_1, IMAGE* image_2,int x,int y,int width ,int height)
 {
 	BitBlt(image_1->image.hdc, x, y, width, height, image_2->image.hdc, 0, 0, SRCCOPY);
@@ -86,7 +84,7 @@ extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber)
 		hdcmem = CreateCompatibleDC(image->image.hdc);
 		SelectObject(hdcmem, hBitmap);
 		GetObject(hBitmap, sizeof(BITMAP), &bitmap);
-		TransparentBlt(image->image.hdc, 0, 0, bitmap.bmWidth, bitmap.bmHeight, hdcmem, 0, 0, bitmap.bmWidth, bitmap.bmHeight, TRANSPARENTCOLOR);
+		TransparentBlt(image->image.hdc, 0, 0, bitmap.bmWidth, bitmap.bmHeight, hdcmem, 0, 0, bitmap.bmWidth, bitmap.bmHeight, 0);
 		image->lengths.x = bitmap.bmWidth;
 		image->lengths.y = bitmap.bmHeight;
 		DeleteDC(hdcmem);
@@ -101,7 +99,7 @@ extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber)
 			hdcmem = CreateCompatibleDC(image[i].image.hdc);
 			SelectObject(hdcmem, hBitmap);
 			GetObject(hBitmap, sizeof(BITMAP), &bitmap);
-			TransparentBlt(image[i].image.hdc, 0, 0, bitmap.bmWidth, bitmap.bmHeight, hdcmem, 0, 0, bitmap.bmWidth, bitmap.bmHeight, TRANSPARENTCOLOR);
+			TransparentBlt(image[i].image.hdc, 0, 0, bitmap.bmWidth, bitmap.bmHeight, hdcmem, 0, 0, bitmap.bmWidth, bitmap.bmHeight, 0);
 			image[i].lengths.x = bitmap.bmWidth;
 			image[i].lengths.y = bitmap.bmHeight;
 			DeleteDC(hdcmem);
