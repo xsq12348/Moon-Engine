@@ -38,6 +38,9 @@ Email:1993346266@qq.com
 * 1.0.0.6  2025.11.5   添加了图片旋转
 * 1.0.0.7			   添加了获取像素颜色
 * 1.0.0.8			   修复了HashFindEntity的BUG
+* 1.0.0.9			   添加了三角形碰撞检测
+* 1.0.0.10			   添加了运行外部程序
+* 1.1.0.0			   引擎几乎搭建完成
 */
 
 //创建线程函数关键字
@@ -115,6 +118,8 @@ extern int KeyState(int Key);																																			//获取按键�
 extern void Music(LPCWSTR File);																																		//播放音乐
 #define CMD(YES_OR_ON) ShowWindow(GetConsoleWindow(), YES_OR_ON? SW_SHOW : SW_HIDE)																						//开关控制台
 extern int GetColor(IMAGE* image, int x, int y);																														//获取像素颜色
+extern int TriangleDetection(POINT a, POINT b, POINT c, POINT p);																										//三角形碰撞检测
+extern void RunProgram(LPCWSTR name);																																	//运行外部程序
 
 //------------------------------------定时函数--------------------------------------------------//
 
