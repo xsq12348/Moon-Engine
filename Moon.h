@@ -1,7 +1,5 @@
 #pragma once
 
-#define WIN_Platform
-
 #include<stdio.h>
 #include<time.h>
 #include<math.h>
@@ -111,6 +109,7 @@ extern int KeyState(int Key);																																			//获取按键�
 #define SETMOUSECOORD( X, Y) SetCursorPos(X, Y)																															//设置鼠标位置
 #define Random(A, B) (rand() % (B - A) + A)																																//随机数获取
 extern void Music(LPCWSTR File);																																		//播放音乐
+#define CMD(YES_OR_ON) ShowWindow(GetConsoleWindow(), YES_OR_ON? SW_SHOW : SW_HIDE)																						//开关控制台
 
 //------------------------------------定时函数--------------------------------------------------//
 
@@ -126,7 +125,7 @@ extern int CreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid,
 //------------------------------------双缓冲函数------------------------------------------------//
 
 extern void CreateImage(PROJECTGOD* project, IMAGE* image, int bmpwidth, int bmpheight);																				//创建双缓冲绘图绘图区
-extern void DeletImage(DOUBLEBUFFER* doublebuffer);																														//删除双缓冲绘图绘图区
+extern void DeletImage(IMAGE* image);																																	//删除双缓冲绘图绘图区
 
 //------------------------------------多线程函数------------------------------------------------//
 
@@ -136,11 +135,7 @@ extern void DeletImage(DOUBLEBUFFER* doublebuffer);																													
 
 //------------------------------------字符函数------------------------------------------------//
 
-#ifdef WIN_Platform
-
 extern LPCWSTR CharToLPCWSTR(char* str);																																//字符转换
-
-#endif
 
 extern void TextFont(IMAGE* image, int x, int y, LPCWSTR text, COLORREF color, BOOL back, LPCWSTR font, int sizewidth, int sizeheight, int texttilt, int fonttilt, int FW_, int underline, int deleteline, int DEFAULT_);	//显示字符
 
@@ -153,7 +148,7 @@ extern void RunWindow();																																				//窗口消息
 
 extern void ProjectInit(PROJECTGOD* project, LPCWSTR project_name, int x, int y, int width, int height, int fps,void (*ProjectSetting_1)(PROJECTGOD*));					//创建项目
 extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*), THREAD(*ProjectLogic)(PROJECTGOD*), void(*ProjectDrawing)(PROJECTGOD*));				//运行项目
-extern void ProjectOver(PROJECTGOD* project);																															//结束项目
+extern void ProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJECTGOD*));																					//结束项目
 #define PROJECTSETTING(NAME) NAME(PROJECTGOD* project)																													//创建设置选项
 extern void ProjectError(void* alpha, int degree, char* text);																											//错误处理
 
@@ -161,6 +156,7 @@ extern void ProjectError(void* alpha, int degree, char* text);																		
 
 extern void DrawingArea(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height);																			//画板
 extern void DrawingAreaAlpha(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height, int transparent_color);												//画板2
+extern void DrawingAreaRound(IMAGE* image_1, IMAGE* image_2, int x, int y, int apx, int apy, int width, int height, int deg);										//画板3
 extern void Pix(IMAGE* image, int x, int y, int color);																													//绘制点
 extern void Line(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																					//绘制线
 extern void Box(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																					//绘制矩形
@@ -174,3 +170,4 @@ extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber);							
 
 extern int AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height);											//初始化动画
 extern int AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);															//运行动画
+extern void AnimeDelete(ANIME* anime);																																	//删除动画
