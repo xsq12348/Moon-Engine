@@ -35,7 +35,9 @@ Email:1993346266@qq.com
 * 1.0.0.3  2025.11.3   修改了帧率控制不稳定的问题
 * 1.0.0.4			   将工具函数转移到了新的文件里
 * 1.0.0.5  2025.11.4   添加了字符函数
-* 1.0.0.5  2025.11.5   添加了图片旋转
+* 1.0.0.6  2025.11.5   添加了图片旋转
+* 1.0.0.7			   添加了获取像素颜色
+* 1.0.0.8			   修复了HashFindEntity的BUG
 */
 
 //创建线程函数关键字
@@ -112,6 +114,7 @@ extern int KeyState(int Key);																																			//获取按键�
 #define Random(A, B) (rand() % (B - A) + A)																																//随机数获取
 extern void Music(LPCWSTR File);																																		//播放音乐
 #define CMD(YES_OR_ON) ShowWindow(GetConsoleWindow(), YES_OR_ON? SW_SHOW : SW_HIDE)																						//开关控制台
+extern int GetColor(IMAGE* image, int x, int y);																														//获取像素颜色
 
 //------------------------------------定时函数--------------------------------------------------//
 
@@ -121,7 +124,7 @@ extern int MoonSleep(int timeload);																																		//暂停
 
 //------------------------------------实体函数--------------------------------------------------//
 
-#define HashFindEntity(projectgod, nameid, type, entity) type* entity = (type*)project->entityindex[(Hash(nameid) % ENTITYNUMBER)].entityindex							//hash寻找实体
+#define HashFindEntity(projectgod, nameid, type, entity) type* entity = (type*)projectgod->entityindex[(Hash(nameid) % ENTITYNUMBER)].entityindex						//hash寻找实体
 extern int CreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid, int length);																			//注册实体
 
 //------------------------------------双缓冲函数------------------------------------------------//
