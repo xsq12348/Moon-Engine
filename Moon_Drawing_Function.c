@@ -12,6 +12,20 @@ extern void DrawingAreaAlpha(IMAGE* image_1, IMAGE* image_2, int x, int y, int w
 	TransparentBlt(image_1->image.hdc, 0, 0, image_2->lengths.x * width, image_2->lengths.y * height, image_2->image.hdc, 0, 0, image_2->lengths.x, image_2->lengths.y, transparent_color);
 }
 
+extern void DrawingAreaRound(IMAGE* image_1, IMAGE* image_2, int x, int y, int apx, int apy, int width, int height, int deg)
+{
+	float cosrad = cos(DegRad(deg)), sinrad = sin(DegRad(deg));
+	POINT points[3];
+	float matrix2d[4] = { cosrad,-sinrad,sinrad,cosrad };
+	points[0].x = x + matrix2d[0] * apx + matrix2d[2] * apy;
+	points[0].y = y + matrix2d[1] * apx + matrix2d[3] * apy;
+	points[1].x = x + matrix2d[0] * (apx + width) + matrix2d[2] * apy;
+	points[1].y = y + matrix2d[1] * (apx + width) + matrix2d[3] * apy;
+	points[2].x = x + matrix2d[0] * apx + matrix2d[2] * (apy + height);
+	points[2].y = y + matrix2d[1] * apx + matrix2d[3] * (apy + height);
+	PlgBlt(image_1->image.hdc, points, image_2->image.hdc, 0, 0, width, height, NULL, 0, 0);
+}
+
 extern void CreateImage(PROJECTGOD* project, IMAGE* image, int bmpwidth, int bmpheight)
 {
 	image->lengths.x = bmpwidth;
@@ -24,10 +38,10 @@ extern void CreateImage(PROJECTGOD* project, IMAGE* image, int bmpwidth, int bmp
 	image->image.hdc = hdcMem;
 }
 
-extern void DeletImage(DOUBLEBUFFER* doublebuffer)
+extern void DeletImage(IMAGE* image)
 {
-	DeleteObject(doublebuffer->hBitmap);
-	DeleteDC(doublebuffer->hdc);
+	DeleteObject(image->image.hBitmap);
+	DeleteDC(image->image.hdc);
 }
 
 extern void Pix(IMAGE* image, int x, int y, int color)
@@ -125,3 +139,7 @@ extern int AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, i
 	return anime->number;
 }
 
+extern void AnimeDelete(ANIME* anime)
+{
+	for (int i = 0; i < anime->totalnumber; i++)DeletImage(&anime->sequenceframes[i]);
+}
