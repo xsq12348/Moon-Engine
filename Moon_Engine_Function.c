@@ -5,8 +5,6 @@ static int fpsmax, fpsmax2;
 static IMAGE projectdoublebuffer;
 static POINT projectmousecoord;
 
-#ifdef WIN_Platform
-
 static LRESULT WINAPI WndPorc(HWND hwnd, UINT msgid, WPARAM wparam, LPARAM lparam)
 {
 	switch (msgid)
@@ -53,9 +51,6 @@ extern void RunWindow()
 		DispatchMessage(&msg);
 	}
 }
-
-#endif
-
 
 static CREATETHREADFUNCTION(ProjectLogic)
 {	
@@ -140,13 +135,14 @@ extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*
 	}
 }
 
-extern void ProjectOver(PROJECTGOD* project)
+extern void ProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJECTGOD*))
 {
 	if (project == NULL)
 	{
 		ProjectError(project, 2, "核心对象[projectgod]丢失!");
 		return;
 	}
+	if (ProjectOverSetting != 0)ProjectOverSetting(project);
 	HashFindEntity(project, "ProjectBitmap", DOUBLEBUFFER, projectbitmap);
 	DeletImage(projectbitmap);
 	for (int i = 0; i < ENTITYNUMBER; i++)
