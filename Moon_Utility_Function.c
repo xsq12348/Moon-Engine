@@ -84,8 +84,6 @@ extern int KeyState(int Key)
 	else { KEYSTATEbuffer[Key] = 0; return 0; }
 }
 
-#ifdef WIN_Platform
-
 extern void Music(LPCWSTR File)
 {
     TCHAR cmd[255];
@@ -114,5 +112,3 @@ extern void TextFont(IMAGE* image, int x, int y, LPCWSTR text, COLORREF color, B
 	SelectObject(image->image.hdc, hfontold);
 	DeleteObject(hfont);
 }
-
-#endif
