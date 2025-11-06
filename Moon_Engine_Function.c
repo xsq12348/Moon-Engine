@@ -143,13 +143,18 @@ extern void ProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJECTG
 		return;
 	}
 	if (ProjectOverSetting != 0)ProjectOverSetting(project);
-	HashFindEntity(project, "ProjectBitmap", DOUBLEBUFFER, projectbitmap);
+	HashFindEntity(project, "ProjectBitmap", IMAGE, projectbitmap);
 	DeletImage(projectbitmap);
 	for (int i = 0; i < ENTITYNUMBER; i++)
 	{
+		switch (project->entityindex[i].length)
+		{
+			case sizeof(IMAGE) : DeletImage((IMAGE*)project->entityindex[i].entityindex); break;
+			case sizeof(ANIME) : AnimeDelete((ANIME*)project->entityindex[i].entityindex); break;
+		}
 		project->entityindex[i].entityindex = NULL;
-		project->entityindex[i].length		= NULL;
-		project->entityindex[i].nameid		= NULL;
+		project->entityindex[i].length = NULL;
+		project->entityindex[i].nameid = NULL;
 	}
 }
 
@@ -170,3 +175,4 @@ extern void ProjectError(void* alpha, int degree, char* text)
 	}
 	while (!KeyState(VK_ESCAPE)) Sleep(1);
 }
+
