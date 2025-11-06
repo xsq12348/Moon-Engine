@@ -7,7 +7,7 @@ extern void DrawingArea(IMAGE* image_1, IMAGE* image_2,int x,int y,int width ,in
 
 extern void DrawingAreaAlpha(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height,int transparent_color)
 {
-	TransparentBlt(image_1->image.hdc, 0, 0, image_2->lengths.x * width, image_2->lengths.y * height, image_2->image.hdc, 0, 0, image_2->lengths.x, image_2->lengths.y, transparent_color);
+	TransparentBlt(image_1->image.hdc, x, y, image_2->lengths.x * width, image_2->lengths.y * height, image_2->image.hdc, 0, 0, image_2->lengths.x, image_2->lengths.y, transparent_color);
 }
 
 extern void DrawingAreaRound(IMAGE* image_1, IMAGE* image_2, int x, int y, int apx, int apy, int width, int height, int deg)
@@ -141,3 +141,4 @@ extern void AnimeDelete(ANIME* anime)
 {
 	for (int i = 0; i < anime->totalnumber; i++)DeletImage(&anime->sequenceframes[i]);
 }
+
