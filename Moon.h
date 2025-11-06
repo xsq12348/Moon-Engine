@@ -41,7 +41,8 @@ Email:1993346266@qq.com
 * 1.0.0.9			   添加了三角形碰撞检测
 * 1.0.0.10			   添加了运行外部程序
 * 1.1.0.0			   引擎几乎搭建完成
-* 1.0.0.1			   修复了DringAreaAlpha的BUG
+* 1.1.0.1  2025.11.6   修复了DringAreaAlpha的BUG
+* 1.1.0.2			   更新了ProjectOver函数 
 */
 
 //创建线程函数关键字
@@ -182,4 +183,5 @@ extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber);							
 extern int AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height);											//初始化动画
 extern int AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);															//运行动画
 extern void AnimeDelete(ANIME* anime);																																	//删除动画
+
 
