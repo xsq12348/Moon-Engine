@@ -5,6 +5,16 @@ static int fpsmax, fpsmax2;
 static IMAGE projectdoublebuffer;
 static POINT projectmousecoord;
 
+static void PROJECTSETTING(MoonLogicPause)
+{
+	Sleep(1);
+}
+
+static void PROJECTSETTING(MoonDrawingPause)
+{
+	Sleep(1);
+}
+
 static LRESULT WINAPI WndPorc(HWND hwnd, UINT msgid, WPARAM wparam, LPARAM lparam)
 {
 	switch (msgid)
@@ -62,13 +72,17 @@ static CREATETHREADFUNCTION(ProjectLogic)
 static CREATETHREADFUNCTION(ProjectAttribute)
 {
 	GETTHREADRESOURCE(PROJECTGOD*, project);
-	HashFindEntity(project,"ProjectMouseCoord", POINT, mousecoord);
-	HashFindEntity(project,"ProjectFPS", int, fpsnumber);
-
+	HashFindEntity(project, "ProjectMouseCoord", POINT, mousecoord);
+	HashFindEntity(project, "ProjectFPS", int, fpsnumber);
+	static void* drawing = 0, * logic = 0;
+	drawing = project->Drawing;
+	logic = project->Logic;
 	while (!project->DEAD)
 	{
 		GetCursorPos(mousecoord);
 		ScreenToClient(project->hwnd, mousecoord);
+		ProjectPause(project->Power < 0, project->Logic, MoonLogicPause, logic);
+		ProjectPause(project->Power < 0, project->Drawing, MoonDrawingPause, drawing);
 		Sleep(1);
 	}
 }
@@ -100,14 +114,19 @@ extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*
 {
 	MSG msg = { 0 };
 	HDC hdc = GetDC(project->hwnd);
-	project->Logic = LogicThread;
 	if (ProjectDrawing == NULL)
 	{
 		ProjectError(ProjectDrawing, 1, "绘图函数传入失败!");
 		return;
 	}
+	project->Drawing = ProjectDrawing;
+
 	if (ProjectSetting_2 != NULL)ProjectSetting_2(project);
-	if (LogicThread != NULL) CREATETHREAD(ProjectLogic, project);
+	if (LogicThread != NULL)
+	{
+		CREATETHREAD(ProjectLogic, project);
+		project->Logic = LogicThread;
+	}
 	CREATETHREAD(ProjectAttribute, project);
 	HashFindEntity(project, "ProjectBitmap", IMAGE, projectbitmap);
 	int runload[3] = { 0 };
@@ -121,7 +140,7 @@ extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*
 		}
 		{
 			BoxFull(projectbitmap, 0, 0, project->window_width, project->window_height, RGB(0, 0, 0));
-			ProjectDrawing(project);
+			project->Drawing(project);
 			BitBlt(hdc, 0, 0, project->window_width, project->window_height, projectbitmap->image.hdc, 0, 0, SRCCOPY);
 		}
 		if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE))
@@ -131,7 +150,7 @@ extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*
 		}
 		runload[1] = clock();
 		runload[2] = runload[1] - runload[0];
-		!project->Power&& runload[2] < project->timeload.timeload && !TimeLoad(&project->timeload, TRUE) && MoonSleep((project->timeload.timeload - runload[2]));
+		project->Power <= 0 && runload[2] < project->timeload.timeload && !TimeLoad(&project->timeload, TRUE) && MoonSleep((project->timeload.timeload - runload[2]));
 	}
 }
 
@@ -176,3 +195,8 @@ extern void ProjectError(void* alpha, int degree, char* text)
 	while (!KeyState(VK_ESCAPE)) Sleep(1);
 }
 
+extern void ProjectPause(int mode, void (*function_1)(PROJECTGOD), void (*function_2)(PROJECTGOD), void (*function_3)(PROJECTGOD))
+{
+	if (mode) function_1 = function_2;
+	else function_1 = function_3;
+}
