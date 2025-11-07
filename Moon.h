@@ -42,7 +42,10 @@ Email:1993346266@qq.com
 * 1.0.0.10			   添加了运行外部程序
 * 1.1.0.0			   引擎几乎搭建完成
 * 1.1.0.1  2025.11.6   修复了DringAreaAlpha的BUG
-* 1.1.0.2			   更新了ProjectOver函数 
+* 1.1.0.2			   更新了ProjectOver函数
+* 1.1.0.3  2025.11.7   添加了暂停函数
+* 1.1.0.4			   重构了ProjectGod结构体
+* 1.1.0.5			   重构了ProjectRun函数
 */
 
 //创建线程函数关键字
@@ -74,7 +77,8 @@ typedef struct PROJECTGOD
 	int Power;					//高性能模式
 	ENTITYINDEX entityindex[ENTITYNUMBER];//对象池注册表
 	TIMELOAD timeload;			//计时器
-	THREAD(*Logic)(struct PROJECTGOD*);		//多线程逻辑函数
+	void(*Logic)(struct PROJECTGOD*);		//多线程逻辑函数
+	void(*Drawing)(struct PROJECTGOD*);		//主线程绘图函数
 }PROJECTGOD;																															//项目结构体中心
 //双缓冲绘图
 typedef struct
@@ -163,6 +167,7 @@ extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*
 extern void ProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJECTGOD*));																					//结束项目
 #define PROJECTSETTING(NAME) NAME(PROJECTGOD* project)																													//创建设置选项
 extern void ProjectError(void* alpha, int degree, char* text);																											//错误处理
+extern void ProjectPause(int mode, void (*function_1)(PROJECTGOD), void (*function_2)(PROJECTGOD), void (*function_3)(PROJECTGOD));										//暂停函数
 
 //-------------------------------------------------------------------------------------------绘制函数--------------------------------------------------------------------------------//
 
@@ -183,5 +188,3 @@ extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber);							
 extern int AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height);											//初始化动画
 extern int AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);															//运行动画
 extern void AnimeDelete(ANIME* anime);																																	//删除动画
-
-
