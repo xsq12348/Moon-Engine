@@ -81,8 +81,8 @@ static CREATETHREADFUNCTION(ProjectAttribute)
 	{
 		GetCursorPos(mousecoord);
 		ScreenToClient(project->hwnd, mousecoord);
-		ProjectPause(project->Power < 0, project->Logic, MoonLogicPause, logic);
-		ProjectPause(project->Power < 0, project->Drawing, MoonDrawingPause, drawing);
+		ProjectPause(project->Power < 0, &project->Logic, MoonLogicPause, logic);
+		ProjectPause(project->Power < 0, &project->Drawing, MoonDrawingPause, drawing);
 		Sleep(1);
 	}
 }
@@ -195,8 +195,13 @@ extern void ProjectError(void* alpha, int degree, char* text)
 	while (!KeyState(VK_ESCAPE)) Sleep(1);
 }
 
-extern void ProjectPause(int mode, void (*function_1)(PROJECTGOD), void (*function_2)(PROJECTGOD), void (*function_3)(PROJECTGOD))
+extern void ProjectPause(int mode, void (**function_1)(PROJECTGOD), void (*function_2)(PROJECTGOD), void (*function_3)(PROJECTGOD))
 {
-	if (mode) function_1 = function_2;
-	else function_1 = function_3;
+	if (mode) *function_1 = function_2;
+	else *function_1 = function_3;
+}
+
+extern void ProjectFunctionSwitch(void (**function_1)(PROJECTGOD), void (*function_2)(PROJECTGOD))
+{
+	*function_1 = function_2;
 }
