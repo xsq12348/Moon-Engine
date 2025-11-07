@@ -43,9 +43,11 @@ Email:1993346266@qq.com
 * 1.1.0.0			   引擎几乎搭建完成
 * 1.1.0.1  2025.11.6   修复了DringAreaAlpha的BUG
 * 1.1.0.2			   更新了ProjectOver函数
-* 1.1.0.3  2025.11.7   添加了暂停函数
+* 1.1.0.3  2025.11.7   添加了ProjectPause/暂停函数
 * 1.1.0.4			   重构了ProjectGod结构体
 * 1.1.0.5			   重构了ProjectRun函数
+* 1.1.0.5			   修复了ProjectPause的BUG
+* 1.1.0.6			   添加了ProjectFunctionSwitch/函数切换函数
 */
 
 //创建线程函数关键字
@@ -167,7 +169,8 @@ extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*
 extern void ProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJECTGOD*));																					//结束项目
 #define PROJECTSETTING(NAME) NAME(PROJECTGOD* project)																													//创建设置选项
 extern void ProjectError(void* alpha, int degree, char* text);																											//错误处理
-extern void ProjectPause(int mode, void (*function_1)(PROJECTGOD), void (*function_2)(PROJECTGOD), void (*function_3)(PROJECTGOD));										//暂停函数
+extern void ProjectPause(int mode, void (**function_1)(PROJECTGOD), void (*function_2)(PROJECTGOD), void (*function_3)(PROJECTGOD));									//暂停函数
+extern void ProjectFunctionSwitch(void (**function_1)(PROJECTGOD), void (*function_2)(PROJECTGOD));																		//函数切换
 
 //-------------------------------------------------------------------------------------------绘制函数--------------------------------------------------------------------------------//
 
