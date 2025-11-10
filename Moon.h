@@ -51,6 +51,7 @@ Email:1993346266@qq.com
 * 1.1.0.5			   重构了ProjectRun函数
 * 1.1.0.5			   修复了ProjectPause的BUG
 * 1.1.0.6			   添加了ProjectFunctionSwitch/函数切换函数
+* 1.1.1.0			   添加了SDL支持
 */
 
 //创建线程函数关键字
@@ -215,3 +216,4 @@ extern int SDL_AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int t
 extern int SDL_AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);														//删除动画
 
 #endif
+
