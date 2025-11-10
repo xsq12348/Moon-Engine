@@ -6,6 +6,9 @@
 #include<string.h>
 #include<stdlib.h>
 #include<Windows.h>
+#ifdef OPEN_SDL
+#include<SDL3/SDL.h>
+#endif
 #pragma comment( lib,"Winmm.lib")
 #pragma comment(lib, "Msimg32.lib")
 
@@ -175,12 +178,26 @@ extern void ProjectFunctionSwitch(void (**function_1)(PROJECTGOD), void (*functi
 //-------------------------------------------------------------------------------------------绘制函数--------------------------------------------------------------------------------//
 
 extern void DrawingArea(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height);																			//画板
-extern void DrawingAreaAlpha(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height, int transparent_color);												//画板2
-extern void DrawingAreaRound(IMAGE* image_1, IMAGE* image_2, int x, int y, int apx, int apy, int width, int height, int deg);											//画板3
+extern void DrawingAreaAlpha(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height, int transparent_color);												//带透明度的画板
+extern void DrawingAreaRound(IMAGE* image_1, IMAGE* image_2, int x, int y, int apx, int apy, int width, int height, int deg);											//旋转的画板
 extern void Pix(IMAGE* image, int x, int y, int color);																													//绘制点
 extern void Line(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																					//绘制线
 extern void Box(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																					//绘制矩形
 extern void BoxFull(IMAGE* image, int x1, int y1, int x2, int y2,int color);																							//绘制填充矩形
+
+#ifdef OPEN_SDL
+
+extern void SDL_DrawingArea(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height);																		//画板
+extern void SDL_DrawingAreaAlpha(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height, int transparent_color);											//带透明度的画板
+extern void SDL_DrawingAreaRound(IMAGE* image_1, IMAGE* image_2, int x, int y, int apx, int apy, int width, int height, int deg);										//旋转的画板
+extern void SDL_Pix(IMAGE* image, int x, int y, int color);																												//绘制点
+extern void SDL_Line(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																				//绘制线
+extern void SDL_Box(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																				//绘制矩形
+extern void SDL_BoxFull(IMAGE* image, int x1, int y1, int x2, int y2, int color);																						//绘制填充矩形
+extern int SDL_AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height);										//
+extern int SDL_AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);														//
+
+#endif
 
 //------------------------------------图片------------------------------------------------//
 
@@ -191,3 +208,10 @@ extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber);							
 extern int AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height);											//初始化动画
 extern int AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);															//运行动画
 extern void AnimeDelete(ANIME* anime);																																	//删除动画
+
+#ifdef OPEN_SDL
+
+extern int SDL_AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height);										//运行动画
+extern int SDL_AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);														//删除动画
+
+#endif
