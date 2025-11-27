@@ -1,7 +1,5 @@
 #include"Moon.h"
 
-static int KEYSTATEbuffer[255];
-
 extern unsigned int Hash(char* text)
 {
 	if (text == NULL)return Error;
@@ -75,13 +73,11 @@ extern int CreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid,
 
 extern int KeyState(int Key)
 {
+	static int KEYSTATEbuffer[255];
 	int state = GetAsyncKeyState(Key);
-	if (state & 0x8000)
-	{
-		if (KEYSTATEbuffer[Key] == 0) { KEYSTATEbuffer[Key] = 1; return 1; }
-		return 0;
-	}
-	else { KEYSTATEbuffer[Key] = 0; return 0; }
+	if (!(state & 0x8000))KEYSTATEbuffer[Key] = 0;
+	else if (KEYSTATEbuffer[Key] == 0) { KEYSTATEbuffer[Key] = 1; return 1; }
+	return 0;
 }
 
 extern void Music(LPCWSTR File)
