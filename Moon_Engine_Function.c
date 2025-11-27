@@ -77,12 +77,15 @@ static CREATETHREADFUNCTION(ProjectAttribute)
 	static void* drawing = 0, * logic = 0;
 	drawing = project->Drawing;
 	logic = project->Logic;
+	int gamepowermode = project->Power;
 	while (!project->DEAD)
 	{
 		GetCursorPos(mousecoord);
 		ScreenToClient(project->hwnd, mousecoord);
 		ProjectPause(project->Power < 0, &project->Logic, MoonLogicPause, logic);
 		ProjectPause(project->Power < 0, &project->Drawing, MoonDrawingPause, drawing);
+		if (GetForegroundWindow() != project->hwnd)project->Power = NOTFOUND;
+		else project->Power = gamepowermode;
 		Sleep(1);
 	}
 }
