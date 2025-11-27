@@ -21,7 +21,7 @@
 #define TRANSPARENTCOLOR RGB(255,0,255)
 
 /*
-如果您感兴趣，还可以查看另一个功能更加强大但是已经落后的项目，Star项目请见:https://github.com/xsq12348/star
+如果您感兴趣，还可以查看另一个功能更加强大但是已经落后的项目:Star,项目请见:https://github.com/xsq12348/star
 
 作者:xsq12348
 Email:1993346266@qq.com
@@ -50,6 +50,7 @@ Email:1993346266@qq.com
 * 1.1.0.5			   修复了ProjectPause的BUG
 * 1.1.0.6			   添加了ProjectFunctionSwitch/函数切换函数
 * 1.1.1.0  2025.11.10  添加了SDL支持
+* 1.1.1.1  2025.11.37  解决了StarEngine一直没有解决的窗口焦点问题
 */
 
 //创建线程函数关键字
