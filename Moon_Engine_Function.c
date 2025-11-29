@@ -1,5 +1,6 @@
 #include"Moon.h"
 
+static int Moon_Engine_VSn = 01010301;
 static TIMELOAD projectfps;
 static int fpsmax, fpsmax2;
 static IMAGE projectdoublebuffer;
@@ -93,7 +94,8 @@ static CREATETHREADFUNCTION(ProjectAttribute)
 extern void ProjectInit(PROJECTGOD* project, LPCWSTR project_name, int x, int y, int width, int height, int fps, void (*ProjectSetting_1)(PROJECTGOD*))
 {
 	printf("\n[ProjectInit]初始化函数进入成功\n");
-	printf(" ___      __________________\n/   \\    /    __   __   ___ \\\n| |\\ \\  / /| |  | |  | |   \\ \\\n| | \\ \\/ / | |__| |__| |    \\ \\\n|_|  \\__/  |___________/     \\_\\\n");
+	printf("     __    ___  ______  ______  _  _____    \n    /  \\  /   |/  __  \\/  __  \\| |/ ___ \\   \n   / /\\ \\/ /| |  |  |    |  |  |   /   \\ \\  \n  / /  \\__/ | |  |__|    |__|  |  .    | |  \n / /        |_/\\______/\\______/| |     | |  \n/_/                            |_|     \\_\\ \n");
+	printf("MoonEngine[%d]", Moon_Engine_VSn);
 	if (x < 0 || y < 0)
 	{
 		x = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
