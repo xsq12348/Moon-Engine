@@ -92,6 +92,8 @@ static CREATETHREADFUNCTION(ProjectAttribute)
 
 extern void ProjectInit(PROJECTGOD* project, LPCWSTR project_name, int x, int y, int width, int height, int fps, void (*ProjectSetting_1)(PROJECTGOD*))
 {
+	printf("\n[ProjectInit]初始化函数进入成功\n");
+	printf(" ___      __________________\n/   \\    /    __   __   ___ \\\n| |\\ \\  / /| |  | |  | |   \\ \\\n| | \\ \\/ / | |__| |__| |    \\ \\\n|_|  \\__/  |___________/     \\_\\\n");
 	if (x < 0 || y < 0)
 	{
 		x = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
@@ -111,10 +113,12 @@ extern void ProjectInit(PROJECTGOD* project, LPCWSTR project_name, int x, int y,
 	CreateEntityIndex(project, &projectmousecoord, "ProjectMouseCoord", 1);
 	CreateEntityIndex(project, &projectdoublebuffer, "ProjectBitmap", 1);
 	if (ProjectSetting_1 != NULL)ProjectSetting_1(project);
+	printf("\n[ProjectInit]初始化完成\n");
 }
 
 extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*), THREAD(*LogicThread)(PROJECTGOD*), void(*ProjectDrawing)(PROJECTGOD*))
 {
+	printf("\n[ProjectRun]引擎流程函数进入成功!\n");
 	MSG msg = { 0 };
 	HDC hdc = GetDC(project->hwnd);
 	if (ProjectDrawing == NULL)
@@ -155,10 +159,12 @@ extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*
 		runload[2] = runload[1] - runload[0];
 		project->Power <= 0 && runload[2] < project->timeload.timeload && !TimeLoad(&project->timeload, TRUE) && MoonSleep((project->timeload.timeload - runload[2]));
 	}
+	printf("\n[ProjectRun]引擎流程结束!\n");
 }
 
 extern void ProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJECTGOD*))
 {
+	printf("\n[ProjectOver]结束函数进入成功\n");
 	if (project == NULL)
 	{
 		ProjectError(project, 2, "核心对象[projectgod]丢失!");
@@ -178,6 +184,7 @@ extern void ProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJECTG
 		project->entityindex[i].length = NULL;
 		project->entityindex[i].nameid = NULL;
 	}
+	printf("\n[ProjectOver]资源清理完成\n");
 }
 
 extern void ProjectError(void* alpha, int degree, char* text)
