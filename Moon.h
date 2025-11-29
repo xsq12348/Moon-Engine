@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #pragma once
 #include"Moon_Configuration.h"
 
@@ -27,7 +28,7 @@
 Email:1993346266@qq.com
 创建日期:2025.10.29
 版本
-最后一个是修改BUG/重构函数新版本号,第二个是添加函数,第三个是重构,第四个是正式的大版本号
+最后一个是修改BUG/重构函数/更新些许小功能,第二个是添加函数,第三个是重构,第四个是正式的大版本号
 * 0.0.0.0
 * 1.0.0.0  2025.10.29  完成了基本框架的搭建
 * 1.0.0.1  2025.10.30  解决了按键检测，窗口输入，消息循环BUG,添加了一个线程用来记录项目运行中的各种属性
@@ -50,7 +51,8 @@ Email:1993346266@qq.com
 * 1.1.0.5			   修复了ProjectPause的BUG
 * 1.1.0.6			   添加了ProjectFunctionSwitch/函数切换函数
 * 1.1.1.0  2025.11.10  添加了SDL支持
-* 1.1.1.1  2025.11.37  解决了StarEngine一直没有解决的窗口焦点问题
+* 1.1.1.1  2025.11.27  解决了StarEngine一直没有解决的窗口焦点问题
+* 1.1.3.0  2025.11.29  添加了按钮控件
 */
 
 //创建线程函数关键字
@@ -204,3 +206,38 @@ extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber);							
 extern int AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height);											//初始化动画
 extern int AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);															//运行动画
 extern void AnimeDelete(ANIME* anime);																																	//删除动画
+
+//-------------------------------------------------------------------------------------------绘制函数--------------------------------------------------------------------------------//
+
+//------------------------------------按钮控件------------------------------------------------//
+
+enum
+{
+	MOON_BUTTONRELEASE,
+	MOON_BUTTONPRESS,
+	MOON_BUTTONRHOVER,
+};
+
+typedef struct MOONBUTTON
+{
+	char nameid[255];
+	int x;
+	int y;
+	int width;
+	int height;
+	int mode;
+	int (*ButtonModePress)   (PROJECTGOD* project, struct MOONBUTTON* buton);	//按下
+	int (*ButtonModeRelease) (PROJECTGOD* project, struct MOONBUTTON* buton);	//松开
+	int (*ButtonModeHover)   (PROJECTGOD* project, struct MOONBUTTON* buton);	//悬停
+}MOONBUTTON;
+
+extern int ButtonInit(MOONBUTTON* button, int x, int y, int width, int height);																							//初始化按钮
+extern int ButtonDetection(PROJECTGOD* project, char* name);																											//检测按钮
+
+#define MOONBUTTON(project, name, button, x, y, width, height, Press, Release, Hover) \
+MOONBUTTON button; ButtonInit(&button,(x),(y),(width),(height));                      \
+button.ButtonModeHover = Hover;                                                       \
+button.ButtonModePress = Press;                                                       \
+button.ButtonModeRelease = Release;                                                   \
+strcpy(button.nameid , name);                                                         \
+CreateEntityIndex(project, &button, name, sizeof(MOONBUTTON));
