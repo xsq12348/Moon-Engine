@@ -22,7 +22,7 @@
 #define TRANSPARENTCOLOR RGB(255,0,255)
 
 /*
-如果您感兴趣，还可以查看另一个功能更加强大但是已经落后的项目:Star,项目请见:https://github.com/xsq12348/star
+如果您感兴趣,还可以查看另一个功能更加强大但是已经落后的项目:Star,项目请见:https://github.com/xsq12348/star
 
 作者:xsq12348
 Email:1993346266@qq.com
@@ -30,32 +30,33 @@ Email:1993346266@qq.com
 版本
 最后一个是修改BUG/重构函数/更新些许小功能,第二个是添加函数,第三个是重构,第四个是正式的大版本号
 * 0.0.0.0
-* 1.0.0.0  2025.10.29  完成了基本框架的搭建
-* 1.0.0.1  2025.10.30  解决了按键检测，窗口输入，消息循环BUG,添加了一个线程用来记录项目运行中的各种属性
-* 1.0.0.2  2025.10.31  解决了帧数显示不出来的问题
-* 1.0.0.3  2025.11.2   加入了动画系统
-* 1.0.0.3  2025.11.3   修改了帧率控制不稳定的问题
-* 1.0.0.4			   将工具函数转移到了新的文件里
-* 1.0.0.5  2025.11.4   添加了字符函数
-* 1.0.0.6  2025.11.5   添加了图片旋转
-* 1.0.0.7			   添加了获取像素颜色
-* 1.0.0.8			   修复了HashFindEntity的BUG
-* 1.0.0.9			   添加了三角形碰撞检测
-* 1.0.0.10			   添加了运行外部程序
-* 1.1.0.0			   引擎几乎搭建完成
-* 1.1.0.1  2025.11.6   修复了DringAreaAlpha的BUG
-* 1.1.0.2			   更新了ProjectOver函数
-* 1.1.0.3  2025.11.7   添加了ProjectPause/暂停函数
-* 1.1.0.4			   重构了ProjectGod结构体
-* 1.1.0.5			   重构了ProjectRun函数
-* 1.1.0.5			   修复了ProjectPause的BUG
-* 1.1.0.6			   添加了ProjectFunctionSwitch/函数切换函数
-* 1.1.1.0  2025.11.10  添加了SDL支持
-* 1.1.1.1  2025.11.27  解决了StarEngine一直没有解决的窗口焦点问题
-* 1.1.3.0  2025.11.29  添加了按钮控件
-* 1.1.3.1              更新了启动图案
-* 1.1.3.2  2025.11.29  更新了启动图案
-* 1.1.3.3  2025.11.30  修复了模式切换时只能切换初始逻辑函数而不是设计的切换当前逻辑函数的BUG
+* 1.0.0.0  2025.10.29  完成了基本框架的搭建																		.Completed the setup of the basic framework
+* 1.0.0.1  2025.10.30  解决了按键检测,窗口输入,消息循环BUG,添加了一个线程用来记录项目运行中的各种属性					.Fixed bugs with key detection, window input, and message loop, and added a thread to record various properties during project execution.
+* 1.0.0.2  2025.10.31  解决了帧数显示不出来的问题																.Fixed the issue where the frame count was not displaying.
+* 1.0.0.3  2025.11.2   加入了动画系统																			.Added an animation system
+* 1.0.0.3  2025.11.3   修改了帧率控制不稳定的问题																.Fixed the issue of unstable frame rate control
+* 1.0.0.4              将工具函数转移到了新的文件里																.Moved the utility functions to a new file
+* 1.0.0.5  2025.11.4   添加了字符函数																			.Added character function
+* 1.0.0.6  2025.11.5   添加了图片旋转																			.Added image rotation
+* 1.0.0.7              添加了获取像素颜色																		.Added functionality to get pixel color
+* 1.0.0.8              修复了HashFindEntity的BUG																.Fixed the bug in HashFindEntity
+* 1.0.0.9              添加了三角形碰撞检测																		.Added triangle collision detection
+* 1.0.0.10             添加了运行外部程序																		.Added the ability to run external programs
+* 1.1.0.0              引擎几乎搭建完成																		.The engine is almost fully built
+* 1.1.0.1  2025.11.6   修复了DringAreaAlpha的BUG																.Fixed the bug in DringAreaAlpha
+* 1.1.0.2              更新了ProjectOver函数																	.Updated the ProjectOver function
+* 1.1.0.3  2025.11.7   添加了ProjectPause/暂停函数																.Added ProjectPause function
+* 1.1.0.4              重构了ProjectGod结构体																	.Refactored the ProjectGod structure
+* 1.1.0.5              重构了ProjectRun函数																	.Refactored the ProjectRun function
+* 1.1.0.5              修复了ProjectPause的BUG																.Fixed the bug in ProjectPause
+* 1.1.0.6              添加了ProjectFunctionSwitch/函数切换函数													.Added ProjectFunctionSwitch function
+* 1.1.1.0  2025.11.10  添加了SDL支持																			.Added SDL support
+* 1.1.1.1  2025.11.27  解决了StarEngine一直没有解决的窗口焦点问题													.Resolved the window focus issue that StarEngine had never fixed
+* 1.1.3.0  2025.11.29  添加了按钮控件																			.Added a button control
+* 1.1.3.1              更新了启动图案																			.Updated the startup pattern
+* 1.1.3.2  2025.11.29  更新了启动图案																			.Updated the startup pattern
+* 1.1.3.3  2025.11.30  修复了模式切换时只能切换初始逻辑函数而不是设计的切换当前逻辑函数的BUG							.Fixed the bug where only the initial logic function could be switched during mode switching, instead of switching to the currently designed logic function.
+* 1.1.4.0              添加了实体统计函数																		.Added ProjectFindEntityAllNumber function
 */
 
 //创建线程函数关键字
@@ -63,10 +64,10 @@ typedef DWORD THREAD;
 //定时器
 typedef struct
 {
-    int time1;
-    int time2;
-    int timeload;
-    BOOL timeswitch;
+	int time1;
+	int time2;
+	int timeload;
+	BOOL timeswitch;
 }TIMELOAD;
 //对象
 typedef struct
@@ -179,6 +180,7 @@ extern void ProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJECTG
 extern void ProjectError(void* alpha, int degree, char* text);																											//错误处理
 extern void ProjectPause(int mode, void (**function_1)(PROJECTGOD), void (*function_2)(PROJECTGOD), void (*function_3)(PROJECTGOD));									//暂停函数
 extern void ProjectFunctionSwitch(void (**function_1)(PROJECTGOD), void (*function_2)(PROJECTGOD));																		//函数切换
+extern int  ProjectFindEntityAllNumber(PROJECTGOD* project);																											//统计实体总数
 
 //-------------------------------------------------------------------------------------------绘制函数--------------------------------------------------------------------------------//
 
