@@ -232,3 +232,12 @@ extern void ProjectFunctionSwitch(void (**function_1)(PROJECTGOD), void (*functi
 {
 	*function_1 = function_2;
 }
+
+extern int  ProjectFindEntityAllNumber(PROJECTGOD* project)
+{
+	int all_number = 0;
+	for (int i = 0; i < ENTITYNUMBER; i++)
+		if (project->entityindex->length != 0)all_number++;
+	printf("\n[ProjectFindEntityAllNumber函数]进入成功!\n统计到的实体总数为[%d]\n", all_number);
+	return all_number;
+}
