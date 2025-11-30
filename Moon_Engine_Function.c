@@ -1,6 +1,6 @@
 #include"Moon.h"
 
-static char Moon_Engine_VSn[4] = { 1,1,3,2 };
+static char Moon_Engine_VSn[4] = { 1,1,3,3 };
 static TIMELOAD projectfps;
 static int fpsmax, fpsmax2;
 static IMAGE projectdoublebuffer;
@@ -87,6 +87,8 @@ static CREATETHREADFUNCTION(ProjectAttribute)
 		ScreenToClient(project->hwnd, mousecoord);
 		ProjectPause(project->Power < 0, &project->Logic, MoonLogicPause, logic);
 		ProjectPause(project->Power < 0, &project->Drawing, MoonDrawingPause, drawing);
+		project->Logic != MoonLogicPause && (logic = project->Logic);
+		project->Drawing != MoonDrawingPause && (drawing = project->Drawing);
 		if (GetForegroundWindow() != project->hwnd)project->Power = NOTFOUND;
 		else project->Power = gamepowermode;
 		Sleep(1);
