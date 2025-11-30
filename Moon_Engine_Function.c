@@ -1,6 +1,6 @@
 #include"Moon.h"
 
-static int Moon_Engine_VSn = 01010301;
+static char Moon_Engine_VSn[4] = { 1,1,3,2 };
 static TIMELOAD projectfps;
 static int fpsmax, fpsmax2;
 static IMAGE projectdoublebuffer;
@@ -8,11 +8,13 @@ static POINT projectmousecoord;
 
 static void PROJECTSETTING(MoonLogicPause)
 {
+	printf("\n[MoonLogicPause函数]进入成功!\n");
 	Sleep(1);
 }
 
 static void PROJECTSETTING(MoonDrawingPause)
 {
+	printf("\n[MoonDrawingPause函数]进入成功!\n");
 	Sleep(1);
 }
 
@@ -94,8 +96,19 @@ static CREATETHREADFUNCTION(ProjectAttribute)
 extern void ProjectInit(PROJECTGOD* project, LPCWSTR project_name, int x, int y, int width, int height, int fps, void (*ProjectSetting_1)(PROJECTGOD*))
 {
 	printf("\n[ProjectInit]初始化函数进入成功\n");
-	printf("     __    ___  ______  ______  _  _____    \n    /  \\  /   |/  __  \\/  __  \\| |/ ___ \\   \n   / /\\ \\/ /| |  |  |    |  |  |   /   \\ \\  \n  / /  \\__/ | |  |__|    |__|  |  .    | |  \n / /        |_/\\______/\\______/| |     | |  \n/_/                            |_|     \\_\\ \n");
-	printf("MoonEngine[%d]", Moon_Engine_VSn);
+	printf("                                          ___     \n      ___    ___  ______  ______  ___    /  /         \n     /   \\  /   \\/  __  \\/  __  \\/   \\  /  /     \n    /  /\\ \\/  /\\   /  \\    /  \\    /\\ \\/  /    \n   /  /  \\___/  \\  \\__/    \\__/   /  \\   /       \n  /  /           \\______/\\____   /    \\_/          \n /  /                        /  /                     \n/__/                        /__/                      \n");
+	printf("MoonEngine[%d.%d.%d.%d]", Moon_Engine_VSn[0], Moon_Engine_VSn[1], Moon_Engine_VSn[2], Moon_Engine_VSn[3]);
+	/*
+	                                          ___
+	      ___    ___  ______  ______  ___    /  /
+	     /   \  /   \/  __  \/  __  \/   \  /  /
+	    /  /\ \/  /\   /  \    /  \    /\ \/  /
+	   /  /  \___/  \  \__/    \__/   /  \   /
+	  /  /           \______/\____   /    \_/ 
+	 /  /                        /  /      
+	/__/                        /__/
+
+	*/	
 	if (x < 0 || y < 0)
 	{
 		x = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
