@@ -141,4 +141,3 @@ extern void AnimeDelete(ANIME* anime)
 {
 	for (int i = 0; i < anime->totalnumber; i++)DeletImage(&anime->sequenceframes[i]);
 }
-
