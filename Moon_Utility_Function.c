@@ -71,7 +71,7 @@ extern int CreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid,
 	else
 	{
 		printf("[CreateEntityIndex函数]报错,叫做[%s]的实体,此位置[%d],已有实体存在,请换一个名字", nameid, hash);
-		strlen(project->entityindex[hash].nameid) <= 0 && ProjectError(&project->entityindex[hash], 2, "来自[CreateEntityIndex函数]的错误,出现了幽灵实体,没有合法名称");
+		strlen(project->entityindex[hash].nameid) <= 0 && ProjectError(&project->entityindex[hash], 2, (char*)"来自[CreateEntityIndex函数]的错误,出现了幽灵实体,没有合法名称");
 		index = NOTFOUND;
 	}
 	return index;
@@ -149,7 +149,7 @@ extern int ButtonDetection(PROJECTGOD* project, char* name)
 	HashFindEntity(project, name, MOONBUTTON, button);
 	if (project->entityindex[Hash(name)].length != sizeof(MOONBUTTON))
 	{
-		ProjectError(button, 3, "[ButtonDetection函数]错误!错误原因:类型导入错误.");
+		ProjectError(button, 3, (char*)"[ButtonDetection函数]错误!错误原因:类型导入错误.");
 		return 0;
 	}
 	HashFindEntity(project, "ProjectMouseCoord", POINT, mousecoord);
@@ -168,7 +168,7 @@ extern int ButtonSetTriggerMode(PROJECTGOD* project,char* name,unsigned char key
 	HashFindEntity(project, name, MOONBUTTON, button);
 	if (project->entityindex[Hash(name)].length != sizeof(MOONBUTTON))
 	{
-		ProjectError(button, 3, "[ButtonSetTriggerMode函数]错误!错误原因:类型导入错误.");
+		ProjectError(button, 3, (char*)"[ButtonSetTriggerMode函数]错误!错误原因:类型导入错误.");
 		return 0;
 	}
 	button->triggermode = key;
