@@ -1,10 +1,11 @@
 #include"Moon.h"
 
-static char Moon_Engine_VSn[4] = { 1,1,6,1 };
+static char Moon_Engine_VSn[4] = { 1,1,6,2 };
 static TIMELOAD projectfps;
 static int fpsmax, fpsmax2;
 static IMAGE projectdoublebuffer;
 static POINT projectmousecoord;
+static ENTITYINDEX entityindex[ENTITYNUMBER];
 
 static PROJECTMODULE(MoonLogicPause)
 {
@@ -127,6 +128,7 @@ extern void ProjectInit(PROJECTGOD* project, LPCWSTR project_name, int x, int y,
 	project->window_height = height;
 	project->window_width = width;
 	project->DEAD = FALSE;
+	project->entityindex = entityindex;
 	TimeLoadInit(&project->timeload, 1000.f / (fps > 0 ? fps : 60));
 	TimeLoadInit(&projectfps, 1000);
 	CreateImage(project, &projectdoublebuffer, project->window_width, project->window_height);
@@ -201,9 +203,9 @@ extern void ProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJECTG
 			case sizeof(IMAGE) : DeletImage((IMAGE*)project->entityindex[i].entityindex); break;
 				case sizeof(ANIME) : AnimeDelete((ANIME*)project->entityindex[i].entityindex); break;
 		}
-		project->entityindex[i].entityindex = NULL;
 		project->entityindex[i].length = NULL;
 		project->entityindex[i].nameid = NULL;
+		project->entityindex[i].entityindex = NULL;
 	}
 	printf("\n[ProjectOver]资源清理完成\n");
 }
@@ -246,4 +248,3 @@ extern int  ProjectFindEntityAllNumber(PROJECTGOD* project)
 	printf("\n[ProjectFindEntityAllNumber函数]进入成功!\n统计到的实体总数为[%d]\n", all_number);
 	return all_number;
 }
-
