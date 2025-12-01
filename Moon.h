@@ -27,7 +27,7 @@
 作者:xsq12348
 Email:1993346266@qq.com
 创建日期:2025.10.29
-版本
+版本,如果没有日期，那就是前一个日期一起写的/If there is no date, it is written together with the previous date.
 最后一个是修改BUG/重构函数/更新些许小功能,第二个是添加函数,第三个是重构,第四个是正式的大版本号
 * 0.0.0.0
 * 1.0.0.0  2025.10.29  完成了基本框架的搭建																		.Completed the setup of the basic framework
@@ -57,6 +57,10 @@ Email:1993346266@qq.com
 * 1.1.3.2  2025.11.29  更新了启动图案																			.Updated the startup pattern
 * 1.1.3.3  2025.11.30  修复了模式切换时只能切换初始逻辑函数而不是设计的切换当前逻辑函数的BUG							.Fixed the bug where only the initial logic function could be switched during mode switching, instead of switching to the currently designed logic function.
 * 1.1.4.0              添加了实体统计函数																		.Added ProjectFindEntityAllNumber function
+* 1.1.4.1  2025.12.1   更新了按钮控件,添加了触发																	.Updated the button control and added a trigger
+* 1.1.4.2              将按钮函数更换到了工具区																	.Moved the button function to the toolbar
+* 1.1.5.0              添加了触发方式函数																		.Added ButtonSetTriggerMode function
+* 1.1.5.1              添加了PROJECTMODULE宏,与PROJECTSETTING功能一样											.
 */
 
 //创建线程函数关键字
@@ -166,6 +170,41 @@ extern LPCWSTR CharToLPCWSTR(char* str);																																//字符
 
 extern void TextFont(IMAGE* image, int x, int y, LPCWSTR text, COLORREF color, BOOL back, LPCWSTR font, int sizewidth, int sizeheight, int texttilt, int fonttilt, int FW_, int underline, int deleteline, int DEFAULT_);	//显示字符
 
+//------------------------------------按钮控件------------------------------------------------//
+
+enum
+{
+	MOON_BUTTONRELEASE,																																					//松开
+	MOON_BUTTONPRESS,																																					//按下
+	MOON_BUTTONRHOVER,																																					//悬停
+};
+
+typedef struct MOONBUTTON
+{
+	char nameid[255];
+	int x;
+	int y;
+	int width;
+	int height;
+	char mode;
+	unsigned char triggermode;
+	int (*ButtonModePress)   (PROJECTGOD* project, struct MOONBUTTON* buton);	//按下
+	int (*ButtonModeRelease) (PROJECTGOD* project, struct MOONBUTTON* buton);	//松开
+	int (*ButtonModeHover)   (PROJECTGOD* project, struct MOONBUTTON* buton);	//悬停
+}MOONBUTTON;
+
+extern int ButtonInit(MOONBUTTON* button, int x, int y, int width, int height);																							//初始化按钮
+extern int ButtonDetection(PROJECTGOD* project, char* name);																											//检测按钮Trigger
+extern int ButtonSetTriggerMode(PROJECTGOD* project, char* name, unsigned char key);																					//更改触发方式
+
+#define MOONBUTTON(project, name, button, x, y, width, height, Press, Release, Hover) \
+MOONBUTTON button; ButtonInit(&button,(x),(y),(width),(height));                      \
+button.ButtonModeHover = Hover;                                                       \
+button.ButtonModePress = Press;                                                       \
+button.ButtonModeRelease = Release;                                                   \
+strcpy(button.nameid , name);                                                         \
+CreateEntityIndex(project, &button, name, sizeof(MOONBUTTON));
+
 //-------------------------------------------------------------------------------------------Windows函数----------------------------------------------------------------------------//
 
 extern HWND Window(LPCWSTR name,int window_coord_x, int window_coord_y, int window_width, int window_height);															//创建窗口
@@ -177,6 +216,7 @@ extern void ProjectInit(PROJECTGOD* project, LPCWSTR project_name, int x, int y,
 extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*), THREAD(*ProjectLogic)(PROJECTGOD*), void(*ProjectDrawing)(PROJECTGOD*));				//运行项目
 extern void ProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJECTGOD*));																					//结束项目
 #define PROJECTSETTING(NAME) NAME(PROJECTGOD* project)																													//创建设置选项
+#define PROJECTMODULE(NAME)  PROJECTSETTING(NAME)																														//同上
 extern void ProjectError(void* alpha, int degree, char* text);																											//错误处理
 extern void ProjectPause(int mode, void (**function_1)(PROJECTGOD), void (*function_2)(PROJECTGOD), void (*function_3)(PROJECTGOD));									//暂停函数
 extern void ProjectFunctionSwitch(void (**function_1)(PROJECTGOD), void (*function_2)(PROJECTGOD));																		//函数切换
@@ -211,38 +251,3 @@ extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber);							
 extern int AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height);											//初始化动画
 extern int AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);															//运行动画
 extern void AnimeDelete(ANIME* anime);																																	//删除动画
-
-//-------------------------------------------------------------------------------------------绘制函数--------------------------------------------------------------------------------//
-
-//------------------------------------按钮控件------------------------------------------------//
-
-enum
-{
-	MOON_BUTTONRELEASE,
-	MOON_BUTTONPRESS,
-	MOON_BUTTONRHOVER,
-};
-
-typedef struct MOONBUTTON
-{
-	char nameid[255];
-	int x;
-	int y;
-	int width;
-	int height;
-	int mode;
-	int (*ButtonModePress)   (PROJECTGOD* project, struct MOONBUTTON* buton);	//按下
-	int (*ButtonModeRelease) (PROJECTGOD* project, struct MOONBUTTON* buton);	//松开
-	int (*ButtonModeHover)   (PROJECTGOD* project, struct MOONBUTTON* buton);	//悬停
-}MOONBUTTON;
-
-extern int ButtonInit(MOONBUTTON* button, int x, int y, int width, int height);																							//初始化按钮
-extern int ButtonDetection(PROJECTGOD* project, char* name);																											//检测按钮
-
-#define MOONBUTTON(project, name, button, x, y, width, height, Press, Release, Hover) \
-MOONBUTTON button; ButtonInit(&button,(x),(y),(width),(height));                      \
-button.ButtonModeHover = Hover;                                                       \
-button.ButtonModePress = Press;                                                       \
-button.ButtonModeRelease = Release;                                                   \
-strcpy(button.nameid , name);                                                         \
-CreateEntityIndex(project, &button, name, sizeof(MOONBUTTON));
