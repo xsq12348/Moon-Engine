@@ -1,6 +1,6 @@
 #include"Moon.h"
 
-static char Moon_Engine_VSn[4] = { 1,1,5,1 };
+static char Moon_Engine_VSn[4] = { 1,1,5,2 };
 static TIMELOAD projectfps;
 static int fpsmax, fpsmax2;
 static IMAGE projectdoublebuffer;
@@ -195,7 +195,7 @@ extern void ProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJECTG
 		switch (project->entityindex[i].length)
 		{
 			case sizeof(IMAGE) : DeletImage((IMAGE*)project->entityindex[i].entityindex); break;
-			case sizeof(ANIME) : AnimeDelete((ANIME*)project->entityindex[i].entityindex); break;
+				case sizeof(ANIME) : AnimeDelete((ANIME*)project->entityindex[i].entityindex); break;
 		}
 		project->entityindex[i].entityindex = NULL;
 		project->entityindex[i].length = NULL;
@@ -204,7 +204,7 @@ extern void ProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJECTG
 	printf("\n[ProjectOver]资源清理完成\n");
 }
 
-extern void ProjectError(void* alpha, int degree, char* text)
+extern int ProjectError(void* alpha, int degree, char* text)
 {
 	enum
 	{
@@ -220,6 +220,7 @@ extern void ProjectError(void* alpha, int degree, char* text)
 	case Mild:printf("\t等级[Mild/轻微]\n"); break;
 	}
 	while (!KeyState(VK_ESCAPE)) Sleep(1);
+	return degree;
 }
 
 extern void ProjectPause(int mode, void (**function_1)(PROJECTGOD), void (*function_2)(PROJECTGOD), void (*function_3)(PROJECTGOD))
@@ -241,5 +242,3 @@ extern int  ProjectFindEntityAllNumber(PROJECTGOD* project)
 	printf("\n[ProjectFindEntityAllNumber函数]进入成功!\n统计到的实体总数为[%d]\n", all_number);
 	return all_number;
 }
-
-
