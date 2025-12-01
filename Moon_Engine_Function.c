@@ -1,6 +1,6 @@
 #include"Moon.h"
 
-static char Moon_Engine_VSn[4] = { 1,1,4,0 };
+static char Moon_Engine_VSn[4] = { 1,1,5,1 };
 static TIMELOAD projectfps;
 static int fpsmax, fpsmax2;
 static IMAGE projectdoublebuffer;
@@ -241,4 +241,5 @@ extern int  ProjectFindEntityAllNumber(PROJECTGOD* project)
 	printf("\n[ProjectFindEntityAllNumber函数]进入成功!\n统计到的实体总数为[%d]\n", all_number);
 	return all_number;
 }
+
 
