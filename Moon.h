@@ -18,8 +18,21 @@
 #define ON				TRUE
 #define OFF				FALSE
 #define Pi				3.1415926f
-#define ENTITYNUMBER	10000
 #define TRANSPARENTCOLOR RGB(255,0,255)
+
+#if	   MOONMANYENTITY
+#undef MOONSTANDARDENTITY
+#undef MOONFEWENTITY
+#define ENTITYNUMBER	1000000
+#elif  MOONSTANDARDENTITY
+#undef MOONMANYENTITY
+#undef MOONFEWENTITY
+#define ENTITYNUMBER	10000
+#elif  MOONFEWENTITY
+#undef MOONMANYENTITY
+#undef MOONSTANDARDENTITY
+#define ENTITYNUMBER	1000
+#endif
 
 /*
 如果您感兴趣,还可以查看另一个功能更加强大但是已经落后的项目:Star,项目请见:https://github.com/xsq12348/star
@@ -64,6 +77,7 @@ Email:1993346266@qq.com
 * 1.1.5.2              更新了实体系统																			.Updated the entity system
 * 1.1.6.0              实现了C++的适配,如果要使用C++版本的，请确保您所有.c的文件后缀已经改成.cpp						.C++ adaptation has been implemented. If you want to use the C++ version, please make sure all your .c file extensions have been changed to .cpp.
 * 1.1.6.1              修复了ProjectFindEntityAllNumber函数的计数错误											.Fixed the counting error in the ProjectFindEntityAllNumber function
+* 1.1.6.2              更新了实体系统,现在不再会有堆栈溢出的问题了,因为PROJECTGOD里的ENTITYINDEX entityindex[ENTITYNUMBER];变成了ENTITYINDEX* entityindex; .The entity system has been updated, and there will no longer be stack overflow issues because ENTITYINDEX entityindex[ENTITYNUMBER]; in PROJECTGOD has been changed to ENTITYINDEX* entityindex;
 */
 
 //创建线程函数关键字
@@ -93,7 +107,7 @@ typedef struct PROJECTGOD
 	int window_height;			//高度
 	int DEAD;					//项目结束
 	int Power;					//高性能模式
-	ENTITYINDEX entityindex[ENTITYNUMBER];//对象池注册表
+	ENTITYINDEX* entityindex;	//对象池注册表
 	TIMELOAD timeload;			//计时器
 	int(*Logic)(struct PROJECTGOD*);		//多线程逻辑函数
 	int(*Drawing)(struct PROJECTGOD*);		//主线程绘图函数
