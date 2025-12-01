@@ -48,6 +48,11 @@ extern int MoonSleep(int timeload)
 	return 0;
 }
 
+extern void* FindEntity(PROJECTGOD* project, char* nameid)
+{
+	return project->entityindex[(Hash(nameid) % ENTITYNUMBER)].entityindex;
+}
+
 extern int CreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid, int length)
 {
 	int index = NOTFOUND;
@@ -65,7 +70,8 @@ extern int CreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid,
 	}
 	else
 	{
-		printf("非法的名称[%s]，请换一个名字", nameid);
+		printf("[CreateEntityIndex函数]报错,叫做[%s]的实体,此位置[%d],已有实体存在,请换一个名字", nameid, hash);
+		strlen(project->entityindex[hash].nameid) <= 0 && ProjectError(&project->entityindex[hash], 2, "来自[CreateEntityIndex函数]的错误,出现了幽灵实体,没有合法名称");
 		index = NOTFOUND;
 	}
 	return index;
