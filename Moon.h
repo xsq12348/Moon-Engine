@@ -63,6 +63,7 @@ Email:1993346266@qq.com
 * 1.1.5.1              添加了PROJECTMODULE宏,与PROJECTSETTING功能一样											.Added the PROJECTMODULE macro, which functions the same as PROJECTSETTING
 * 1.1.5.2              更新了实体系统																			.Updated the entity system
 * 1.1.6.0              实现了C++的适配,如果要使用C++版本的，请确保您所有.c的文件后缀已经改成.cpp						.C++ adaptation has been implemented. If you want to use the C++ version, please make sure all your .c file extensions have been changed to .cpp.
+* 1.1.6.1              修复了ProjectFindEntityAllNumber函数的计数错误											.Fixed the counting error in the ProjectFindEntityAllNumber function
 */
 
 //创建线程函数关键字
