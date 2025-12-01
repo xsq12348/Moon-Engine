@@ -62,6 +62,7 @@ Email:1993346266@qq.com
 * 1.1.5.0              添加了触发方式函数																		.Added ButtonSetTriggerMode function
 * 1.1.5.1              添加了PROJECTMODULE宏,与PROJECTSETTING功能一样											.Added the PROJECTMODULE macro, which functions the same as PROJECTSETTING
 * 1.1.5.2              更新了实体系统																			.Updated the entity system
+* 1.1.6.0              实现了C++的适配,如果要使用C++版本的，请确保您所有.c的文件后缀已经改成.cpp						.C++ adaptation has been implemented. If you want to use the C++ version, please make sure all your .c file extensions have been changed to .cpp.
 */
 
 //创建线程函数关键字
@@ -93,8 +94,8 @@ typedef struct PROJECTGOD
 	int Power;					//高性能模式
 	ENTITYINDEX entityindex[ENTITYNUMBER];//对象池注册表
 	TIMELOAD timeload;			//计时器
-	void(*Logic)(struct PROJECTGOD*);		//多线程逻辑函数
-	void(*Drawing)(struct PROJECTGOD*);		//主线程绘图函数
+	int(*Logic)(struct PROJECTGOD*);		//多线程逻辑函数
+	int(*Drawing)(struct PROJECTGOD*);		//主线程绘图函数
 }PROJECTGOD;																															//项目结构体中心
 //双缓冲绘图
 typedef struct
@@ -152,7 +153,7 @@ extern int MoonSleep(int timeload);																																		//暂停
 //------------------------------------实体函数--------------------------------------------------//
 
 extern void* FindEntity(PROJECTGOD* project, char* nameid);																												//寻找实体
-#define HashFindEntity(projectgod, nameid, type, entity) type* entity = (type*)FindEntity(projectgod, nameid)															//hash寻找实体
+#define HashFindEntity(projectgod, nameid, type, entity) type* entity = (type*)FindEntity(projectgod, (char*)nameid)													//hash寻找实体
 extern int CreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid, int length);																			//注册实体
 
 //------------------------------------双缓冲函数------------------------------------------------//
@@ -205,7 +206,7 @@ button.ButtonModeHover = Hover;                                                 
 button.ButtonModePress = Press;                                                       \
 button.ButtonModeRelease = Release;                                                   \
 strcpy(button.nameid , name);                                                         \
-CreateEntityIndex(project, &button, name, sizeof(MOONBUTTON));
+CreateEntityIndex(project, &button, (char*)name, sizeof(MOONBUTTON));
 
 //-------------------------------------------------------------------------------------------Windows函数----------------------------------------------------------------------------//
 
@@ -215,13 +216,13 @@ extern void RunWindow();																																				//窗口消息
 //-------------------------------------------------------------------------------------------流程函数--------------------------------------------------------------------------------//
 
 extern void ProjectInit(PROJECTGOD* project, LPCWSTR project_name, int x, int y, int width, int height, int fps,void (*ProjectSetting_1)(PROJECTGOD*));					//创建项目
-extern void ProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*), THREAD(*ProjectLogic)(PROJECTGOD*), void(*ProjectDrawing)(PROJECTGOD*));				//运行项目
+extern void ProjectRun(PROJECTGOD* project, int (*ProjectSetting_2)(PROJECTGOD*), int(*ProjectLogic)(PROJECTGOD*), int(*ProjectDrawing)(PROJECTGOD*));					//运行项目
 extern void ProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJECTGOD*));																					//结束项目
-#define PROJECTSETTING(NAME) NAME(PROJECTGOD* project)																													//创建设置选项
-#define PROJECTMODULE(NAME)  PROJECTSETTING(NAME)																														//同上
+#define PROJECTSETTING(NAME) void NAME(PROJECTGOD* project)																												//创建设置选项
+#define PROJECTMODULE(NAME)  int NAME(PROJECTGOD* project)																												//配置模块
 extern int ProjectError(void* alpha, int degree, char* text);																											//错误处理
-extern void ProjectPause(int mode, void (**function_1)(PROJECTGOD), void (*function_2)(PROJECTGOD), void (*function_3)(PROJECTGOD));									//暂停函数
-extern void ProjectFunctionSwitch(void (**function_1)(PROJECTGOD), void (*function_2)(PROJECTGOD));																		//函数切换
+extern void ProjectPause(int mode, int (**function_1)(PROJECTGOD*), int (*function_2)(PROJECTGOD*), int (*function_3)(PROJECTGOD*));									//暂停函数
+extern void ProjectFunctionSwitch(int (**function_1)(PROJECTGOD*), int (*function_2)(PROJECTGOD*));																		//函数切换
 extern int  ProjectFindEntityAllNumber(PROJECTGOD* project);																											//统计实体总数
 
 //-------------------------------------------------------------------------------------------绘制函数--------------------------------------------------------------------------------//
