@@ -133,6 +133,8 @@ extern int ButtonInit(MOONBUTTON* button, int x, int y, int width, int height)
 	button->y = y;
 	button->width = width;
 	button->height = height;
+	button->mode = FALSE;
+	button->triggermode = 1;
 	return 1;
 }
 
@@ -144,11 +146,25 @@ extern int ButtonDetection(PROJECTGOD* project, char* name)
 		ProjectError(button, 3, "[ButtonDetection函数]错误!错误原因:类型导入错误.");
 		return 0;
 	}
-	switch (button->mode)
-	{
-	case MOON_BUTTONRELEASE:	button->ButtonModeRelease(project, button); return MOON_BUTTONRELEASE; break;
-	case MOON_BUTTONPRESS:		button->ButtonModePress(project, button);   return MOON_BUTTONPRESS;   break;
-	case MOON_BUTTONRHOVER:		button->ButtonModeHover(project, button);   return MOON_BUTTONRHOVER;  break;
-	}
+	HashFindEntity(project, "ProjectMouseCoord", POINT, mousecoord);
+	if (KeyState(button->triggermode) && mousecoord->x > button->x && mousecoord->x < button->x + button->width && mousecoord->y>button->y && mousecoord->y < button->y + button->height)
+		switch (button->mode)
+		{
+		case MOON_BUTTONRELEASE:	button->ButtonModeRelease(project, button); return MOON_BUTTONRELEASE; break;
+		case MOON_BUTTONPRESS:		button->ButtonModePress(project, button);   return MOON_BUTTONPRESS;   break;
+		case MOON_BUTTONRHOVER:		button->ButtonModeHover(project, button);   return MOON_BUTTONRHOVER;  break;
+		}
 	return 0;
+}
+
+extern int ButtonSetTriggerMode(PROJECTGOD* project,char* name,unsigned char key)
+{
+	HashFindEntity(project, name, MOONBUTTON, button);
+	if (project->entityindex[Hash(name)].length != sizeof(MOONBUTTON))
+	{
+		ProjectError(button, 3, "[ButtonSetTriggerMode函数]错误!错误原因:类型导入错误.");
+		return 0;
+	}
+	button->triggermode = key;
+	return key;
 }
