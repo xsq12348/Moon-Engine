@@ -23,15 +23,15 @@
 #if	   MOONMANYENTITY
 #undef MOONSTANDARDENTITY
 #undef MOONFEWENTITY
-#define ENTITYNUMBER	1000000
+#define ENTITYNUMBER	1000003
 #elif  MOONSTANDARDENTITY
 #undef MOONMANYENTITY
 #undef MOONFEWENTITY
-#define ENTITYNUMBER	10000
+#define ENTITYNUMBER	10007
 #elif  MOONFEWENTITY
 #undef MOONMANYENTITY
 #undef MOONSTANDARDENTITY
-#define ENTITYNUMBER	1000
+#define ENTITYNUMBER	997
 #endif
 
 /*
@@ -80,6 +80,7 @@ Email:1993346266@qq.com
 * 1.1.6.2              更新了实体系统,现在不再会有堆栈溢出的问题了,因为PROJECTGOD里的ENTITYINDEX entityindex[ENTITYNUMBER];变成了ENTITYINDEX* entityindex; .The entity system has been updated, and there will no longer be stack overflow issues because ENTITYINDEX entityindex[ENTITYNUMBER]; in PROJECTGOD has been changed to ENTITYINDEX* entityindex;
 * 1.1.6.3  2025.12.2   修复了引擎内部实体类型不正确的BUG															.Fixed a bug where the internal entity type of the engine was incorrect
 * 1.1.6.4              更新了ProjectFindEntityAllNumber函数,现在会打印更详细的内容								.Updated the ProjectFindEntityAllNumber function, it will now print more detailed information
+* 1.1.6.5              将Hash槽位改成质数,减少Hash冲突															.Change the hash slots to prime numbers to reduce hash collisions
 */
 
 //创建线程函数关键字
