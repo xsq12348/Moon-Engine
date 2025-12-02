@@ -1,6 +1,6 @@
 #include"Moon.h"
 
-static char Moon_Engine_VSn[4] = { 1,1,6,2 };
+static char Moon_Engine_VSn[4] = { 1,1,6,4 };
 static TIMELOAD projectfps;
 static int fpsmax, fpsmax2;
 static IMAGE projectdoublebuffer;
@@ -132,9 +132,9 @@ extern void ProjectInit(PROJECTGOD* project, LPCWSTR project_name, int x, int y,
 	TimeLoadInit(&project->timeload, 1000.f / (fps > 0 ? fps : 60));
 	TimeLoadInit(&projectfps, 1000);
 	CreateImage(project, &projectdoublebuffer, project->window_width, project->window_height);
-	CreateEntityIndex(project, &fpsmax2, (char*)"ProjectFPS", 1);
-	CreateEntityIndex(project, &projectmousecoord, (char*)"ProjectMouseCoord", 1);
-	CreateEntityIndex(project, &projectdoublebuffer, (char*)"ProjectBitmap", 1);
+	CreateEntityIndex(project, &fpsmax2, (char*)"ProjectFPS", sizeof(int));
+	CreateEntityIndex(project, &projectmousecoord, (char*)"ProjectMouseCoord", sizeof(POINT));
+	CreateEntityIndex(project, &projectdoublebuffer, (char*)"ProjectBitmap", sizeof(IMAGE));
 	if (ProjectSetting_1 != NULL)ProjectSetting_1(project);
 	printf("\n[ProjectInit]初始化完成\n");
 }
@@ -243,8 +243,13 @@ extern void ProjectFunctionSwitch(int (**function_1)(PROJECTGOD*), int (*functio
 extern int  ProjectFindEntityAllNumber(PROJECTGOD* project)
 {
 	int all_number = 0;
+	printf("\n   序号|地址            |索引      |名称                          |类型      |Hash      |\n");
 	for (int i = 0; i < ENTITYNUMBER; i++)
-		if (project->entityindex[i].length != 0)all_number++;
+		if (project->entityindex[i].length != 0)
+		{
+			all_number++;
+			printf("%-7d|%p|%-10d|%-30s|%-10d|%-10d|\n", all_number, project->entityindex[i].entityindex, i, project->entityindex[i].nameid, project->entityindex[i].length, Hash(project->entityindex[i].nameid));
+		}
 	printf("\n[ProjectFindEntityAllNumber函数]进入成功!\n统计到的实体总数为[%d]\n", all_number);
 	return all_number;
 }
