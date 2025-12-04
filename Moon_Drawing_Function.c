@@ -107,6 +107,13 @@ extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber)
 		}
 }
 
+extern void ImageLoadBatch(PROJECTGOD* project, IMAGE* image, int totalnumber, LPCWSTR* name)
+{
+	for (int i = 0; i < totalnumber; i++)
+		CreateImage(project, &image[i], 16, 32);
+	ImageLoad(image, name, totalnumber);
+}
+
 extern int AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height)
 {
 	anime->Name = name;
@@ -142,10 +149,9 @@ extern void AnimeDelete(ANIME* anime)
 	for (int i = 0; i < anime->totalnumber; i++)DeletImage(&anime->sequenceframes[i]);
 }
 
-extern void AnimeCreate(PROJECTGOD* project, IMAGE* image, int totalnumber, LPCWSTR* animename, char* entityname)
+extern void AnimeCreate(PROJECTGOD* project, IMAGE* image, ANIME* anime, int totalnumber, LPCWSTR* animename, char* entityname, int timeload, int width, int height)
 {
-	for (int i = 0; i < totalnumber; i++)
-		CreateImage(project, &image[i], 16, 32);
-	ImageLoad(image, animename, 11);
+	ImageLoadBatch(project, image, totalnumber, animename);
+	AnimeInit(anime, entityname, image, timeload, totalnumber, width, height);
 	CreateEntityIndex(project, image, entityname, sizeof(IMAGE));
 }
