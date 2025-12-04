@@ -1,6 +1,6 @@
 #include"Moon.h"
 
-static char Moon_Engine_VSn[4] = { 1,1,6,5 };
+static char Moon_Engine_VSn[4] = { 1,1,7,0 };
 static TIMELOAD projectfps;
 static int fpsmax, fpsmax2;
 static IMAGE projectdoublebuffer;
@@ -10,14 +10,14 @@ static ENTITYINDEX entityindex[ENTITYNUMBER];
 static PROJECTMODULE(MoonLogicPause)
 {
 	printf("\n[MoonLogicPause函数]进入成功!\n");
-	Sleep(1);
+	MoonSleep(1);
 	return 1;
 }
 
 static PROJECTMODULE(MoonDrawingPause)
 {
 	printf("\n[MoonDrawingPause函数]进入成功!\n");
-	Sleep(1);
+	MoonSleep(1);
 	return 1;
 }
 
@@ -95,7 +95,8 @@ static CREATETHREADFUNCTION(ProjectAttribute)
 		project->Drawing != MoonDrawingPause && (drawing = project->Drawing);
 		if (GetForegroundWindow() != project->hwnd)project->Power = NOTFOUND;
 		else project->Power = gamepowermode;
-		Sleep(1);
+		if (!IsWindow(project->hwnd))project->DEAD = YES;
+		MoonSleep(1);
 	}
 	return 1;
 }
@@ -150,12 +151,11 @@ extern void ProjectRun(PROJECTGOD* project, int (*ProjectSetting_2)(PROJECTGOD*)
 		return;
 	}
 	project->Drawing = ProjectDrawing;
-
 	if (ProjectSetting_2 != NULL)ProjectSetting_2(project);
 	if (ProjectLogic != NULL)
 	{
-		CREATETHREAD(ProjectLogicThread, project);
 		project->Logic = ProjectLogic;
+		CREATETHREAD(ProjectLogicThread, project);
 	}
 	CREATETHREAD(ProjectAttribute, project);
 	HashFindEntity(project, "ProjectBitmap", IMAGE, projectbitmap);
@@ -163,7 +163,6 @@ extern void ProjectRun(PROJECTGOD* project, int (*ProjectSetting_2)(PROJECTGOD*)
 	while (!project->DEAD)
 	{
 		runload[0] = clock();
-		if (!IsWindow(project->hwnd))project->DEAD = YES;
 		{
 			if (!TimeLoad(&projectfps, TRUE))fpsmax++;
 			else { fpsmax2 = fpsmax; fpsmax = 0; }
@@ -225,7 +224,7 @@ extern int ProjectError(void* alpha, int degree, char* text)
 	case General:printf("\t等级[General/一般]\n"); break;
 	case Mild:printf("\t等级[Mild/轻微]\n"); break;
 	}
-	while (!KeyState(VK_ESCAPE)) Sleep(1);
+	while (!KeyState(VK_ESCAPE)) MoonSleep(1);
 	return degree;
 }
 
@@ -253,4 +252,3 @@ extern int  ProjectFindEntityAllNumber(PROJECTGOD* project)
 	printf("\n[ProjectFindEntityAllNumber函数]进入成功!\n统计到的实体总数为[%d]\n", all_number);
 	return all_number;
 }
-
