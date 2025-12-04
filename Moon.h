@@ -79,8 +79,10 @@ Email:1993346266@qq.com
 * 1.1.6.1              修复了ProjectFindEntityAllNumber函数的计数错误											.Fixed the counting error in the ProjectFindEntityAllNumber function
 * 1.1.6.2              更新了实体系统,现在不再会有堆栈溢出的问题了,因为PROJECTGOD里的ENTITYINDEX entityindex[ENTITYNUMBER];变成了ENTITYINDEX* entityindex; .The entity system has been updated, and there will no longer be stack overflow issues because ENTITYINDEX entityindex[ENTITYNUMBER]; in PROJECTGOD has been changed to ENTITYINDEX* entityindex;
 * 1.1.6.3  2025.12.2   修复了引擎内部实体类型不正确的BUG															.Fixed a bug where the internal entity type of the engine was incorrect
-* 1.1.6.4              更新了ProjectFindEntityAllNumber函数,现在会打印更详细的内容								.Updated the ProjectFindEntityAllNumber function, it will now print more detailed information
+* 1.1.6.4              更新了ProjectFindEntityAllNumber函数,现在会打印更详细的内容								.Updated the ProjectFindEntityAllNumber function, it will now print more detailed informatio
 * 1.1.6.5              将Hash槽位改成质数,减少Hash冲突															.Change the hash slots to prime numbers to reduce hash collisions
+* 1.1.6.6  2025.12.4   优化了主线程逻辑																		.Optimized the main thread logic
+* 1.1.7.0              添加了动画创建函数AnimeCreate,现在创建动画不再是手动档了										.Added the animation creation function AnimeCreate, now creating animations is no longer done manually.
 */
 
 //创建线程函数关键字
@@ -272,3 +274,4 @@ extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber);							
 extern int AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height);											//初始化动画
 extern int AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);															//运行动画
 extern void AnimeDelete(ANIME* anime);																																	//删除动画
+extern void AnimeCreate(PROJECTGOD* project, IMAGE* image, int totalnumber, LPCWSTR* animename, char* entityname);													//创建动画
