@@ -83,6 +83,7 @@ Email:1993346266@qq.com
 * 1.1.6.5              将Hash槽位改成质数,减少Hash冲突															.Change the hash slots to prime numbers to reduce hash collisions
 * 1.1.6.6  2025.12.4   优化了主线程逻辑																		.Optimized the main thread logic
 * 1.1.7.0              添加了动画创建函数AnimeCreate,现在创建动画不再是手动档了										.Added the animation creation function AnimeCreate, now creating animations is no longer done manually.
+* 1.1.8.0              AnimeCreate函数功能实现错误,应该实现的是ImageLoadBatch函数,现在将重新实现AnimeCreate函数		.The AnimeCreate function is implemented incorrectly; it should implement the ImageLoadBatch function. The AnimeCreate function will now be re-implemented.
 */
 
 //创建线程函数关键字
@@ -268,10 +269,11 @@ extern int  SDL_Moon_AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x
 //------------------------------------图片------------------------------------------------//
 
 extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber);																								//加载图片
+extern void ImageLoadBatch(PROJECTGOD* project, IMAGE* image, int totalnumber, LPCWSTR* name);																			//批量加载图片
 
 //------------------------------------动画------------------------------------------------//
 
 extern int AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height);											//初始化动画
 extern int AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);															//运行动画
 extern void AnimeDelete(ANIME* anime);																																	//删除动画
-extern void AnimeCreate(PROJECTGOD* project, IMAGE* image, int totalnumber, LPCWSTR* animename, char* entityname);													//创建动画
+extern void AnimeCreate(PROJECTGOD* project, IMAGE* image, ANIME* anime, int totalnumber, LPCWSTR* animename, char* entityname);										//创建动画
