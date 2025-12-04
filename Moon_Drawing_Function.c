@@ -141,3 +141,11 @@ extern void AnimeDelete(ANIME* anime)
 {
 	for (int i = 0; i < anime->totalnumber; i++)DeletImage(&anime->sequenceframes[i]);
 }
+
+extern void AnimeCreate(PROJECTGOD* project, IMAGE* image, int totalnumber, LPCWSTR* animename, char* entityname)
+{
+	for (int i = 0; i < totalnumber; i++)
+		CreateImage(project, &image[i], 16, 32);
+	ImageLoad(image, animename, 11);
+	CreateEntityIndex(project, image, entityname, sizeof(IMAGE));
+}
