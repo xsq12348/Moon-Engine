@@ -90,6 +90,7 @@ Email:1993346266@qq.com
 					   但我们仍然保留了它,如果您想要使用,可以在配置栏里将MOONCENTRALDISPATCHER改成1。					.Fixed an internal hidden bug in the engine, where the engine's internal property function incorrectly saved the initial function, causing it to always revert to the original module passed by the engine, namely the central module, regardless of any adjustments. This has now been fixed. However, we have kept it; if you want to use it, you can change MOONCENTRALDISPATCHER to 1 in the configuration panel.
 * 1.1.8.2              添加了函数切换宏,防止您因手动切换模块导致的二级指针问题										.Added a function toggle macro to prevent secondary pointer issues caused by manually switching modules.
 * 1.1.8.3              解决了鼠标坐标总是不稳定的问题																.Resolved the issue of the mouse coordinates being unstable.
+* 1.1.8.4              修复了按钮系统的空回调函数指针BUG															.Fixed the bug of null callback function pointer in the button system
 */
 
 //创建线程函数关键字
