@@ -249,7 +249,7 @@ extern void ProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJECTG
 extern int ProjectError(void* alpha, int degree, char* text);																											//错误处理
 extern void ProjectPause(int mode, int (**function_1)(PROJECTGOD*), int (*function_2)(PROJECTGOD*), int (*function_3)(PROJECTGOD*));									//暂停函数
 extern void ProjectFunctionSwitch(int (**function_1)(PROJECTGOD*), int (*function_2)(PROJECTGOD*));																		//函数切换
-#define FUNCTIONSWITCH(projectgod, function) ProjectFunctionSwitch(&projectgod->Drawing, function);																		//函数切换宏
+#define FUNCTIONSWITCH(function) ProjectFunctionSwitch(&project->Drawing, function);																					//函数切换宏
 extern int  ProjectFindEntityAllNumber(PROJECTGOD* project);																											//统计实体总数
 
 //-------------------------------------------------------------------------------------------绘制函数--------------------------------------------------------------------------------//
@@ -283,3 +283,4 @@ extern int AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timel
 extern int AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);															//运行动画
 extern void AnimeDelete(ANIME* anime);																																	//删除动画
 extern void AnimeCreate(PROJECTGOD* project, IMAGE* image, ANIME* anime, int totalnumber, LPCWSTR* animename, char* entityname, int timeload, int width, int height);	//创建动画
+
