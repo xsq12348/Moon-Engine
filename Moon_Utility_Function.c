@@ -156,9 +156,9 @@ extern int ButtonDetection(PROJECTGOD* project, char* name)
 	if (KeyState(button->triggermode) && mousecoord->x > button->x && mousecoord->x < button->x + button->width && mousecoord->y>button->y && mousecoord->y < button->y + button->height)
 		switch (button->mode)
 		{
-		case MOON_BUTTONRELEASE:	button->ButtonModeRelease(project, button); return MOON_BUTTONRELEASE; break;
-		case MOON_BUTTONPRESS:		button->ButtonModePress(project, button);   return MOON_BUTTONPRESS;   break;
-		case MOON_BUTTONRHOVER:		button->ButtonModeHover(project, button);   return MOON_BUTTONRHOVER;  break;
+		case MOON_BUTTONRELEASE:	button->ButtonModeRelease && button->ButtonModeRelease(project, button); return MOON_BUTTONRELEASE; break;
+		case MOON_BUTTONPRESS:		button->ButtonModePress && button->ButtonModePress(project, button);   return MOON_BUTTONPRESS;   break;
+		case MOON_BUTTONRHOVER:		button->ButtonModeHover && button->ButtonModeHover(project, button);   return MOON_BUTTONRHOVER;  break;
 		}
 	return 0;
 }
