@@ -91,6 +91,7 @@ Email:1993346266@qq.com
 * 1.1.8.2              添加了函数切换宏,防止您因手动切换模块导致的二级指针问题										.Added a function toggle macro to prevent secondary pointer issues caused by manually switching modules.
 * 1.1.8.3              解决了鼠标坐标总是不稳定的问题																.Resolved the issue of the mouse coordinates being unstable.
 * 1.1.8.4              修复了按钮系统的空回调函数指针BUG															.Fixed the bug of null callback function pointer in the button system
+* 1.1.8.5  2025.12.6   更新了按钮系统,修复了一些BUG
 */
 
 //创建线程函数关键字
@@ -205,8 +206,7 @@ extern void TextFont(IMAGE* image, int x, int y, LPCWSTR text, COLORREF color, B
 
 enum
 {
-	MOON_BUTTONRELEASE,																																					//松开
-	MOON_BUTTONPRESS,																																					//按下
+	MOON_BUTTONPRESS = 1,																																				//按下
 	MOON_BUTTONRHOVER,																																					//悬停
 };
 
@@ -228,12 +228,12 @@ extern int ButtonInit(MOONBUTTON* button, int x, int y, int width, int height);	
 extern int ButtonDetection(PROJECTGOD* project, char* name);																											//检测按钮Trigger
 extern int ButtonSetTriggerMode(PROJECTGOD* project, char* name, unsigned char key);																					//更改触发方式
 
-#define MOONBUTTON(project, name, button, x, y, width, height, Press, Release, Hover) \
-MOONBUTTON button; ButtonInit(&button,(x),(y),(width),(height));                      \
-button.ButtonModeHover = Hover;                                                       \
-button.ButtonModePress = Press;                                                       \
-button.ButtonModeRelease = Release;                                                   \
-strcpy(button.nameid , name);                                                         \
+#define MOONBUTTONCREATE(project, name, button, x, y, width, height, Press, Release, Hover) \
+ButtonInit(&button,(x), (y), (width), (height));                                            \
+button.ButtonModeHover = Hover;                                                             \
+button.ButtonModePress = Press;                                                             \
+button.ButtonModeRelease = Release;                                                         \
+strcpy(button.nameid , name);                                                               \
 CreateEntityIndex(project, &button, (char*)name, sizeof(MOONBUTTON));
 
 //-------------------------------------------------------------------------------------------Windows函数----------------------------------------------------------------------------//
