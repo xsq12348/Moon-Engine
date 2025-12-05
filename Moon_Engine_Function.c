@@ -1,6 +1,6 @@
 #include"Moon.h"
 
-static char Moon_Engine_VSn[4] = { 1,1,8,2 };
+static char Moon_Engine_VSn[4] = { 1,1,8,3 };
 static TIMELOAD projectfps;
 static int fpsmax, fpsmax2;
 static IMAGE projectdoublebuffer;
@@ -82,6 +82,7 @@ static CREATETHREADFUNCTION(ProjectAttribute)
 	HashFindEntity(project, (char*)"ProjectMouseCoord", POINT, mousecoord);
 	HashFindEntity(project, (char*)"ProjectFPS", int, fpsnumber);
 	static int(*drawing)(PROJECTGOD*) = 0, (*logic)(PROJECTGOD*) = 0;
+	static POINT mousecoord_2;
 	drawing = project->Drawing;
 	logic = project->Logic;
 	int gamepowermode = project->Power;
@@ -91,8 +92,10 @@ static CREATETHREADFUNCTION(ProjectAttribute)
 		project->Logic != MoonLogicPause && (logic = project->Logic);
 		project->Drawing != MoonDrawingPause && (drawing = project->Drawing);
 #endif
-		GetCursorPos(mousecoord);
-		ScreenToClient(project->hwnd, mousecoord);
+		GetCursorPos(&mousecoord_2);
+		ScreenToClient(project->hwnd, &mousecoord_2);
+		mousecoord->x = mousecoord_2.x;
+		mousecoord->y = mousecoord_2.y;
 		ProjectPause(project->Power < 0, &project->Logic, MoonLogicPause, logic);
 		ProjectPause(project->Power < 0, &project->Drawing, MoonDrawingPause, drawing);
 #if MOONCENTRALMODULE
