@@ -1,6 +1,6 @@
 #include"Moon.h"
 
-static char Moon_Engine_VSn[4] = { 1,1,8,0 };
+static char Moon_Engine_VSn[4] = { 1,1,8,2 };
 static TIMELOAD projectfps;
 static int fpsmax, fpsmax2;
 static IMAGE projectdoublebuffer;
@@ -87,12 +87,18 @@ static CREATETHREADFUNCTION(ProjectAttribute)
 	int gamepowermode = project->Power;
 	while (!project->DEAD)
 	{
+#if !MOONCENTRALMODULE
+		project->Logic != MoonLogicPause && (logic = project->Logic);
+		project->Drawing != MoonDrawingPause && (drawing = project->Drawing);
+#endif
 		GetCursorPos(mousecoord);
 		ScreenToClient(project->hwnd, mousecoord);
 		ProjectPause(project->Power < 0, &project->Logic, MoonLogicPause, logic);
 		ProjectPause(project->Power < 0, &project->Drawing, MoonDrawingPause, drawing);
+#if MOONCENTRALMODULE
 		project->Logic != MoonLogicPause && (logic = project->Logic);
 		project->Drawing != MoonDrawingPause && (drawing = project->Drawing);
+#endif
 		if (GetForegroundWindow() != project->hwnd)project->Power = NOTFOUND;
 		else project->Power = gamepowermode;
 		if (!IsWindow(project->hwnd))project->DEAD = YES;
@@ -252,4 +258,3 @@ extern int  ProjectFindEntityAllNumber(PROJECTGOD* project)
 	printf("\n[ProjectFindEntityAllNumber函数]进入成功!\n统计到的实体总数为[%d]\n", all_number);
 	return all_number;
 }
-
