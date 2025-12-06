@@ -91,7 +91,8 @@ Email:1993346266@qq.com
 * 1.1.8.2              添加了函数切换宏,防止您因手动切换模块导致的二级指针问题										.Added a function toggle macro to prevent secondary pointer issues caused by manually switching modules.
 * 1.1.8.3              解决了鼠标坐标总是不稳定的问题																.Resolved the issue of the mouse coordinates being unstable.
 * 1.1.8.4              修复了按钮系统的空回调函数指针BUG															.Fixed the bug of null callback function pointer in the button system
-* 1.1.8.5  2025.12.6   更新了按钮系统,修复了一些BUG
+* 1.1.8.5  2025.12.6   更新了按钮系统,修复了一些BUG																.Updated the button system and fixed some bugs
+* 1.1.8.6              修复了MOONCENTRALDISPATCHER的笔误														.Fixed a typo in MOONCENTRALDISPATCHER
 */
 
 //创建线程函数关键字
@@ -285,3 +286,4 @@ extern int AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timel
 extern int AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);															//运行动画
 extern void AnimeDelete(ANIME* anime);																																	//删除动画
 extern void AnimeCreate(PROJECTGOD* project, IMAGE* image, ANIME* anime, int totalnumber, LPCWSTR* animename, char* entityname, int timeload, int width, int height);	//创建动画
+
