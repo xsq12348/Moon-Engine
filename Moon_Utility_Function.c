@@ -147,7 +147,7 @@ extern int ButtonInit(MOONBUTTON* button, int x, int y, int width, int height)
 extern int ButtonDetection(PROJECTGOD* project, char* name)
 {
 	HashFindEntity(project, name, MOONBUTTON, button);
-	if (project->entityindex[Hash(name)].length != sizeof(MOONBUTTON))
+	if (project->entityindex[(Hash(name) % ENTITYNUMBER)].length != sizeof(MOONBUTTON))
 	{
 		ProjectError(button, 3, (char*)"[ButtonDetection函数]错误!错误原因:类型导入错误.");
 		return 0;
