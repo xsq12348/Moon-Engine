@@ -185,3 +185,10 @@ extern int ButtonSetTriggerMode(PROJECTGOD* project,char* name,unsigned char key
 	button->triggermode = key;
 	return key;
 }
+
+extern int CharToWchar(wchar_t* text1, char* text2 , int len)
+{
+	setlocale(LC_ALL, "");
+	mbstowcs(text1, text2, len);
+	return 1;
+}
