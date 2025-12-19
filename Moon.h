@@ -8,6 +8,8 @@
 #include<string.h>
 #include<stdlib.h>
 #include<Windows.h>
+#include <locale.h>
+#include <wchar.h>
 #pragma comment( lib,"Winmm.lib")
 #pragma comment(lib, "Msimg32.lib")
 
@@ -166,8 +168,8 @@ typedef struct
 extern unsigned int Hash(char* text);
 #define DegRad(phi) (Pi * (phi) * 1.f / 180.f)																															//角度转弧度
 extern int KeyState(int Key);																																			//获取按键的值
-#define Lerp(alpha, beta, t) ((1. - t) * alpha + t * beta)																												//线性插值
-#define RANGE(alpha, alpha_min, alpha_max) (min(max(alpha,alpha_min),alpha_max))																						//线性插值
+#define Lerp(alpha, beta, t) ((1.f - (t)) * (alpha) + (t) * (beta))																										//线性插值
+#define RANGE(alpha, alpha_min, alpha_max) (min(max(alpha,alpha_min),alpha_max))																						//限制范围
 #define SETMOUSECOORD( X, Y) SetCursorPos(X, Y)																															//设置鼠标位置
 #define Random(A, B) (rand() % (B - A) + A)																																//随机数获取
 extern void Music(LPCWSTR File);																																		//播放音乐
@@ -289,4 +291,3 @@ extern int AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timel
 extern int AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);															//运行动画
 extern void AnimeDelete(ANIME* anime);																																	//删除动画
 extern void AnimeCreate(PROJECTGOD* project, IMAGE* image, ANIME* anime, int totalnumber, LPCWSTR* animename, char* entityname, int timeload, int width, int height);	//创建动画
-
