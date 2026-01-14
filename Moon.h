@@ -97,6 +97,7 @@ Email:1993346266@qq.com
 * 1.1.8.6              修复了MOONCENTRALDISPATCHER的笔误														.Fixed a typo in MOONCENTRALDISPATCHER
 * 1.1.8.7  2025.12.9   修复了ButtonDetection函数因为忘记取模造成的Hash溢出时的BUG									.Fixed a bug in the ButtonDetection function where forgetting to use the modulo caused a hash overflow
 * 1.1.9.0  2025.12.10  添加了字符转换函数CharToWchar															.Added character conversion function CharToWchar
+* 1.1.9.1  2026.1.14   添加了开发者控制台调控模式																.Added developer console control mode
 */
 
 //创建线程函数关键字
@@ -124,12 +125,13 @@ typedef struct PROJECTGOD
 	int window_coord_y;			//垂直坐标
 	int window_width;			//宽度
 	int window_height;			//高度
-	int DEAD;					//项目结束
-	int Power;					//高性能模式
+	char DEAD;					//项目状态
+	char Power;					//高性能模式
 	ENTITYINDEX* entityindex;	//对象池注册表
 	TIMELOAD timeload;			//计时器
 	int(*Logic)(struct PROJECTGOD*);		//多线程逻辑函数
 	int(*Drawing)(struct PROJECTGOD*);		//主线程绘图函数
+	int(*developerconsole)(struct PROJECTGOD*);	//开发者控制台,按下波浪号进入
 }PROJECTGOD;																															//项目结构体中心
 //双缓冲绘图
 typedef struct
@@ -255,7 +257,7 @@ extern void ProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJECTG
 #define PROJECTSETTING(NAME) void NAME(PROJECTGOD* project)																												//创建设置选项
 #define PROJECTMODULE(NAME)  int NAME(PROJECTGOD* project)																												//配置模块
 extern int ProjectError(void* alpha, int degree, char* text);																											//错误处理
-extern void ProjectPause(int mode, int (**function_1)(PROJECTGOD*), int (*function_2)(PROJECTGOD*), int (*function_3)(PROJECTGOD*));									//暂停函数
+extern int ProjectPause(int mode, int (**function_1)(PROJECTGOD*), int (*function_2)(PROJECTGOD*), int (*function_3)(PROJECTGOD*));										//暂停函数
 extern void ProjectFunctionSwitch(int (**function_1)(PROJECTGOD*), int (*function_2)(PROJECTGOD*));																		//函数切换
 #define FUNCTIONSWITCH(function) ProjectFunctionSwitch(&project->Drawing, function);																					//函数切换宏
 extern int  ProjectFindEntityAllNumber(PROJECTGOD* project);																											//统计实体总数
@@ -270,16 +272,6 @@ extern void Line(IMAGE* image, int x1, int y1, int x2, int y2, int width, int co
 extern void Box(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																					//绘制矩形
 extern void BoxFull(IMAGE* image, int x1, int y1, int x2, int y2,int color);																							//绘制填充矩形
 
-extern void SDL_Moon_DrawingArea(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height);																	//画板
-extern void SDL_Moon_DrawingAreaAlpha(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height, int transparent_color);										//带透明度的画板
-extern void SDL_Moon_DrawingAreaRound(IMAGE* image_1, IMAGE* image_2, int x, int y, int apx, int apy, int width, int height, int deg);									//旋转的画板
-extern void SDL_Moon_Pix(IMAGE* image, int x, int y, int color);																										//绘制点
-extern void SDL_Moon_Line(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																			//绘制线
-extern void SDL_Moon_Box(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																			//绘制矩形
-extern void SDL_Moon_BoxFull(IMAGE* image, int x1, int y1, int x2, int y2, int color);																					//绘制填充矩形
-extern int  SDL_Moon_AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height);									//运行动画
-extern int  SDL_Moon_AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);												//删除动画
-
 //------------------------------------图片------------------------------------------------//
 
 extern void ImageLoad(IMAGE* image, LPCWSTR* imagefile, int imagenumber);																								//加载图片
@@ -291,3 +283,19 @@ extern int AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timel
 extern int AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);															//运行动画
 extern void AnimeDelete(ANIME* anime);																																	//删除动画
 extern void AnimeCreate(PROJECTGOD* project, IMAGE* image, ANIME* anime, int totalnumber, LPCWSTR* animename, char* entityname, int timeload, int width, int height);	//创建动画
+
+//-------------------------------------------------------------------------------------------SDL函数--------------------------------------------------------------------------------//
+
+#if OPEN_SDL
+
+extern void Moon_SDL_Moon_DrawingArea(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height);																	//画板
+extern void Moon_SDL_Moon_DrawingAreaAlpha(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height, int transparent_color);										//带透明度的画板
+extern void Moon_SDL_Moon_DrawingAreaRound(IMAGE* image_1, IMAGE* image_2, int x, int y, int apx, int apy, int width, int height, int deg);									//旋转的画板
+extern void Moon_SDL_Moon_Pix(IMAGE* image, int x, int y, int color);																										//绘制点
+extern void Moon_SDL_Moon_Line(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																			//绘制线
+extern void Moon_SDL_Moon_Box(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																			//绘制矩形
+extern void Moon_SDL_Moon_BoxFull(IMAGE* image, int x1, int y1, int x2, int y2, int color);																					//绘制填充矩形
+extern int  Moon_SDL_Moon_AnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height);								//运行动画
+extern int  Moon_SDL_Moon_AnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);												//删除动画
+
+#endif
