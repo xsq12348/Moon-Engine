@@ -1,25 +1,18 @@
 #include"Moon.h"
 
-static char Moon_Engine_VSn[4] = { 1,1,9,0 };
+static char Moon_Engine_VSn[4] = { 1,1,9,1 };
 static TIMELOAD projectfps;
 static int fpsmax, fpsmax2;
 static IMAGE projectdoublebuffer;
 static POINT projectmousecoord;
 static ENTITYINDEX entityindex[ENTITYNUMBER];
 
-static PROJECTMODULE(MoonLogicPause)
-{
-	printf("\n[MoonLogicPause函数]进入成功!\n");
-	MoonSleep(1);
-	return 1;
-}
-
-static PROJECTMODULE(MoonDrawingPause)
-{
-	printf("\n[MoonDrawingPause函数]进入成功!\n");
-	MoonSleep(1);
-	return 1;
-}
+static int ProjectConsole(PROJECTGOD* project, int (*developerconsole)(PROJECTGOD*));
+static PROJECTMODULE(MoonLogicPause);
+static PROJECTMODULE(MoonDrawingPause);
+static LRESULT WINAPI WndPorc(HWND, UINT, WPARAM, LPARAM);
+static CREATETHREADFUNCTION(ProjectLogicThread);
+static CREATETHREADFUNCTION(ProjectAttribute);
 
 static LRESULT WINAPI WndPorc(HWND hwnd, UINT msgid, WPARAM wparam, LPARAM lparam)
 {
@@ -78,14 +71,15 @@ static CREATETHREADFUNCTION(ProjectLogicThread)
 
 static CREATETHREADFUNCTION(ProjectAttribute)
 {
+	//这里我想要性能高一点,就不写if了
 	GETTHREADRESOURCE(PROJECTGOD*, project);
 	HashFindEntity(project, (char*)"ProjectMouseCoord", POINT, mousecoord);
 	HashFindEntity(project, (char*)"ProjectFPS", int, fpsnumber);
-	static int(*drawing)(PROJECTGOD*) = 0, (*logic)(PROJECTGOD*) = 0;
+	static int(*drawing)(PROJECTGOD*) = 0, (*logic)(PROJECTGOD*) = 0, developer = FALSE;
 	static POINT mousecoord_2;
 	drawing = project->Drawing;
 	logic = project->Logic;
-	int gamepowermode = project->Power;
+	int gamepowermode = project->Power, modetemp = FALSE;
 	while (!project->DEAD)
 	{
 #if !MOONCENTRALDISPATCHER
@@ -96,15 +90,17 @@ static CREATETHREADFUNCTION(ProjectAttribute)
 		ScreenToClient(project->hwnd, &mousecoord_2);
 		mousecoord->x = mousecoord_2.x;
 		mousecoord->y = mousecoord_2.y;
-		ProjectPause(project->Power < 0, &project->Logic, MoonLogicPause, logic);
-		ProjectPause(project->Power < 0, &project->Drawing, MoonDrawingPause, drawing);
+		project->Power != modetemp && ProjectPause(project->Power < 0, &project->Logic, MoonLogicPause, logic);
+		project->Power != modetemp && ProjectPause(project->Power < 0, &project->Drawing, MoonDrawingPause, drawing);
+		modetemp = project->Power;
 #if MOONCENTRALDISPATCHER
 		project->Logic != MoonLogicPause && (logic = project->Logic);
 		project->Drawing != MoonDrawingPause && (drawing = project->Drawing);
 #endif
-		if (GetForegroundWindow() != project->hwnd)project->Power = NOTFOUND;
-		else project->Power = gamepowermode;
-		if (!IsWindow(project->hwnd))project->DEAD = YES;
+		(GetForegroundWindow() != project->hwnd || developer) && (project->Power = NOTFOUND) || (project->Power = gamepowermode);
+		!IsWindow(project->hwnd) && (project->DEAD = YES);
+		!developer && KeyState(VK_OEM_3) && (developer = TRUE);
+		developer && (ProjectConsole(project, project->developerconsole), (KeyState(VK_OEM_3) && (developer = FALSE)));
 		MoonSleep(1);
 	}
 	return 1;
@@ -237,10 +233,11 @@ extern int ProjectError(void* alpha, int degree, char* text)
 	return degree;
 }
 
-extern void ProjectPause(int mode, int (**function_1)(PROJECTGOD*), int (*function_2)(PROJECTGOD*), int (*function_3)(PROJECTGOD*))
+extern int ProjectPause(int mode, int (**function_1)(PROJECTGOD*), int (*function_2)(PROJECTGOD*), int (*function_3)(PROJECTGOD*))
 {
 	if (mode) *function_1 = function_2;
 	else *function_1 = function_3;
+	return 1;
 }
 
 extern void ProjectFunctionSwitch(int (**function_1)(PROJECTGOD*), int (*function_2)(PROJECTGOD*))
@@ -262,5 +259,23 @@ extern int  ProjectFindEntityAllNumber(PROJECTGOD* project)
 	return all_number;
 }
 
+static int ProjectConsole(PROJECTGOD* project, int (*developerconsole)(PROJECTGOD*))
+{
+	if (developerconsole == NULL)return FALSE;
+	developerconsole(project);
+	return 1;
+}
 
+static PROJECTMODULE(MoonLogicPause)
+{
+	//printf("\n[MoonLogicPause函数]进入成功!\n");
+	MoonSleep(1);
+	return 1;
+}
 
+static PROJECTMODULE(MoonDrawingPause)
+{
+	//printf("\n[MoonDrawingPause函数]进入成功!\n");
+	MoonSleep(1);
+	return 1;
+}
