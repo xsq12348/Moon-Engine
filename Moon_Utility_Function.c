@@ -1,6 +1,19 @@
 #include"Moon.h"
 
-extern unsigned int Hash(char* text)
+#if !OPEN_SDL
+
+extern void MoonMusic(const wchar_t* File)
+{
+	TCHAR cmd[255];
+	wsprintf(cmd, TEXT("open \%s\ alias music"), File);
+	mciSendString(TEXT("close music"), 0, 0, 0);
+	mciSendString(cmd, NULL, 0, NULL);
+	mciSendString(TEXT("play music"), NULL, 0, NULL);
+}
+
+#endif
+
+extern unsigned int MoonHash(char* text)
 {
 	if (text == NULL)return Error;
 	unsigned int length = (unsigned)strlen(text), hash = 0;
@@ -9,7 +22,7 @@ extern unsigned int Hash(char* text)
 	return hash;
 }
 
-extern void TimeLoadInit(TIMELOAD* Timeload, int load)
+extern void MoonTimeLoadInit(TIMELOAD* Timeload, int load)
 {
 	Timeload->time1 = NULL;
 	Timeload->time2 = NULL;
@@ -17,12 +30,21 @@ extern void TimeLoadInit(TIMELOAD* Timeload, int load)
 	Timeload->timeswitch = 0;
 }
 
-extern int TimeLoad(TIMELOAD* Timeload, int mode)
+extern int MoonKeyState(int Key)
+{
+	static char KEYSTATEbuffer[255];
+	int state = GetAsyncKeyState(Key);
+	if (!(state & 0x8000))KEYSTATEbuffer[Key] = 0;
+	else if (KEYSTATEbuffer[Key] == 0) { KEYSTATEbuffer[Key] = 1; return 1; }
+	return 0;
+}
+
+extern int MoonTimeLoad(TIMELOAD* Timeload, int mode)
 {
 	if (!mode)return FALSE;
 	else if (Timeload == NULL)
 	{
-		printf("Error:[TimeLoadå‡½æ•°é”™è¯¯!]å­˜åœ¨ç©ºæŒ‡é’ˆ");
+		printf("Error:[TimeLoadº¯Êý´íÎó!]´æÔÚ¿ÕÖ¸Õë");
 		return Error;
 	}
 	if (!Timeload->timeswitch)
@@ -48,15 +70,15 @@ extern int MoonSleep(int timeload)
 	return 0;
 }
 
-extern void* FindEntity(PROJECTGOD* project, char* nameid)
+extern void* MoonFindEntity(PROJECTGOD* project, char* nameid)
 {
-	return project->entityindex[(Hash(nameid) % ENTITYNUMBER)].entityindex;
+	return project->entityindex[(MoonHash(nameid) % ENTITYNUMBER)].entityindex;
 }
 
-extern int CreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid, int length)
+extern int MoonCreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid, int length)
 {
 	int index = NOTFOUND;
-	int hash = Hash(nameid) % ENTITYNUMBER;
+	int hash = MoonHash(nameid) % ENTITYNUMBER;
 	if (project->entityindex[hash].entityindex == NULL)
 	{
 		if (hash != Error)
@@ -66,36 +88,18 @@ extern int CreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid,
 			project->entityindex[index].nameid = nameid;
 			project->entityindex[index].length = length;
 		}
-		else printf("éžæ³•çš„åç§°[%s],æ— æ³•é€šè¿‡è¿™ä¸ªå­—ç¬¦ä¸²å¾—åˆ°åˆæ³•çš„ç´¢å¼•", nameid);
+		else printf("·Ç·¨µÄÃû³Æ[%s],ÎÞ·¨Í¨¹ýÕâ¸ö×Ö·û´®µÃµ½ºÏ·¨µÄË÷Òý", nameid);
 	}
 	else
 	{
-		printf("[CreateEntityIndexå‡½æ•°]æŠ¥é”™,å«åš[%s]çš„å®žä½“,æ­¤ä½ç½®[%d],å·²æœ‰å®žä½“å­˜åœ¨,åç§°ä¸º[%s],è¯·æ¢ä¸€ä¸ªåå­—", nameid, hash, project->entityindex[index].nameid);
-		strlen(project->entityindex[hash].nameid) <= 0 && ProjectError(&project->entityindex[hash], 2, (char*)"æ¥è‡ª[CreateEntityIndexå‡½æ•°]çš„é”™è¯¯,å‡ºçŽ°äº†å¹½çµå®žä½“,æ²¡æœ‰åˆæ³•åç§°");
+		printf("[CreateEntityIndexº¯Êý]±¨´í,½Ð×ö[%s]µÄÊµÌå,´ËÎ»ÖÃ[%d],ÒÑÓÐÊµÌå´æÔÚ,Ãû³ÆÎª[%s],Çë»»Ò»¸öÃû×Ö", nameid, hash, project->entityindex[index].nameid);
+		strlen(project->entityindex[hash].nameid) <= 0 && MoonProjectError(&project->entityindex[hash], 2, (char*)"À´×Ô[CreateEntityIndexº¯Êý]µÄ´íÎó,³öÏÖÁËÓÄÁéÊµÌå,Ã»ÓÐºÏ·¨Ãû³Æ");
 		index = NOTFOUND;
 	}
 	return index;
 }
 
-extern int KeyState(int Key)
-{
-	static int KEYSTATEbuffer[255];
-	int state = GetAsyncKeyState(Key);
-	if (!(state & 0x8000))KEYSTATEbuffer[Key] = 0;
-	else if (KEYSTATEbuffer[Key] == 0) { KEYSTATEbuffer[Key] = 1; return 1; }
-	return 0;
-}
-
-extern void Music(LPCWSTR File)
-{
-    TCHAR cmd[255];
-    wsprintf(cmd, TEXT("open \%s\ alias music"), File);
-    mciSendString(TEXT("close music"), 0, 0, 0);
-    mciSendString(cmd, NULL, 0, NULL);
-    mciSendString(TEXT("play music"), NULL, 0, NULL);
-}
-
-extern LPCWSTR CharToLPCWSTR(char* str)
+extern const wchar_t* MoonCharToLPCWSTR(char* str)
 {
 	static wchar_t* wideStr;
 	wideStr = (wchar_t*)malloc(strlen(str) * sizeof(wchar_t));
@@ -103,24 +107,7 @@ extern LPCWSTR CharToLPCWSTR(char* str)
 	return wideStr;
 }
 
-extern void TextFont(IMAGE* image, int x, int y, LPCWSTR text, COLORREF color, BOOL back, LPCWSTR font, int sizewidth, int sizeheight, int texttilt, int fonttilt, int FW_, int underline, int deleteline, int DEFAULT_)
-{
-	if (!back)SetBkMode(image->image.hdc, TRANSPARENT);
-	HFONT hfont = CreateFont(sizeheight, sizewidth, texttilt, fonttilt, FW_, FALSE, underline, deleteline, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_, font);
-	SelectObject(image->image.hdc, hfont);
-	SetTextColor(image->image.hdc, color);
-	TextOut(image->image.hdc, x, y, text, wcslen(text));
-	HFONT hfontold = (HFONT)GetStockObject(SYSTEM_FONT);
-	SelectObject(image->image.hdc, hfontold);
-	DeleteObject(hfont);
-}
-
-extern int GetColor(IMAGE* image, int x, int y)
-{
-	return GetPixel(image->image.hdc, x, y);
-}
-
-extern int TriangleDetection(POINT a, POINT b, POINT c, POINT p)
+extern int MoonTriangleDetection(POINT a, POINT b, POINT c, POINT p)
 {
 	int d1 = (p.x - b.x) * (a.y - b.y) - (a.x - b.x) * (p.y - b.y);
 	int d2 = (p.x - c.x) * (b.y - c.y) - (b.x - c.x) * (p.y - c.y);
@@ -128,12 +115,12 @@ extern int TriangleDetection(POINT a, POINT b, POINT c, POINT p)
 	return (d1 * d2 > 0) && (d2 * d3 > 0);
 }
 
-extern void RunProgram(LPCWSTR name) 
+extern void MoonRunProgram(const wchar_t* name) 
 { 
 	ShellExecute(NULL, L"open", name, NULL, NULL, SW_SHOW); 
 }
 
-extern int ButtonInit(MOONBUTTON* button, int x, int y, int width, int height)
+extern int MoonButtonInit(MOONBUTTON* button, int x, int y, int width, int height)
 {
 	button->x = x;
 	button->y = y;
@@ -144,18 +131,18 @@ extern int ButtonInit(MOONBUTTON* button, int x, int y, int width, int height)
 	return 1;
 }
 
-extern int ButtonDetection(PROJECTGOD* project, char* name)
+extern int MoonButtonDetection(PROJECTGOD* project, char* name)
 {
 	HashFindEntity(project, name, MOONBUTTON, button);
-	if (project->entityindex[(Hash(name) % ENTITYNUMBER)].length != sizeof(MOONBUTTON))
+	if (project->entityindex[(MoonHash(name) % ENTITYNUMBER)].length != sizeof(MOONBUTTON))
 	{
-		ProjectError(button, 3, (char*)"[ButtonDetectionå‡½æ•°]é”™è¯¯!é”™è¯¯åŽŸå› :ç±»åž‹å¯¼å…¥é”™è¯¯.");
+		MoonProjectError(button, 3, (char*)"[ButtonDetectionº¯Êý]´íÎó!´íÎóÔ­Òò:ÀàÐÍµ¼Èë´íÎó.");
 		return 0;
 	}
 	HashFindEntity(project, "ProjectMouseCoord", POINT, mousecoord);
 	if (mousecoord->x > button->x && mousecoord->x < (button->x + button->width) && mousecoord->y > button->y && mousecoord->y < (button->y + button->height))
 	{
-		if (KeyState(button->triggermode))button->mode = MOON_BUTTONPRESS;
+		if (MoonKeyState(button->triggermode))button->mode = MOON_BUTTONPRESS;
 		else button->mode = MOON_BUTTONRHOVER;
 
 	}
@@ -174,21 +161,28 @@ extern int ButtonDetection(PROJECTGOD* project, char* name)
 	return 0;
 }
 
-extern int ButtonSetTriggerMode(PROJECTGOD* project,char* name,unsigned char key)
+extern int MoonButtonSetTriggerMode(PROJECTGOD* project,char* name,unsigned char key)
 {
 	HashFindEntity(project, name, MOONBUTTON, button);
-	if (project->entityindex[Hash(name)].length != sizeof(MOONBUTTON))
+	if (project->entityindex[MoonHash(name)].length != sizeof(MOONBUTTON))
 	{
-		ProjectError(button, 3, (char*)"[ButtonSetTriggerModeå‡½æ•°]é”™è¯¯!é”™è¯¯åŽŸå› :ç±»åž‹å¯¼å…¥é”™è¯¯.");
+		MoonProjectError(button, 3, (char*)"[ButtonSetTriggerModeº¯Êý]´íÎó!´íÎóÔ­Òò:ÀàÐÍµ¼Èë´íÎó.");
 		return 0;
 	}
 	button->triggermode = key;
 	return key;
 }
 
-extern int CharToWchar(wchar_t* text1, char* text2 , int len)
+extern int MoonCharToWchar(wchar_t* text1, char* text2 , int len)
 {
 	setlocale(LC_ALL, "");
 	mbstowcs(text1, text2, len);
+	return 1;
+}
+
+extern int MoonWcharToChar(char* text1, wchar_t* text2, int len)
+{
+	setlocale(LC_ALL, "");
+	wcstombs(text1, text2, len);
 	return 1;
 }
