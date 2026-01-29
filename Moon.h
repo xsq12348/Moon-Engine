@@ -91,91 +91,91 @@
 #endif
 
 /*
-Èç¹ûÄú¸ĞĞËÈ¤,»¹¿ÉÒÔ²é¿´ÁíÒ»¸ö¹¦ÄÜ¸ü¼ÓÇ¿´óµ«ÊÇÒÑ¾­ÂäºóµÄÏîÄ¿:Star,ÏîÄ¿Çë¼û:https://github.com/xsq12348/star
+å¦‚æœæ‚¨æ„Ÿå…´è¶£,è¿˜å¯ä»¥æŸ¥çœ‹å¦ä¸€ä¸ªåŠŸèƒ½æ›´åŠ å¼ºå¤§ä½†æ˜¯å·²ç»è½åçš„é¡¹ç›®:Star,é¡¹ç›®è¯·è§:https://github.com/xsq12348/star
 
-×÷Õß:xsq12348
+ä½œè€…:xsq12348
 Email:1993346266@qq.com
-´´½¨ÈÕÆÚ:2025.10.29
-°æ±¾,Èç¹ûÃ»ÓĞÈÕÆÚ,ÄÇ¾ÍÊÇÇ°Ò»¸öÈÕÆÚÒ»ÆğĞ´µÄ/If there is no date, it is written together with the previous date.
-×îºóÒ»¸öÊÇĞŞ¸ÄBUG/ÖØ¹¹º¯Êı/¸üĞÂĞ©ĞíĞ¡¹¦ÄÜ,µÚ¶ş¸öÊÇÌí¼Óº¯Êı,µÚÈı¸öÊÇÖØ¹¹,µÚËÄ¸öÊÇÕıÊ½µÄ´ó°æ±¾ºÅ
+åˆ›å»ºæ—¥æœŸ:2025.10.29
+ç‰ˆæœ¬,å¦‚æœæ²¡æœ‰æ—¥æœŸ,é‚£å°±æ˜¯å‰ä¸€ä¸ªæ—¥æœŸä¸€èµ·å†™çš„/If there is no date, it is written together with the previous date.
+æœ€åä¸€ä¸ªæ˜¯ä¿®æ”¹BUG/é‡æ„å‡½æ•°/æ›´æ–°äº›è®¸å°åŠŸèƒ½,ç¬¬äºŒä¸ªæ˜¯æ·»åŠ å‡½æ•°,ç¬¬ä¸‰ä¸ªæ˜¯é‡æ„,ç¬¬å››ä¸ªæ˜¯æ­£å¼çš„å¤§ç‰ˆæœ¬å·
 * 0.0.0.0
-* 1.0.0.0  2025.10.29  Íê³ÉÁË»ù±¾¿ò¼ÜµÄ´î½¨																		.Completed the setup of the basic framework
-* 1.0.0.1  2025.10.30  ½â¾öÁË°´¼ü¼ì²â,´°¿ÚÊäÈë,ÏûÏ¢Ñ­»·BUG,Ìí¼ÓÁËÒ»¸öÏß³ÌÓÃÀ´¼ÇÂ¼ÏîÄ¿ÔËĞĞÖĞµÄ¸÷ÖÖÊôĞÔ					.Fixed bugs with key detection, window input, and message loop, and added a thread to record various properties during project execution.
-* 1.0.0.2  2025.10.31  ½â¾öÁËÖ¡ÊıÏÔÊ¾²»³öÀ´µÄÎÊÌâ																.Fixed the issue where the frame count was not displaying.
-* 1.0.0.3  2025.11.2   ¼ÓÈëÁË¶¯»­ÏµÍ³																			.Added an animation system
-* 1.0.0.3  2025.11.3   ĞŞ¸ÄÁËÖ¡ÂÊ¿ØÖÆ²»ÎÈ¶¨µÄÎÊÌâ																.Fixed the issue of unstable frame rate control
-* 1.0.0.4              ½«¹¤¾ßº¯Êı×ªÒÆµ½ÁËĞÂµÄÎÄ¼şÀï																.Moved the utility functions to a new file
-* 1.0.0.5  2025.11.4   Ìí¼ÓÁË×Ö·ûº¯Êı																			.Added character function
-* 1.0.0.6  2025.11.5   Ìí¼ÓÁËÍ¼Æ¬Ğı×ª																			.Added image rotation
-* 1.0.0.7              Ìí¼ÓÁË»ñÈ¡ÏñËØÑÕÉ«																		.Added functionality to get pixel color
-* 1.0.0.8              ĞŞ¸´ÁËHashFindEntityµÄBUG																.Fixed the bug in HashFindEntity
-* 1.0.0.9              Ìí¼ÓÁËÈı½ÇĞÎÅö×²¼ì²â																		.Added triangle collision detection
-* 1.0.0.10             Ìí¼ÓÁËÔËĞĞÍâ²¿³ÌĞò																		.Added the ability to run external programs
-* 1.1.0.0              ÒıÇæ¼¸ºõ´î½¨Íê³É																		.The engine is almost fully built
-* 1.1.0.1  2025.11.6   ĞŞ¸´ÁËDringAreaAlphaµÄBUG																.Fixed the bug in DringAreaAlpha
-* 1.1.0.2              ¸üĞÂÁËProjectOverº¯Êı																	.Updated the ProjectOver function
-* 1.1.0.3  2025.11.7   Ìí¼ÓÁËProjectPause/ÔİÍ£º¯Êı																.Added ProjectPause function
-* 1.1.0.4              ÖØ¹¹ÁËProjectGod½á¹¹Ìå																	.Refactored the ProjectGod structure
-* 1.1.0.5              ÖØ¹¹ÁËProjectRunº¯Êı																	.Refactored the ProjectRun function
-* 1.1.0.5              ĞŞ¸´ÁËProjectPauseµÄBUG																.Fixed the bug in ProjectPause
-* 1.1.0.6              Ìí¼ÓÁËProjectFunctionSwitch/º¯ÊıÇĞ»»º¯Êı													.Added ProjectFunctionSwitch function
-* 1.1.1.0  2025.11.10  Ìí¼ÓÁËSDLÖ§³Ö																			.Added SDL support
-* 1.1.1.1  2025.11.27  ½â¾öÁËStarEngineÒ»Ö±Ã»ÓĞ½â¾öµÄ´°¿Ú½¹µãÎÊÌâ													.Resolved the window focus issue that StarEngine had never fixed
-* 1.1.3.0  2025.11.29  Ìí¼ÓÁË°´Å¥¿Ø¼ş																			.Added a button control
-* 1.1.3.1              ¸üĞÂÁËÆô¶¯Í¼°¸																			.Updated the startup pattern
-* 1.1.3.2  2025.11.29  ¸üĞÂÁËÆô¶¯Í¼°¸																			.Updated the startup pattern
-* 1.1.3.3  2025.11.30  ĞŞ¸´ÁËÄ£Ê½ÇĞ»»Ê±Ö»ÄÜÇĞ»»³õÊ¼Âß¼­º¯Êı¶ø²»ÊÇÉè¼ÆµÄÇĞ»»µ±Ç°Âß¼­º¯ÊıµÄBUG							.Fixed the bug where only the initial logic function could be switched during mode switching, instead of switching to the currently designed logic function.
-* 1.1.4.0              Ìí¼ÓÁËÊµÌåÍ³¼Æº¯Êı																		.Added ProjectFindEntityAllNumber function
-* 1.1.4.1  2025.12.1   ¸üĞÂÁË°´Å¥¿Ø¼ş,Ìí¼ÓÁË´¥·¢																	.Updated the button control and added a trigger
-* 1.1.4.2              ½«°´Å¥º¯Êı¸ü»»µ½ÁË¹¤¾ßÇø																	.Moved the button function to the toolbar
-* 1.1.5.0              Ìí¼ÓÁË´¥·¢·½Ê½º¯Êı																		.Added ButtonSetTriggerMode function
-* 1.1.5.1              Ìí¼ÓÁËPROJECTMODULEºê,ÓëPROJECTSETTING¹¦ÄÜÒ»Ñù											.Added the PROJECTMODULE macro, which functions the same as PROJECTSETTING
-* 1.1.5.2              ¸üĞÂÁËÊµÌåÏµÍ³																			.Updated the entity system
-* 1.1.6.0              ÊµÏÖÁËC++µÄÊÊÅä,Èç¹ûÒªÊ¹ÓÃC++°æ±¾µÄ,ÇëÈ·±£ÄúËùÓĞ.cµÄÎÄ¼şºó×ºÒÑ¾­¸Ä³É.cpp						.C++ adaptation has been implemented. If you want to use the C++ version, please make sure all your .c file extensions have been changed to .cpp.
-* 1.1.6.1              ĞŞ¸´ÁËProjectFindEntityAllNumberº¯ÊıµÄ¼ÆÊı´íÎó											.Fixed the counting error in the ProjectFindEntityAllNumber function
-* 1.1.6.2              ¸üĞÂÁËÊµÌåÏµÍ³,ÏÖÔÚ²»ÔÙ»áÓĞ¶ÑÕ»Òç³öµÄÎÊÌâÁË¡£
-                       ÒòÎªPROJECTGODÀïµÄENTITYINDEX entityindex[ENTITYNUMBER];±ä³ÉÁËENTITYINDEX* entityindex;.The entity system has been updated, and there will no longer be stack overflow issues because ENTITYINDEX entityindex[ENTITYNUMBER]; in PROJECTGOD has been changed to ENTITYINDEX* entityindex;
-* 1.1.6.3  2025.12.2   ĞŞ¸´ÁËÒıÇæÄÚ²¿ÊµÌåÀàĞÍ²»ÕıÈ·µÄBUG															.Fixed a bug where the internal entity type of the engine was incorrect
-* 1.1.6.4              ¸üĞÂÁËProjectFindEntityAllNumberº¯Êı,ÏÖÔÚ»á´òÓ¡¸üÏêÏ¸µÄÄÚÈİ								.Updated the ProjectFindEntityAllNumber function, it will now print more detailed informatio
-* 1.1.6.5              ½«Hash²ÛÎ»¸Ä³ÉÖÊÊı,¼õÉÙHash³åÍ»															.Change the hash slots to prime numbers to reduce hash collisions
-* 1.1.6.6  2025.12.4   ÓÅ»¯ÁËÖ÷Ïß³ÌÂß¼­																		.Optimized the main thread logic
-* 1.1.7.0              Ìí¼ÓÁË¶¯»­´´½¨º¯ÊıAnimeCreate,ÏÖÔÚ´´½¨¶¯»­²»ÔÙÊÇÊÖ¶¯µµÁË										.Added the animation creation function AnimeCreate, now creating animations is no longer done manually.
-* 1.1.8.0              AnimeCreateº¯Êı¹¦ÄÜÊµÏÖ´íÎó,Ó¦¸ÃÊµÏÖµÄÊÇImageLoadBatchº¯Êı,ÏÖÔÚ½«ÖØĞÂÊµÏÖAnimeCreateº¯Êı		.The AnimeCreate function is implemented incorrectly; it should implement the ImageLoadBatch function. The AnimeCreate function will now be re-implemented.
-* 1.1.8.1  2025.12.5   ½â¾öÁËÒıÇæÄÚ²¿µÄÒ»¸öÒşĞÔBUG,¼´ÒıÇæÄÚ²¿µÄÊôĞÔº¯Êı´íÎóµÄ±£´æÁË³õÊ¼µÄº¯Êıµ¼ÖÂµÄÎŞÂÛÈçºÎµ÷Õû,
-*                      ¶¼»á»Øµ½×î³õµÄÒıÇæ´«Èë×î³õµÄÄ£¿é,¼´ÖĞÑëÄ£¿é,ÏÖÒÑĞŞ¸´¡£
-*                      µ«ÎÒÃÇÈÔÈ»±£ÁôÁËËü,Èç¹ûÄúÏëÒªÊ¹ÓÃ,¿ÉÒÔÔÚÅäÖÃÀ¸Àï½«MOONCENTRALDISPATCHER¸Ä³É1¡£					.Fixed an internal hidden bug in the engine, where the engine's internal property function incorrectly saved the initial function, causing it to always revert to the original module passed by the engine, namely the central module, regardless of any adjustments. This has now been fixed. However, we have kept it; if you want to use it, you can change MOONCENTRALDISPATCHER to 1 in the configuration panel.
-* 1.1.8.2              Ìí¼ÓÁËº¯ÊıÇĞ»»ºê,·ÀÖ¹ÄúÒòÊÖ¶¯ÇĞ»»Ä£¿éµ¼ÖÂµÄ¶ş¼¶Ö¸ÕëÎÊÌâ										.Added a function toggle macro to prevent secondary pointer issues caused by manually switching modules.
-* 1.1.8.3              ½â¾öÁËÊó±ê×ø±ê×ÜÊÇ²»ÎÈ¶¨µÄÎÊÌâ																.Resolved the issue of the mouse coordinates being unstable.
-* 1.1.8.4              ĞŞ¸´ÁË°´Å¥ÏµÍ³µÄ¿Õ»Øµ÷º¯ÊıÖ¸ÕëBUG															.Fixed the bug of null callback function pointer in the button system
-* 1.1.8.5  2025.12.6   ¸üĞÂÁË°´Å¥ÏµÍ³,ĞŞ¸´ÁËÒ»Ğ©BUG																.Updated the button system and fixed some bugs
-* 1.1.8.6              ĞŞ¸´ÁËMOONCENTRALDISPATCHERµÄ±ÊÎó														.Fixed a typo in MOONCENTRALDISPATCHER
-* 1.1.8.7  2025.12.9   ĞŞ¸´ÁËButtonDetectionº¯ÊıÒòÎªÍü¼ÇÈ¡Ä£Ôì³ÉµÄHashÒç³öÊ±µÄBUG									.Fixed a bug in the ButtonDetection function where forgetting to use the modulo caused a hash overflow
-* 1.1.9.0  2025.12.10  Ìí¼ÓÁË×Ö·û×ª»»º¯ÊıCharToWchar															.Added character conversion function CharToWchar
-* 1.1.9.1  2026.1.14   Ìí¼ÓÁË¿ª·¢Õß¿ØÖÆÌ¨µ÷¿ØÄ£Ê½																.Added developer console control mode
+* 1.0.0.0  2025.10.29  å®Œæˆäº†åŸºæœ¬æ¡†æ¶çš„æ­å»º																		.Completed the setup of the basic framework
+* 1.0.0.1  2025.10.30  è§£å†³äº†æŒ‰é”®æ£€æµ‹,çª—å£è¾“å…¥,æ¶ˆæ¯å¾ªç¯BUG,æ·»åŠ äº†ä¸€ä¸ªçº¿ç¨‹ç”¨æ¥è®°å½•é¡¹ç›®è¿è¡Œä¸­çš„å„ç§å±æ€§					.Fixed bugs with key detection, window input, and message loop, and added a thread to record various properties during project execution.
+* 1.0.0.2  2025.10.31  è§£å†³äº†å¸§æ•°æ˜¾ç¤ºä¸å‡ºæ¥çš„é—®é¢˜																.Fixed the issue where the frame count was not displaying.
+* 1.0.0.3  2025.11.2   åŠ å…¥äº†åŠ¨ç”»ç³»ç»Ÿ																			.Added an animation system
+* 1.0.0.3  2025.11.3   ä¿®æ”¹äº†å¸§ç‡æ§åˆ¶ä¸ç¨³å®šçš„é—®é¢˜																.Fixed the issue of unstable frame rate control
+* 1.0.0.4              å°†å·¥å…·å‡½æ•°è½¬ç§»åˆ°äº†æ–°çš„æ–‡ä»¶é‡Œ																.Moved the utility functions to a new file
+* 1.0.0.5  2025.11.4   æ·»åŠ äº†å­—ç¬¦å‡½æ•°																			.Added character function
+* 1.0.0.6  2025.11.5   æ·»åŠ äº†å›¾ç‰‡æ—‹è½¬																			.Added image rotation
+* 1.0.0.7              æ·»åŠ äº†è·å–åƒç´ é¢œè‰²																		.Added functionality to get pixel color
+* 1.0.0.8              ä¿®å¤äº†HashFindEntityçš„BUG																.Fixed the bug in HashFindEntity
+* 1.0.0.9              æ·»åŠ äº†ä¸‰è§’å½¢ç¢°æ’æ£€æµ‹																		.Added triangle collision detection
+* 1.0.0.10             æ·»åŠ äº†è¿è¡Œå¤–éƒ¨ç¨‹åº																		.Added the ability to run external programs
+* 1.1.0.0              å¼•æ“å‡ ä¹æ­å»ºå®Œæˆ																		.The engine is almost fully built
+* 1.1.0.1  2025.11.6   ä¿®å¤äº†DringAreaAlphaçš„BUG																.Fixed the bug in DringAreaAlpha
+* 1.1.0.2              æ›´æ–°äº†ProjectOverå‡½æ•°																	.Updated the ProjectOver function
+* 1.1.0.3  2025.11.7   æ·»åŠ äº†ProjectPause/æš‚åœå‡½æ•°																.Added ProjectPause function
+* 1.1.0.4              é‡æ„äº†ProjectGodç»“æ„ä½“																	.Refactored the ProjectGod structure
+* 1.1.0.5              é‡æ„äº†ProjectRunå‡½æ•°																	.Refactored the ProjectRun function
+* 1.1.0.5              ä¿®å¤äº†ProjectPauseçš„BUG																.Fixed the bug in ProjectPause
+* 1.1.0.6              æ·»åŠ äº†ProjectFunctionSwitch/å‡½æ•°åˆ‡æ¢å‡½æ•°													.Added ProjectFunctionSwitch function
+* 1.1.1.0  2025.11.10  æ·»åŠ äº†SDLæ”¯æŒ																			.Added SDL support
+* 1.1.1.1  2025.11.27  è§£å†³äº†StarEngineä¸€ç›´æ²¡æœ‰è§£å†³çš„çª—å£ç„¦ç‚¹é—®é¢˜													.Resolved the window focus issue that StarEngine had never fixed
+* 1.1.3.0  2025.11.29  æ·»åŠ äº†æŒ‰é’®æ§ä»¶																			.Added a button control
+* 1.1.3.1              æ›´æ–°äº†å¯åŠ¨å›¾æ¡ˆ																			.Updated the startup pattern
+* 1.1.3.2  2025.11.29  æ›´æ–°äº†å¯åŠ¨å›¾æ¡ˆ																			.Updated the startup pattern
+* 1.1.3.3  2025.11.30  ä¿®å¤äº†æ¨¡å¼åˆ‡æ¢æ—¶åªèƒ½åˆ‡æ¢åˆå§‹é€»è¾‘å‡½æ•°è€Œä¸æ˜¯è®¾è®¡çš„åˆ‡æ¢å½“å‰é€»è¾‘å‡½æ•°çš„BUG							.Fixed the bug where only the initial logic function could be switched during mode switching, instead of switching to the currently designed logic function.
+* 1.1.4.0              æ·»åŠ äº†å®ä½“ç»Ÿè®¡å‡½æ•°																		.Added ProjectFindEntityAllNumber function
+* 1.1.4.1  2025.12.1   æ›´æ–°äº†æŒ‰é’®æ§ä»¶,æ·»åŠ äº†è§¦å‘																	.Updated the button control and added a trigger
+* 1.1.4.2              å°†æŒ‰é’®å‡½æ•°æ›´æ¢åˆ°äº†å·¥å…·åŒº																	.Moved the button function to the toolbar
+* 1.1.5.0              æ·»åŠ äº†è§¦å‘æ–¹å¼å‡½æ•°																		.Added ButtonSetTriggerMode function
+* 1.1.5.1              æ·»åŠ äº†PROJECTMODULEå®,ä¸PROJECTSETTINGåŠŸèƒ½ä¸€æ ·											.Added the PROJECTMODULE macro, which functions the same as PROJECTSETTING
+* 1.1.5.2              æ›´æ–°äº†å®ä½“ç³»ç»Ÿ																			.Updated the entity system
+* 1.1.6.0              å®ç°äº†C++çš„é€‚é…,å¦‚æœè¦ä½¿ç”¨C++ç‰ˆæœ¬çš„,è¯·ç¡®ä¿æ‚¨æ‰€æœ‰.cçš„æ–‡ä»¶åç¼€å·²ç»æ”¹æˆ.cpp						.C++ adaptation has been implemented. If you want to use the C++ version, please make sure all your .c file extensions have been changed to .cpp.
+* 1.1.6.1              ä¿®å¤äº†ProjectFindEntityAllNumberå‡½æ•°çš„è®¡æ•°é”™è¯¯											.Fixed the counting error in the ProjectFindEntityAllNumber function
+* 1.1.6.2              æ›´æ–°äº†å®ä½“ç³»ç»Ÿ,ç°åœ¨ä¸å†ä¼šæœ‰å †æ ˆæº¢å‡ºçš„é—®é¢˜äº†ã€‚
+                       å› ä¸ºPROJECTGODé‡Œçš„ENTITYINDEX entityindex[ENTITYNUMBER];å˜æˆäº†ENTITYINDEX* entityindex;.The entity system has been updated, and there will no longer be stack overflow issues because ENTITYINDEX entityindex[ENTITYNUMBER]; in PROJECTGOD has been changed to ENTITYINDEX* entityindex;
+* 1.1.6.3  2025.12.2   ä¿®å¤äº†å¼•æ“å†…éƒ¨å®ä½“ç±»å‹ä¸æ­£ç¡®çš„BUG															.Fixed a bug where the internal entity type of the engine was incorrect
+* 1.1.6.4              æ›´æ–°äº†ProjectFindEntityAllNumberå‡½æ•°,ç°åœ¨ä¼šæ‰“å°æ›´è¯¦ç»†çš„å†…å®¹								.Updated the ProjectFindEntityAllNumber function, it will now print more detailed informatio
+* 1.1.6.5              å°†Hashæ§½ä½æ”¹æˆè´¨æ•°,å‡å°‘Hashå†²çª															.Change the hash slots to prime numbers to reduce hash collisions
+* 1.1.6.6  2025.12.4   ä¼˜åŒ–äº†ä¸»çº¿ç¨‹é€»è¾‘																		.Optimized the main thread logic
+* 1.1.7.0              æ·»åŠ äº†åŠ¨ç”»åˆ›å»ºå‡½æ•°AnimeCreate,ç°åœ¨åˆ›å»ºåŠ¨ç”»ä¸å†æ˜¯æ‰‹åŠ¨æ¡£äº†										.Added the animation creation function AnimeCreate, now creating animations is no longer done manually.
+* 1.1.8.0              AnimeCreateå‡½æ•°åŠŸèƒ½å®ç°é”™è¯¯,åº”è¯¥å®ç°çš„æ˜¯ImageLoadBatchå‡½æ•°,ç°åœ¨å°†é‡æ–°å®ç°AnimeCreateå‡½æ•°		.The AnimeCreate function is implemented incorrectly; it should implement the ImageLoadBatch function. The AnimeCreate function will now be re-implemented.
+* 1.1.8.1  2025.12.5   è§£å†³äº†å¼•æ“å†…éƒ¨çš„ä¸€ä¸ªéšæ€§BUG,å³å¼•æ“å†…éƒ¨çš„å±æ€§å‡½æ•°é”™è¯¯çš„ä¿å­˜äº†åˆå§‹çš„å‡½æ•°å¯¼è‡´çš„æ— è®ºå¦‚ä½•è°ƒæ•´,
+*                      éƒ½ä¼šå›åˆ°æœ€åˆçš„å¼•æ“ä¼ å…¥æœ€åˆçš„æ¨¡å—,å³ä¸­å¤®æ¨¡å—,ç°å·²ä¿®å¤ã€‚
+*                      ä½†æˆ‘ä»¬ä»ç„¶ä¿ç•™äº†å®ƒ,å¦‚æœæ‚¨æƒ³è¦ä½¿ç”¨,å¯ä»¥åœ¨é…ç½®æ é‡Œå°†MOONCENTRALDISPATCHERæ”¹æˆ1ã€‚					.Fixed an internal hidden bug in the engine, where the engine's internal property function incorrectly saved the initial function, causing it to always revert to the original module passed by the engine, namely the central module, regardless of any adjustments. This has now been fixed. However, we have kept it; if you want to use it, you can change MOONCENTRALDISPATCHER to 1 in the configuration panel.
+* 1.1.8.2              æ·»åŠ äº†å‡½æ•°åˆ‡æ¢å®,é˜²æ­¢æ‚¨å› æ‰‹åŠ¨åˆ‡æ¢æ¨¡å—å¯¼è‡´çš„äºŒçº§æŒ‡é’ˆé—®é¢˜										.Added a function toggle macro to prevent secondary pointer issues caused by manually switching modules.
+* 1.1.8.3              è§£å†³äº†é¼ æ ‡åæ ‡æ€»æ˜¯ä¸ç¨³å®šçš„é—®é¢˜																.Resolved the issue of the mouse coordinates being unstable.
+* 1.1.8.4              ä¿®å¤äº†æŒ‰é’®ç³»ç»Ÿçš„ç©ºå›è°ƒå‡½æ•°æŒ‡é’ˆBUG															.Fixed the bug of null callback function pointer in the button system
+* 1.1.8.5  2025.12.6   æ›´æ–°äº†æŒ‰é’®ç³»ç»Ÿ,ä¿®å¤äº†ä¸€äº›BUG																.Updated the button system and fixed some bugs
+* 1.1.8.6              ä¿®å¤äº†MOONCENTRALDISPATCHERçš„ç¬”è¯¯														.Fixed a typo in MOONCENTRALDISPATCHER
+* 1.1.8.7  2025.12.9   ä¿®å¤äº†ButtonDetectionå‡½æ•°å› ä¸ºå¿˜è®°å–æ¨¡é€ æˆçš„Hashæº¢å‡ºæ—¶çš„BUG									.Fixed a bug in the ButtonDetection function where forgetting to use the modulo caused a hash overflow
+* 1.1.9.0  2025.12.10  æ·»åŠ äº†å­—ç¬¦è½¬æ¢å‡½æ•°CharToWchar															.Added character conversion function CharToWchar
+* 1.1.9.1  2026.1.14   æ·»åŠ äº†å¼€å‘è€…æ§åˆ¶å°è°ƒæ§æ¨¡å¼																.Added developer console control mode
 * 1.2.0.0  2026.1.23   
-*                      1.¸ü»»ÁËAPIµÄÃû³Æ,Èç¹ûĞèÒª¼ÌĞøÊ¹ÓÃ¾ÉAPI,Çëµ¼ÈëMoon_Compatible_Function.c²¢ÇÒ°ÑMOONCOMPATIBLEÅäÖÃ´ò¿ª
-*                      2.ÕıÔÚÖğ²½Ìí¼ÓSDLÖ§³Ö
-*                      3.É¾³ıÁËMOONCENTRALDISPATCHERÅäÖÃÑ¡Ïî
-*                      4.»ù±¾Íê³ÉÒıÇæºËĞÄº¯ÊıµÄSDLÖØĞ´
+*                      1.æ›´æ¢äº†APIçš„åç§°,å¦‚æœéœ€è¦ç»§ç»­ä½¿ç”¨æ—§API,è¯·å¯¼å…¥Moon_Compatible_Function.cå¹¶ä¸”æŠŠMOONCOMPATIBLEé…ç½®æ‰“å¼€
+*                      2.æ­£åœ¨é€æ­¥æ·»åŠ SDLæ”¯æŒ
+*                      3.åˆ é™¤äº†MOONCENTRALDISPATCHERé…ç½®é€‰é¡¹
+*                      4.åŸºæœ¬å®Œæˆå¼•æ“æ ¸å¿ƒå‡½æ•°çš„SDLé‡å†™
 * 
 * 1.2.0.1  2026.1.24   
-*                      1.Íê³ÉÁËSDLÏÂÒıÇæÔ­±¾¾ÍÓĞĞİÃßÄ£Ê½¹¦ÄÜµÄÖØĞ´
-*                      2.½â¾öÁËSDLµÄÏûÏ¢¶ÓÁĞ
-* 1.2.0.2              ½â¾öÁËSDLÏÂÊó±ê×ø±êµÄÎÊÌâ
-* 1.2.0.3  2026.1.25   1.ÖØ¹¹ÁË»æÍ¼Âß¼­,½«»æÍ¼Âß¼­¸Äµ½µ¥¶ÀµÄÏß³ÌÖĞ,ÊôĞÔÏß³ÌÂß¼­ÒÆµ½ÁËÖ÷Ïß³Ì
-*                      2.ÒÑ²âÊÔÖØ¹¹ºóµÄGDI²¿·Ö,ºÍÔ­À´µÄĞ§¹ûÏàÍ¬
-* 1.2.0.4  2026.1.26   ½â¾öÁËÎÆÀí´´½¨Ê§°ÜµÄÎÊÌâ
-* 1.2.0.5  2026.1.27   ½â¾öÁËSDL¾ØĞÎ»æÖÆ²»ÁËµÄÎÊÌâ,Ô­ÒòÊÇ²ÎÊıSDL_Rect¸Ä³ÉÁËSDL_FRect
-* 1.2.0.6              ¸üĞÂÁËMoonSetDrawImageº¯Êı
-* 1.2.0.7  2026.1.28   ÕıÔÚ²âÊÔDrawingAreaÏµÁĞº¯Êı
-*                      1.MoonDrawingArea      ÒÑÍ¨¹ı
-*                      2.MoonDrawingAreaRound ÒÑÍ¨¹ı
-* 1.2.0.8  2026.1.29   1.MoonDrawingAreaAlpha ÒÑÍ¨¹ı
-*                      2.ĞŞ¸´ÁËMoonDrawingAreaRoundµÄÃªµãĞı×ª,±£³ÖºÍGDI°æ±¾¹¦ÄÜµÄÏàÍ¬
-*                      3.¶¯»­ÏµÍ³²âÊÔÍê³É
+*                      1.å®Œæˆäº†SDLä¸‹å¼•æ“åŸæœ¬å°±æœ‰ä¼‘çœ æ¨¡å¼åŠŸèƒ½çš„é‡å†™
+*                      2.è§£å†³äº†SDLçš„æ¶ˆæ¯é˜Ÿåˆ—
+* 1.2.0.2              è§£å†³äº†SDLä¸‹é¼ æ ‡åæ ‡çš„é—®é¢˜
+* 1.2.0.3  2026.1.25   1.é‡æ„äº†ç»˜å›¾é€»è¾‘,å°†ç»˜å›¾é€»è¾‘æ”¹åˆ°å•ç‹¬çš„çº¿ç¨‹ä¸­,å±æ€§çº¿ç¨‹é€»è¾‘ç§»åˆ°äº†ä¸»çº¿ç¨‹
+*                      2.å·²æµ‹è¯•é‡æ„åçš„GDIéƒ¨åˆ†,å’ŒåŸæ¥çš„æ•ˆæœç›¸åŒ
+* 1.2.0.4  2026.1.26   è§£å†³äº†çº¹ç†åˆ›å»ºå¤±è´¥çš„é—®é¢˜
+* 1.2.0.5  2026.1.27   è§£å†³äº†SDLçŸ©å½¢ç»˜åˆ¶ä¸äº†çš„é—®é¢˜,åŸå› æ˜¯å‚æ•°SDL_Rectæ”¹æˆäº†SDL_FRect
+* 1.2.0.6              æ›´æ–°äº†MoonSetDrawImageå‡½æ•°
+* 1.2.0.7  2026.1.28   æ­£åœ¨æµ‹è¯•DrawingAreaç³»åˆ—å‡½æ•°
+*                      1.MoonDrawingArea      å·²é€šè¿‡
+*                      2.MoonDrawingAreaRound å·²é€šè¿‡
+* 1.2.0.8  2026.1.29   1.MoonDrawingAreaAlpha å·²é€šè¿‡
+*                      2.ä¿®å¤äº†MoonDrawingAreaRoundçš„é”šç‚¹æ—‹è½¬,ä¿æŒå’ŒGDIç‰ˆæœ¬åŠŸèƒ½çš„ç›¸åŒ
+*                      3.åŠ¨ç”»ç³»ç»Ÿæµ‹è¯•å®Œæˆ
 */
 
-//´´½¨Ïß³Ìº¯Êı¹Ø¼ü×Ö
+//åˆ›å»ºçº¿ç¨‹å‡½æ•°å…³é”®å­—
 typedef DWORD THREAD;
 
 #if OPEN_SDL
@@ -185,7 +185,7 @@ typedef SDL_FRect MOON_SDL_RECT;
 
 #endif
 
-//¶¨Ê±Æ÷
+//å®šæ—¶å™¨
 typedef struct
 {
 	int time1;
@@ -193,32 +193,32 @@ typedef struct
 	int timeload;
 	BOOL timeswitch;
 }TIMELOAD;
-//¶ÔÏó
+//å¯¹è±¡
 typedef struct
 {
 	char* nameid;
 	int length;
 	void* entityindex;
-}ENTITYINDEX;																																		//ÊµÌå
+}ENTITYINDEX;																																		//å®ä½“
 typedef struct PROJECTGOD
 {
-	const wchar_t* project_name;		//Ãû×Ö
+	const wchar_t* project_name;		//åå­—
 #if !OPEN_SDL
-	HWND hwnd;					//´°¿Ú¾ä±ú
+	HWND hwnd;					//çª—å£å¥æŸ„
 #else
-	SDL_Window* hwnd_sdl;		//´°¿Ú¾ä±ú
+	SDL_Window* hwnd_sdl;		//çª—å£å¥æŸ„
 #endif
-	int window_coord_x;			//Ë®Æ½×ø±ê
-	int window_coord_y;			//´¹Ö±×ø±ê
-	int window_width;			//¿í¶È
-	int window_height;			//¸ß¶È
-	char DEAD;					//ÏîÄ¿×´Ì¬
-	char Power;					//¸ßĞÔÄÜÄ£Ê½
-	ENTITYINDEX* entityindex;	//¶ÔÏó³Ø×¢²á±í
-	TIMELOAD timeload;			//¼ÆÊ±Æ÷
-	int(*Logic)(struct PROJECTGOD*);		//¶àÏß³ÌÂß¼­º¯Êı
-	int(*Drawing)(struct PROJECTGOD*);		//Ö÷Ïß³Ì»æÍ¼º¯Êı
-	int(*developerconsole)(struct PROJECTGOD*);	//¿ª·¢Õß¿ØÖÆÌ¨,°´ÏÂ²¨ÀËºÅ½øÈë
+	int window_coord_x;			//æ°´å¹³åæ ‡
+	int window_coord_y;			//å‚ç›´åæ ‡
+	int window_width;			//å®½åº¦
+	int window_height;			//é«˜åº¦
+	char DEAD;					//é¡¹ç›®çŠ¶æ€
+	char Power;					//é«˜æ€§èƒ½æ¨¡å¼
+	ENTITYINDEX* entityindex;	//å¯¹è±¡æ± æ³¨å†Œè¡¨
+	TIMELOAD timeload;			//è®¡æ—¶å™¨
+	int(*Logic)(struct PROJECTGOD*);		//å¤šçº¿ç¨‹é€»è¾‘å‡½æ•°
+	int(*Drawing)(struct PROJECTGOD*);		//ä¸»çº¿ç¨‹ç»˜å›¾å‡½æ•°
+	int(*developerconsole)(struct PROJECTGOD*);	//å¼€å‘è€…æ§åˆ¶å°,æŒ‰ä¸‹æ³¢æµªå·è¿›å…¥
 
 #if OPEN_SDL
 
@@ -226,15 +226,15 @@ typedef struct PROJECTGOD
 
 #endif
 
-}PROJECTGOD;																															//ÏîÄ¿½á¹¹ÌåÖĞĞÄ
-//µã½á¹¹Ìå
+}PROJECTGOD;																															//é¡¹ç›®ç»“æ„ä½“ä¸­å¿ƒ
+//ç‚¹ç»“æ„ä½“
 typedef struct
 {
 	float x;
 	float y;
 	float z;
 }POINT3D;
-//Ë«»º³å»æÍ¼
+//åŒç¼“å†²ç»˜å›¾
 typedef struct
 {
 	HDC hdc;
@@ -248,85 +248,85 @@ typedef struct
 typedef struct 
 {
 	SDL_Texture* bitmapgpu;
-	int width;//ÎïÀí³ß´ç
+	int width;//ç‰©ç†å°ºå¯¸
 	int height;
 } DOUBLEBUFFER_SDL;
 
 #endif
 
-//Í¼Æ¬
+//å›¾ç‰‡
 typedef struct
 {
-	POINT lengths;				//Âß¼­³ß´ç
+	POINT lengths;				//é€»è¾‘å°ºå¯¸
 #if OPEN_SDL
-	DOUBLEBUFFER_SDL image;			//Í¼Æ¬
+	DOUBLEBUFFER_SDL image;			//å›¾ç‰‡
 #else
-	DOUBLEBUFFER image;			//Í¼Æ¬
+	DOUBLEBUFFER image;			//å›¾ç‰‡
 #endif
 }IMAGE;
-//¶¯»­½á¹¹Ìå
+//åŠ¨ç”»ç»“æ„ä½“
 typedef struct
 {
 	LPCSTR Name;
-	IMAGE* sequenceframes;		//ĞòÁĞÖ¡Êı×é
-	long long int number;		//µ±Ç°ĞòÁĞÖ¡
-	int totalnumber;			//ĞòÁĞÖ¡×ÜÊı
-	BOOL animeswitch;			//¶¯»­¶¯»­²¥·Å¿ª¹Ø
-	TIMELOAD timeload;			//¶¨Ê±Æ÷
+	IMAGE* sequenceframes;		//åºåˆ—å¸§æ•°ç»„
+	long long int number;		//å½“å‰åºåˆ—å¸§
+	int totalnumber;			//åºåˆ—å¸§æ€»æ•°
+	BOOL animeswitch;			//åŠ¨ç”»åŠ¨ç”»æ’­æ”¾å¼€å…³
+	TIMELOAD timeload;			//å®šæ—¶å™¨
 }ANIME;
 
-//-------------------------------------------------------------------------------------------»ù´¡¹¤¾ßº¯Êı-----------------------------------------------------------------------------//
+//-------------------------------------------------------------------------------------------åŸºç¡€å·¥å…·å‡½æ•°-----------------------------------------------------------------------------//
 
 extern unsigned int MoonHash(char* text);
-#define DegRad(phi) (Pi * (phi) * 1.f / 180.f)																															//½Ç¶È×ª»¡¶È
-extern int MoonKeyState(int Key);																																		//»ñÈ¡°´¼üµÄÖµ
-#define Lerp(alpha, beta, t) ((1.f - (t)) * (alpha) + (t) * (beta))																										//ÏßĞÔ²åÖµ
-#define RANGE(alpha, alpha_min, alpha_max) (min(max(alpha,alpha_min),alpha_max))																						//ÏŞÖÆ·¶Î§
-#define SETMOUSECOORD( X, Y) SetCursorPos(X, Y)																															//ÉèÖÃÊó±êÎ»ÖÃ
-#define Random(A, B) (rand() % (B - A) + A)																																//Ëæ»úÊı»ñÈ¡
-extern void MoonMusic(const wchar_t* File);																																//²¥·ÅÒôÀÖ
-#define CMD(YES_OR_ON) ShowWindow(GetConsoleWindow(), YES_OR_ON? SW_SHOW : SW_HIDE)																						//¿ª¹Ø¿ØÖÆÌ¨
-extern int MoonGetColor(IMAGE* image, int x, int y);																													//»ñÈ¡ÏñËØÑÕÉ«
-extern int MoonTriangleDetection(POINT a, POINT b, POINT c, POINT p);																									//Èı½ÇĞÎÅö×²¼ì²â
-extern void MoonRunProgram(const wchar_t* name);																														//ÔËĞĞÍâ²¿³ÌĞò
+#define DegRad(phi) (Pi * (phi) * 1.f / 180.f)																															//è§’åº¦è½¬å¼§åº¦
+extern int MoonKeyState(int Key);																																		//è·å–æŒ‰é”®çš„å€¼
+#define Lerp(alpha, beta, t) ((1.f - (t)) * (alpha) + (t) * (beta))																										//çº¿æ€§æ’å€¼
+#define RANGE(alpha, alpha_min, alpha_max) (min(max(alpha,alpha_min),alpha_max))																						//é™åˆ¶èŒƒå›´
+#define SETMOUSECOORD( X, Y) SetCursorPos(X, Y)																															//è®¾ç½®é¼ æ ‡ä½ç½®
+#define Random(A, B) (rand() % (B - A) + A)																																//éšæœºæ•°è·å–
+extern void MoonMusic(const wchar_t* File);																																//æ’­æ”¾éŸ³ä¹
+#define CMD(YES_OR_ON) ShowWindow(GetConsoleWindow(), YES_OR_ON? SW_SHOW : SW_HIDE)																						//å¼€å…³æ§åˆ¶å°
+extern int MoonGetColor(IMAGE* image, int x, int y);																													//è·å–åƒç´ é¢œè‰²
+extern int MoonTriangleDetection(POINT a, POINT b, POINT c, POINT p);																									//ä¸‰è§’å½¢ç¢°æ’æ£€æµ‹
+extern void MoonRunProgram(const wchar_t* name);																														//è¿è¡Œå¤–éƒ¨ç¨‹åº
 
-//------------------------------------¶¨Ê±º¯Êı--------------------------------------------------//
+//------------------------------------å®šæ—¶å‡½æ•°--------------------------------------------------//
 
-extern void MoonTimeLoadInit(TIMELOAD* Timeload, int load);																												//³õÊ¼»¯¶¨Ê±Æ÷
-extern int MoonTimeLoad(TIMELOAD* Timeload, int mode);																													//ÔËĞĞ¶¨Ê±Æ÷
-extern int MoonSleep(int timeload);																																		//ÔİÍ£
+extern void MoonTimeLoadInit(TIMELOAD* Timeload, int load);																												//åˆå§‹åŒ–å®šæ—¶å™¨
+extern int MoonTimeLoad(TIMELOAD* Timeload, int mode);																													//è¿è¡Œå®šæ—¶å™¨
+extern int MoonSleep(int timeload);																																		//æš‚åœ
 
-//------------------------------------ÊµÌåº¯Êı--------------------------------------------------//
+//------------------------------------å®ä½“å‡½æ•°--------------------------------------------------//
 
-extern void* MoonFindEntity(PROJECTGOD* project, char* nameid);																											//Ñ°ÕÒÊµÌå
-#define HashFindEntity(projectgod, nameid, type, entity) type* entity = (type*)MoonFindEntity(projectgod, (char*)nameid)												//hashÑ°ÕÒÊµÌå
-extern int MoonCreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid, int length);																		//×¢²áÊµÌå
+extern void* MoonFindEntity(PROJECTGOD* project, char* nameid);																											//å¯»æ‰¾å®ä½“
+#define HashFindEntity(projectgod, nameid, type, entity) type* entity = (type*)MoonFindEntity(projectgod, (char*)nameid)												//hashå¯»æ‰¾å®ä½“
+extern int MoonCreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid, int length);																		//æ³¨å†Œå®ä½“
 
-//------------------------------------Ë«»º³åº¯Êı------------------------------------------------//
+//------------------------------------åŒç¼“å†²å‡½æ•°------------------------------------------------//
 
-extern void MoonCreateImage(PROJECTGOD* project, IMAGE* image, int bmpwidth, int bmpheight);																			//´´½¨Ë«»º³å»æÍ¼»æÍ¼Çø
-extern void MoonDeletImage(IMAGE* image);																																//É¾³ıË«»º³å»æÍ¼»æÍ¼Çø
+extern void MoonCreateImage(PROJECTGOD* project, IMAGE* image, int bmpwidth, int bmpheight);																			//åˆ›å»ºåŒç¼“å†²ç»˜å›¾ç»˜å›¾åŒº
+extern void MoonDeletImage(IMAGE* image);																																//åˆ é™¤åŒç¼“å†²ç»˜å›¾ç»˜å›¾åŒº
 
-//------------------------------------¶àÏß³Ìº¯Êı------------------------------------------------//
+//------------------------------------å¤šçº¿ç¨‹å‡½æ•°------------------------------------------------//
 
-#define CREATETHREADFUNCTION(NAME)       THREAD NAME(LPARAM lparam)																										//´´½¨¶àÏß³Ìº¯Êı
-#define CREATETHREAD(fuction,resource)   CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)fuction, (LPVOID)resource, 0, NULL);												//´´½¨²¢ÔËĞĞ¶àÏß³Ìº¯Êı
-#define GETTHREADRESOURCE(type,resource) type resource = (type)lparam;																									//»ñÈ¡Íâ²¿µ¼ÈëµÄ×ÊÔ´
+#define CREATETHREADFUNCTION(NAME)       THREAD NAME(LPARAM lparam)																										//åˆ›å»ºå¤šçº¿ç¨‹å‡½æ•°
+#define CREATETHREAD(fuction,resource)   CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)fuction, (LPVOID)resource, 0, NULL);												//åˆ›å»ºå¹¶è¿è¡Œå¤šçº¿ç¨‹å‡½æ•°
+#define GETTHREADRESOURCE(type,resource) type resource = (type)lparam;																									//è·å–å¤–éƒ¨å¯¼å…¥çš„èµ„æº
 
-//------------------------------------×Ö·ûº¯Êı------------------------------------------------//
+//------------------------------------å­—ç¬¦å‡½æ•°------------------------------------------------//
 
-extern const wchar_t* MoonCharToLPCWSTR(char* str);																														//×Ö·û×ª»»
-extern int MoonCharToWchar(wchar_t* text1, char* text2, int len);																										//×Ö·û×ª»»
-extern int MoonWcharToChar(char* text1, wchar_t* text2, int len);																										//×Ö·û×ª»»
+extern const wchar_t* MoonCharToLPCWSTR(char* str);																														//å­—ç¬¦è½¬æ¢
+extern int MoonCharToWchar(wchar_t* text1, char* text2, int len);																										//å­—ç¬¦è½¬æ¢
+extern int MoonWcharToChar(char* text1, wchar_t* text2, int len);																										//å­—ç¬¦è½¬æ¢
 
-extern void MoonTextFont(IMAGE* image, int x, int y, const wchar_t* text, COLORREF color, BOOL back, const wchar_t* font, int sizewidth, int sizeheight, int texttilt, int fonttilt, int FW_, int underline, int deleteline, int DEFAULT_);	//ÏÔÊ¾×Ö·û
+extern void MoonTextFont(IMAGE* image, int x, int y, const wchar_t* text, COLORREF color, BOOL back, const wchar_t* font, int sizewidth, int sizeheight, int texttilt, int fonttilt, int FW_, int underline, int deleteline, int DEFAULT_);	//æ˜¾ç¤ºå­—ç¬¦
 
-//------------------------------------°´Å¥¿Ø¼ş------------------------------------------------//
+//------------------------------------æŒ‰é’®æ§ä»¶------------------------------------------------//
 
 enum
 {
-	MOON_BUTTONPRESS = 1,																																				//°´ÏÂ
-	MOON_BUTTONRHOVER,																																					//ĞüÍ£
+	MOON_BUTTONPRESS = 1,																																				//æŒ‰ä¸‹
+	MOON_BUTTONRHOVER,																																					//æ‚¬åœ
 };
 
 typedef struct MOONBUTTON
@@ -338,14 +338,14 @@ typedef struct MOONBUTTON
 	int height;
 	char mode;
 	unsigned char triggermode;
-	int (*ButtonModePress)   (PROJECTGOD* project, struct MOONBUTTON* buton);	//°´ÏÂ
-	int (*ButtonModeRelease) (PROJECTGOD* project, struct MOONBUTTON* buton);	//ËÉ¿ª
-	int (*ButtonModeHover)   (PROJECTGOD* project, struct MOONBUTTON* buton);	//ĞüÍ£
+	int (*ButtonModePress)   (PROJECTGOD* project, struct MOONBUTTON* buton);	//æŒ‰ä¸‹
+	int (*ButtonModeRelease) (PROJECTGOD* project, struct MOONBUTTON* buton);	//æ¾å¼€
+	int (*ButtonModeHover)   (PROJECTGOD* project, struct MOONBUTTON* buton);	//æ‚¬åœ
 }MOONBUTTON;
 
-extern int MoonButtonInit(MOONBUTTON* button, int x, int y, int width, int height);																							//³õÊ¼»¯°´Å¥
-extern int MoonButtonDetection(PROJECTGOD* project, char* name);																											//¼ì²â°´Å¥Trigger
-extern int MoonButtonSetTriggerMode(PROJECTGOD* project, char* name, unsigned char key);																					//¸ü¸Ä´¥·¢·½Ê½
+extern int MoonButtonInit(MOONBUTTON* button, int x, int y, int width, int height);																							//åˆå§‹åŒ–æŒ‰é’®
+extern int MoonButtonDetection(PROJECTGOD* project, char* name);																											//æ£€æµ‹æŒ‰é’®Trigger
+extern int MoonButtonSetTriggerMode(PROJECTGOD* project, char* name, unsigned char key);																					//æ›´æ”¹è§¦å‘æ–¹å¼
 
 #define MOONBUTTONCREATE(project, name, button, x, y, width, height, Press, Release, Hover) \
 MoonButtonInit(&button,(x), (y), (width), (height));                                        \
@@ -355,56 +355,56 @@ button.ButtonModeRelease = Release;                                             
 strcpy(button.nameid , name);                                                               \
 MoonCreateEntityIndex(project, &button, (char*)name, sizeof(MOONBUTTON));
 
-//-------------------------------------------------------------------------------------------Windowsº¯Êı----------------------------------------------------------------------------//
+//-------------------------------------------------------------------------------------------Windowså‡½æ•°----------------------------------------------------------------------------//
 
-extern HWND MoonWindow(const wchar_t* name,int window_coord_x, int window_coord_y, int window_width, int window_height);													//´´½¨´°¿Ú
-extern void MoonRunWindow();																																				//´°¿ÚÏûÏ¢
+extern HWND MoonWindow(const wchar_t* name,int window_coord_x, int window_coord_y, int window_width, int window_height);													//åˆ›å»ºçª—å£
+extern void MoonRunWindow();																																				//çª—å£æ¶ˆæ¯
 
-//-------------------------------------------------------------------------------------------Á÷³Ìº¯Êı--------------------------------------------------------------------------------//
+//-------------------------------------------------------------------------------------------æµç¨‹å‡½æ•°--------------------------------------------------------------------------------//
 
-extern void MoonProjectInit(PROJECTGOD* project, const wchar_t* project_name, int x, int y, int width, int height, int fps,void (*ProjectSetting_1)(PROJECTGOD*));			//´´½¨ÏîÄ¿
-extern void MoonProjectRun(PROJECTGOD* project, int (*ProjectSetting_2)(PROJECTGOD*), int(*ProjectLogic)(PROJECTGOD*), int(*ProjectDrawing)(PROJECTGOD*));					//ÔËĞĞÏîÄ¿
-extern void MoonProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJECTGOD*));																					//½áÊøÏîÄ¿
-#define PROJECTSETTING(NAME) void NAME(PROJECTGOD* project)																													//´´½¨ÉèÖÃÑ¡Ïî
-#define PROJECTMODULE(NAME)  int NAME(PROJECTGOD* project)																													//ÅäÖÃÄ£¿é
-extern int MoonProjectError(void* alpha, int degree, char* text);																											//´íÎó´¦Àí
-extern int MoonProjectPause(int mode, int (**function_1)(PROJECTGOD*), int (*function_2)(PROJECTGOD*), int (*function_3)(PROJECTGOD*));										//ÔİÍ£º¯Êı
-extern void MoonProjectFunctionSwitch(int (**function_1)(PROJECTGOD*), int (*function_2)(PROJECTGOD*));																		//º¯ÊıÇĞ»»
-#define FUNCTIONSWITCH(function) ProjectFunctionSwitch(&project->Drawing, function);																						//º¯ÊıÇĞ»»ºê
-extern int  MoonProjectFindEntityAllNumber(PROJECTGOD* project);																											//Í³¼ÆÊµÌå×ÜÊı
+extern void MoonProjectInit(PROJECTGOD* project, const wchar_t* project_name, int x, int y, int width, int height, int fps,void (*ProjectSetting_1)(PROJECTGOD*));			//åˆ›å»ºé¡¹ç›®
+extern void MoonProjectRun(PROJECTGOD* project, int (*ProjectSetting_2)(PROJECTGOD*), int(*ProjectLogic)(PROJECTGOD*), int(*ProjectDrawing)(PROJECTGOD*));					//è¿è¡Œé¡¹ç›®
+extern void MoonProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJECTGOD*));																					//ç»“æŸé¡¹ç›®
+#define PROJECTSETTING(NAME) void NAME(PROJECTGOD* project)																													//åˆ›å»ºè®¾ç½®é€‰é¡¹
+#define PROJECTMODULE(NAME)  int NAME(PROJECTGOD* project)																													//é…ç½®æ¨¡å—
+extern int MoonProjectError(void* alpha, int degree, char* text);																											//é”™è¯¯å¤„ç†
+extern int MoonProjectPause(int mode, int (**function_1)(PROJECTGOD*), int (*function_2)(PROJECTGOD*), int (*function_3)(PROJECTGOD*));										//æš‚åœå‡½æ•°
+extern void MoonProjectFunctionSwitch(int (**function_1)(PROJECTGOD*), int (*function_2)(PROJECTGOD*));																		//å‡½æ•°åˆ‡æ¢
+#define FUNCTIONSWITCH(function) ProjectFunctionSwitch(&project->Drawing, function);																						//å‡½æ•°åˆ‡æ¢å®
+extern int  MoonProjectFindEntityAllNumber(PROJECTGOD* project);																											//ç»Ÿè®¡å®ä½“æ€»æ•°
 #if OPEN_SDL
 
-extern void MoonRendererLoad(PROJECTGOD* project);																															//¼ÓÔØSDL_Renderer
+extern void MoonRendererLoad(PROJECTGOD* project);																															//åŠ è½½SDL_Renderer
 
 #endif
-//-------------------------------------------------------------------------------------------»æÖÆº¯Êı--------------------------------------------------------------------------------//
+//-------------------------------------------------------------------------------------------ç»˜åˆ¶å‡½æ•°--------------------------------------------------------------------------------//
 
-extern void MoonDrawingArea(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height);																			//»­°å
-extern void MoonDrawingAreaAlpha(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height, int transparent_color);												//´øÍ¸Ã÷¶ÈµÄ»­°å
-extern void MoonDrawingAreaRound(IMAGE* image_1, IMAGE* image_2, int x, int y, int apx, int apy, int width, int height, int deg);											//Ğı×ªµÄ»­°å
-extern void MoonPix(IMAGE* image, int x, int y, int color);																													//»æÖÆµã
-extern void MoonLine(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																					//»æÖÆÏß
-extern void MoonBox(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																					//»æÖÆ¾ØĞÎ
-extern void MoonBoxFull(IMAGE* image, int x1, int y1, int x2, int y2,int color);																							//»æÖÆÌî³ä¾ØĞÎ
+extern void MoonDrawingArea(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height);																			//ç”»æ¿
+extern void MoonDrawingAreaAlpha(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height, int transparent_color);												//å¸¦é€æ˜åº¦çš„ç”»æ¿
+extern void MoonDrawingAreaRound(IMAGE* image_1, IMAGE* image_2, int x, int y, int apx, int apy, int width, int height, int deg);											//æ—‹è½¬çš„ç”»æ¿
+extern void MoonPix(IMAGE* image, int x, int y, int color);																													//ç»˜åˆ¶ç‚¹
+extern void MoonLine(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																					//ç»˜åˆ¶çº¿
+extern void MoonBox(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																					//ç»˜åˆ¶çŸ©å½¢
+extern void MoonBoxFull(IMAGE* image, int x1, int y1, int x2, int y2,int color);																							//ç»˜åˆ¶å¡«å……çŸ©å½¢
 
 #if OPEN_SDL
 
-extern void MoonPixAll(IMAGE* image, MOON_SDL_POINT* points, int allnumber, int color);																						//»æÖÆµã
-extern void MoonLineAll(IMAGE* image, MOON_SDL_POINT* points, int allnumber, int color);																					//»æÖÆÏß
-extern void MoonBoxAll(IMAGE* image, MOON_SDL_RECT* points, int allnumber, int color);																						//»æÖÆ¾ØĞÎ
-extern void MoonBoxFullAll(IMAGE* image, MOON_SDL_RECT* points, int allnumber, int color);																					//»æÖÆÌî³ä¾ØĞÎ
-extern void MoonSetDrawImage(IMAGE* image, int mode);																														//ÉèÖÃ»æÍ¼¶ÔÏó
+extern void MoonPixAll(IMAGE* image, MOON_SDL_POINT* points, int allnumber, int color);																						//ç»˜åˆ¶ç‚¹
+extern void MoonLineAll(IMAGE* image, MOON_SDL_POINT* points, int allnumber, int color);																					//ç»˜åˆ¶çº¿
+extern void MoonBoxAll(IMAGE* image, MOON_SDL_RECT* points, int allnumber, int color);																						//ç»˜åˆ¶çŸ©å½¢
+extern void MoonBoxFullAll(IMAGE* image, MOON_SDL_RECT* points, int allnumber, int color);																					//ç»˜åˆ¶å¡«å……çŸ©å½¢
+extern void MoonSetDrawImage(IMAGE* image, int mode);																														//è®¾ç½®ç»˜å›¾å¯¹è±¡
 
 #endif
 
-//------------------------------------Í¼Æ¬------------------------------------------------//
+//------------------------------------å›¾ç‰‡------------------------------------------------//
 
-extern void MoonImageLoad(IMAGE* image, const wchar_t** imagefile, int imagenumber);																						//¼ÓÔØÍ¼Æ¬
-extern void MoonImageLoadBatch(PROJECTGOD* project, IMAGE* image, int totalnumber, const wchar_t** name);																	//ÅúÁ¿¼ÓÔØÍ¼Æ¬
+extern void MoonImageLoad(IMAGE* image, const wchar_t** imagefile, int imagenumber);																						//åŠ è½½å›¾ç‰‡
+extern void MoonImageLoadBatch(PROJECTGOD* project, IMAGE* image, int totalnumber, const wchar_t** name);																	//æ‰¹é‡åŠ è½½å›¾ç‰‡
 
-//------------------------------------¶¯»­------------------------------------------------//
+//------------------------------------åŠ¨ç”»------------------------------------------------//
 
-extern int MoonAnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height);											//³õÊ¼»¯¶¯»­
-extern int MoonAnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);															//ÔËĞĞ¶¯»­
-extern void MoonAnimeDelete(ANIME* anime);																																	//É¾³ı¶¯»­
-extern void MoonAnimeCreate(PROJECTGOD* project, IMAGE* image, ANIME* anime, int totalnumber, const wchar_t** animename, char* entityname, int timeload, int width, int height);	//´´½¨¶¯»­
+extern int MoonAnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height);											//åˆå§‹åŒ–åŠ¨ç”»
+extern int MoonAnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize);															//è¿è¡ŒåŠ¨ç”»
+extern void MoonAnimeDelete(ANIME* anime);																																	//åˆ é™¤åŠ¨ç”»
+extern void MoonAnimeCreate(PROJECTGOD* project, IMAGE* image, ANIME* anime, int totalnumber, const wchar_t** animename, char* entityname, int timeload, int width, int height);	//åˆ›å»ºåŠ¨ç”»
