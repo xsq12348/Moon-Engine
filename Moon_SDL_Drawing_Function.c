@@ -140,7 +140,7 @@ extern int MoonAnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int t
 	return YES;
 }
 
-extern int MoonAnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize)
+extern int MoonAnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, float widthsize, float heightsize)
 {
 	SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
 	SDL_SetTextureBlendMode(image->image.bitmapgpu, SDL_BLENDMODE_BLEND);
@@ -227,6 +227,30 @@ extern void MoonSetDrawImage(IMAGE* image,int mode)
 	case 7:SDL_SetTextureBlendMode(image->image.bitmapgpu, SDL_BLENDMODE_MUL); break;
 	case 8:SDL_SetTextureBlendMode(image->image.bitmapgpu, SDL_BLENDMODE_INVALID); break;
 	}
+}
+
+extern void MoonModifyAlpha(IMAGE* image, int transparent_color)
+{
+	transparent_color >= 0 && SDL_SetTextureAlphaMod(image->image.bitmapgpu, (Uint8)transparent_color);
+}
+
+extern void MoonSDLTextInit(PROJECTGOD* project, IMAGE* textbuffer, const char* entity_name, int back_width, int back_height)
+{
+	MoonCreateImage(project, textbuffer, back_width, back_height);
+	MoonCreateEntityIndex(project, textbuffer, entity_name, sizeof(IMAGE));
+}
+
+extern void MoonSDLTextFont(IMAGE* textbuffer, const char* text, int text_transparent_color, int back_transparent_color)
+{
+	//这里需要兼容GDI的BGR格式
+	Uint8 back_r = back_transparent_color & 0xff, back_g = (back_transparent_color & 0xff00) >> 8, back_b = (back_transparent_color & 0xff0000) >> 16, back_alpha = (back_transparent_color & 0xff000000) >> 24;
+	Uint8 text_r = text_transparent_color & 0xff, text_g = (text_transparent_color & 0xff00) >> 8, text_b = (text_transparent_color & 0xff0000) >> 16, text_alpha = (text_transparent_color & 0xff000000) >> 24;
+	SDL_SetRenderTarget(moon_renderer, textbuffer->image.bitmapgpu);
+	SDL_SetTextureBlendMode(textbuffer->image.bitmapgpu, SDL_BLENDMODE_BLEND);
+	SDL_SetRenderDrawColor(moon_renderer, back_r, back_g, back_b, back_alpha);	
+	SDL_RenderFillRect(moon_renderer, &(const SDL_FRect){0, 0, textbuffer->image.width, textbuffer->image.height});
+	SDL_SetRenderDrawColor(moon_renderer, text_r, text_g, text_b, text_alpha);
+	SDL_RenderDebugText(moon_renderer, 0, 0, text);
 }
 
 #endif

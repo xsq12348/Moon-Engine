@@ -135,7 +135,7 @@ extern int MoonAnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int t
 	return YES;
 }
 
-extern int MoonAnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, int widthsize, int heightsize)
+extern int MoonAnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, float widthsize, float heightsize)
 {
 	if (!animeswitch)return 0;
 	else

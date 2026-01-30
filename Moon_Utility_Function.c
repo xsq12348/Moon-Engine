@@ -11,6 +11,12 @@ extern void MoonMusic(const wchar_t* File)
 	mciSendString(TEXT("play music"), NULL, 0, NULL);
 }
 
+extern int MoonSleep(int timeload)
+{
+	Sleep(timeload);
+	return 0;
+}
+
 #endif
 
 extern unsigned int MoonHash(char* text)
@@ -62,12 +68,6 @@ extern int MoonTimeLoad(TIMELOAD* Timeload, int mode)
 		Timeload->timeswitch = FALSE;
 	}
 	return Timeload->timeswitch;
-}
-
-extern int MoonSleep(int timeload)
-{
-	Sleep(timeload);
-	return 0;
 }
 
 extern void* MoonFindEntity(PROJECTGOD* project, char* nameid)
