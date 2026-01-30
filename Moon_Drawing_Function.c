@@ -1,5 +1,4 @@
 #include"Moon.h"
-#include"Moon_SDL_Drawing_Function.c"
 
 #if !OPEN_SDL
 
@@ -120,8 +119,8 @@ extern void MoonImageLoadBatch(PROJECTGOD* project, IMAGE* image, int totalnumbe
 extern int MoonAnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height)
 {
 	anime->Name = name;
-	if (totalnumber <= 0) { printf("[InitialisationAnimeº¯Êý´íÎó]¶¯»­ÐòÁÐÖ¡×ÜÊýÓÐÎÊÌâ,Çë¼ì²éÃûÎª[%s]µÄ¶¯»­!\n", name); return Error; }
-	if (sequenceframes == NULL) { printf("[InitialisationAnimeº¯Êý´íÎó]¶¯»­ÐòÁÐÖ¡ÓÐÎÊÌâ,Çë¼ì²éÃûÎª[%s]µÄ¶¯»­ÊÇ·ñ´æÔÚ!\n", name); return Error; }
+	if (totalnumber <= 0) { printf("[InitialisationAnimeå‡½æ•°é”™è¯¯]åŠ¨ç”»åºåˆ—å¸§æ€»æ•°æœ‰é—®é¢˜,è¯·æ£€æŸ¥åä¸º[%s]çš„åŠ¨ç”»!\n", name); return Error; }
+	if (sequenceframes == NULL) { printf("[InitialisationAnimeå‡½æ•°é”™è¯¯]åŠ¨ç”»åºåˆ—å¸§æœ‰é—®é¢˜,è¯·æ£€æŸ¥åä¸º[%s]çš„åŠ¨ç”»æ˜¯å¦å­˜åœ¨!\n", name); return Error; }
 	anime->animeswitch = 0;
 	anime->sequenceframes = sequenceframes;
 	anime->totalnumber = totalnumber;
@@ -131,7 +130,7 @@ extern int MoonAnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int t
 		anime->sequenceframes[i].lengths.x = width;
 		anime->sequenceframes[i].lengths.y = height;
 	}
-	MoonTimeLoadInit(&(anime->timeload), timeload);		//ÉèÖÃ¶¨Ê±Æ÷
+	MoonTimeLoadInit(&(anime->timeload), timeload);		//è®¾ç½®å®šæ—¶å™¨
 	return YES;
 }
 
@@ -143,7 +142,7 @@ extern int MoonAnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int 
 		anime->number %= anime->totalnumber;
 		TransparentBlt(image->image.hdc, x, y, anime->sequenceframes[anime->number].lengths.x * widthsize, anime->sequenceframes[anime->number].lengths.y * heightsize, anime->sequenceframes[anime->number].image.hdc, 0, 0, anime->sequenceframes[anime->number].lengths.x, anime->sequenceframes[anime->number].lengths.y, TRANSPARENTCOLOR);
 	}
-	if (MoonTimeLoad(&(anime->timeload), 1)) ++anime->number;	//Ìí¼ÓÏÂÒ»Ö¡	
+	if (MoonTimeLoad(&(anime->timeload), 1)) ++anime->number;	//æ·»åŠ ä¸‹ä¸€å¸§	
 	return anime->number;
 }
 
@@ -175,5 +174,6 @@ extern int MoonGetColor(IMAGE* image, int x, int y)
 {
 	return GetPixel(image->image.hdc, x, y);
 }
+
 
 #endif
