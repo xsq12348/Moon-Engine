@@ -115,10 +115,10 @@ extern void MoonImageLoad(IMAGE* image, const wchar_t** imagefile, int imagenumb
 		}
 }
 
-extern void MoonImageLoadBatch(PROJECTGOD* project, IMAGE* image, int totalnumber, const wchar_t** name)
+extern void MoonImageLoadBatch(PROJECTGOD* project, IMAGE* image, int totalnumber, const wchar_t** name, int width, int height)
 {
 	for (int i = 0; i < totalnumber; i++)
-		MoonCreateImage(project, &image[i], 16, 32);
+		MoonCreateImage(project, &image[i], width, height);
 	MoonImageLoad(image, name, totalnumber);
 }
 
@@ -162,7 +162,7 @@ extern void MoonAnimeDelete(ANIME* anime)
 
 extern void MoonAnimeCreate(PROJECTGOD* project, IMAGE* image, ANIME* anime, int totalnumber, const wchar_t** animename, char* entityname, int timeload, int width, int height)
 {
-	MoonImageLoadBatch(project, image, totalnumber, animename);
+	MoonImageLoadBatch(project, image, totalnumber, animename, width, height);
 	MoonAnimeInit(anime, entityname, image, timeload, totalnumber, width, height);
 	MoonCreateEntityIndex(project, image, entityname, sizeof(IMAGE));
 }
