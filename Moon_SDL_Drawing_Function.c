@@ -271,7 +271,7 @@ extern void MoonImagePlgBit(IMAGE* image_1, IMAGE* image_2, POINT point[4], int 
 	};
 	int pointindex[6] = { 0,1,2,1,2,3 };
 	SDL_SetRenderTarget(moon_renderer, image_1->image.bitmapgpu);
-	SDL_SetTextureBlendMode(image_2->image.bitmapgpu, SDL_BLENDMODE_BLEND);
+	SDL_SetTextureBlendMode(image_2->image.bitmapgpu, SDL_BLENDMODE_BLEND_PREMULTIPLIED);
 	SDL_RenderGeometry(moon_renderer, image_2->image.bitmapgpu, vertex, 4, pointindex, 6);
 }
 

@@ -179,6 +179,7 @@ Email:1993346266@qq.com
 * 1.2.1.2              取消了MoonDrawingAreaAlpha函数最后一个参数的作用,该功能将集成到MoonModifyAlpha中,原因是性能太低,只要一次Alpha修饰就足够了
 * 1.2.1.3  2026.1.31   修复了MoonImageLoadBatch的BUG
 * 1.2.2.0  2026.2.1    新添加了MoonSetDrawImage和MoonImagePlgBit函数
+* 1.2.2.1              修复了MoonImagePlgBit函数在透明度变化时不能显示的BUG
 */
 
 //创建线程函数关键字
