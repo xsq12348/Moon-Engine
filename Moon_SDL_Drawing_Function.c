@@ -213,9 +213,13 @@ extern void MoonBoxFullAll(IMAGE* image, MOON_SDL_RECT* rect, int allnumber, int
 	SDL_RenderFillRects(moon_renderer, rect, allnumber);
 }
 
-extern void MoonSetDrawImage(IMAGE* image,int mode)
+extern void MoonImageDesignated(IMAGE* image)
 {
 	SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
+}
+
+extern void MoonSetDrawImage(IMAGE* image,int mode)
+{
 	switch(mode)
 	{
 	case 1:SDL_SetTextureBlendMode(image->image.bitmapgpu, SDL_BLENDMODE_NONE); break;
@@ -251,6 +255,24 @@ extern void MoonSDLTextFont(IMAGE* textbuffer, const char* text, int text_transp
 	SDL_RenderFillRect(moon_renderer, &(const SDL_FRect){0, 0, textbuffer->image.width, textbuffer->image.height});
 	SDL_SetRenderDrawColor(moon_renderer, text_r, text_g, text_b, text_alpha);
 	SDL_RenderDebugText(moon_renderer, 0, 0, text);
+}
+
+
+extern void MoonImagePlgBit(IMAGE* image_1, IMAGE* image_2, POINT point[4], int color)
+{
+	//需要兼容GDI的BGR格式
+	float r = Lerp(0.f, 1.f, color & 0xff / 255), g = Lerp(0.f, 1.f, ((color & 0xff00) >> 8) / 255), b = Lerp(0.f, 1.f, ((color & 0xff0000) >> 16) / 255), alpha = Lerp(0.f, 1.f, ((color & 0xff000000) >> 24) / 255);
+	SDL_Vertex vertex[4] =
+	{
+		{.color = {.a = alpha,.b = b,.g = g,.r = (float)r},.position = {.x = (float)point[0].x,.y = (float)point[0].y},.tex_coord = {.x = 0.f,.y = 0.f}},	//0
+		{.color = {.a = alpha,.b = b,.g = g,.r = (float)r},.position = {.x = (float)point[1].x,.y = (float)point[1].y},.tex_coord = {.x = 1.f,.y = 0.f}},	//1
+		{.color = {.a = alpha,.b = b,.g = g,.r = (float)r},.position = {.x = (float)point[2].x,.y = (float)point[2].y},.tex_coord = {.x = 0.f,.y = 1.f}},	//2
+		{.color = {.a = alpha,.b = b,.g = g,.r = (float)r},.position = {.x = (float)point[3].x,.y = (float)point[3].y},.tex_coord = {.x = 1.f,.y = 1.f}},	//3
+	};
+	int pointindex[6] = { 0,1,2,1,2,3 };
+	SDL_SetRenderTarget(moon_renderer, image_1->image.bitmapgpu);
+	SDL_SetTextureBlendMode(image_2->image.bitmapgpu, SDL_BLENDMODE_BLEND);
+	SDL_RenderGeometry(moon_renderer, image_2->image.bitmapgpu, vertex, 4, pointindex, 6);
 }
 
 #endif

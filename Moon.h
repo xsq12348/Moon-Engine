@@ -178,6 +178,7 @@ Email:1993346266@qq.com
 * 1.2.1.1              现在MoonDrawingAreaAlpha的最后一个参数有用了,它将用来控制Alpha通道
 * 1.2.1.2              取消了MoonDrawingAreaAlpha函数最后一个参数的作用,该功能将集成到MoonModifyAlpha中,原因是性能太低,只要一次Alpha修饰就足够了
 * 1.2.1.3  2026.1.31   修复了MoonImageLoadBatch的BUG
+* 1.2.2.0  2026.2.1    新添加了MoonSetDrawImage和MoonImagePlgBit函数
 */
 
 //创建线程函数关键字
@@ -405,8 +406,10 @@ extern void MoonPixAll(IMAGE* image, MOON_SDL_POINT* points, int allnumber, int 
 extern void MoonLineAll(IMAGE* image, MOON_SDL_POINT* points, int allnumber, int color);																					//绘制线
 extern void MoonBoxAll(IMAGE* image, MOON_SDL_RECT* points, int allnumber, int color);																						//绘制矩形
 extern void MoonBoxFullAll(IMAGE* image, MOON_SDL_RECT* points, int allnumber, int color);																					//绘制填充矩形
-extern void MoonSetDrawImage(IMAGE* image, int mode);																														//设置绘图对象
+extern void MoonImageDesignated(IMAGE* image);																																//设置绘图对象
+extern void MoonSetDrawImage(IMAGE* image, int mode);																														//设置绘图模式
 extern void MoonModifyAlpha(IMAGE* image, int transparent_color);																											//修饰Alpha通道
+extern void MoonImagePlgBit(IMAGE* image_1, IMAGE* image_2, POINT point[4], int color);																						//纹理贴图
 
 #endif
 

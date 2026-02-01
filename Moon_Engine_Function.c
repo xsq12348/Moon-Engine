@@ -1,6 +1,6 @@
 #include"Moon.h"
 
-static char Moon_Engine_VSn[4] = { 1,2,1,3 };
+static char Moon_Engine_VSn[4] = { 1,2,2,0 };
 static TIMELOAD projectfps;
 static int fpsmax, fpsmax2;
 static IMAGE projectdoublebuffer;
