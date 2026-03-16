@@ -180,6 +180,8 @@ Email:1993346266@qq.com
 * 1.2.1.3  2026.1.31   修复了MoonImageLoadBatch的BUG
 * 1.2.2.0  2026.2.1    新添加了MoonSetDrawImage和MoonImagePlgBit函数
 * 1.2.2.1              修复了MoonImagePlgBit函数在透明度变化时不能显示的BUG
+* 1.2.2.2  2026.3.16   修复了在切換回GDI時的未定義BUG
+* 1.2.2.3              修復了MoonTextFont函數的BUG
 */
 
 //创建线程函数关键字

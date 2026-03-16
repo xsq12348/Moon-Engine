@@ -123,7 +123,6 @@ extern void MoonProjectInit(PROJECTGOD* project, const wchar_t* project_name, in
 #if !OPEN_SDL
 
 	MoonCreateImage(project, &projectdoublebuffer, project->window_width, project->window_height);
-	MoonCreateEntityIndex(project, moon_renderer, (char*)"ProjectSDLRenderer", sizeof(SDL_Renderer*));
 #else
 	MoonCreateEntityIndex(project, moon_renderer, (char*)"ProjectSDLRenderer", sizeof(SDL_Renderer*));
 	MoonRendererLoad(project);//º”‘ÿ‰÷»æ∆˜
