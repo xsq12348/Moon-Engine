@@ -157,31 +157,46 @@ Email:1993346266@qq.com
 *                      2.正在逐步添加SDL支持
 *                      3.删除了MOONCENTRALDISPATCHER配置选项
 *                      4.基本完成引擎核心函数的SDL重写
+*					   1. The API name has been changed. If you need to continue using the old API, please import Moon_Compatible_Function.c and enable the MOONCOMPATIBLE configuration.
+*					   2. Gradually adding SDL support.
+*					   3. The MOONCENTRALDISPATCHER configuration option has been removed.
+*					   4. The SDL rewrite of the engine core functions is basically completed.
 * 
 * 1.2.0.1  2026.1.24   
 *                      1.完成了SDL下引擎原本就有休眠模式功能的重写
 *                      2.解决了SDL的消息队列
-* 1.2.0.2              解决了SDL下鼠标坐标的问题
+*					   1. Completed the rewriting of the engine's original sleep mode function under SDL
+*					   2. Fixed SDL's message queue
+* 1.2.0.2              解决了SDL下鼠标坐标的问题																.Solved the issue of mouse coordinates in SDL
 * 1.2.0.3  2026.1.25   1.重构了绘图逻辑,将绘图逻辑改到单独的线程中,属性线程逻辑移到了主线程
 *                      2.已测试重构后的GDI部分,和原来的效果相同
-* 1.2.0.4  2026.1.26   解决了纹理创建失败的问题
-* 1.2.0.5  2026.1.27   解决了SDL矩形绘制不了的问题,原因是参数SDL_Rect改成了SDL_FRect
-* 1.2.0.6              更新了MoonSetDrawImage函数
+*					   1. Refactored the drawing logic, moving the drawing logic to a separate thread and the property thread logic to the main thread
+*					   2. The refactored GDI part has been tested and the effect is the same as before
+* 1.2.0.4  2026.1.26   解决了纹理创建失败的问题																	.Resolved the issue of texture creation failure
+* 1.2.0.5  2026.1.27   解决了SDL矩形绘制不了的问题,原因是参数SDL_Rect改成了SDL_FRect								.Solved the problem of SDL rectangles not being drawable; the reason was that the parameter SDL_Rect was changed to SDL_FRect.
+* 1.2.0.6              更新了MoonSetDrawImage函数																.Updated the MoonSetDrawImage function
 * 1.2.0.7  2026.1.28   正在测试DrawingArea系列函数
 *                      1.MoonDrawingArea      已通过
 *                      2.MoonDrawingAreaRound 已通过
+*					   Testing the DrawingArea series of functions
+*					   1. MoonDrawingArea passed
+*					   2. MoonDrawingAreaRound passed
 * 1.2.0.8  2026.1.29   1.MoonDrawingAreaAlpha 已通过
 *                      2.修复了MoonDrawingAreaRound的锚点旋转,保持和GDI版本功能的相同
 *                      3.动画系统测试完成
-* 1.2.0.9  2026.1.30   修改了MoonAnimeRun的参数,现在倍数参数size从int改成了float
-* 1.2.1.0              添加了MoonSDLTextFont系列函数
-* 1.2.1.1              现在MoonDrawingAreaAlpha的最后一个参数有用了,它将用来控制Alpha通道
-* 1.2.1.2              取消了MoonDrawingAreaAlpha函数最后一个参数的作用,该功能将集成到MoonModifyAlpha中,原因是性能太低,只要一次Alpha修饰就足够了
-* 1.2.1.3  2026.1.31   修复了MoonImageLoadBatch的BUG
-* 1.2.2.0  2026.2.1    新添加了MoonSetDrawImage和MoonImagePlgBit函数
-* 1.2.2.1              修复了MoonImagePlgBit函数在透明度变化时不能显示的BUG
-* 1.2.2.2  2026.3.16   修复了在切換回GDI時的未定義BUG
-* 1.2.2.3              修復了MoonTextFont函數的BUG
+*					   1. MoonDrawingAreaAlpha has passed
+*					   2. Fixed the anchor rotation of MoonDrawingAreaRound to maintain the same functionality as the GDI version
+*					   3. Animation system testing completed
+* 1.2.0.9  2026.1.30   修改了MoonAnimeRun的参数,现在倍数参数size从int改成了float									.Modified the parameters of MoonAnimeRun, now the multiplier parameter size has been changed from int to float
+* 1.2.1.0              添加了MoonSDLTextFont系列函数															.Added the MoonSDLTextFont series of functions
+* 1.2.1.1              现在MoonDrawingAreaAlpha的最后一个参数有用了,它将用来控制Alpha通道							.Now the last parameter of MoonDrawingAreaAlpha is useful; it will be used to control the Alpha channel.
+* 1.2.1.2              取消了MoonDrawingAreaAlpha函数最后一个参数的作用,该功能将集成到MoonModifyAlpha中,原因是性能太低,只要一次Alpha修饰就足够了.The effect of the last parameter of the MoonDrawingAreaAlpha function has been removed. This functionality will be integrated into MoonModifyAlpha because the performance is too low, and a single Alpha modification is sufficient.
+* 1.2.1.3  2026.1.31   修复了MoonImageLoadBatch的BUG															.Fixed the bug in MoonImageLoadBatch
+* 1.2.2.0  2026.2.1    新添加了MoonSetDrawImage和MoonImagePlgBit函数											.Newly added MoonSetDrawImage and MoonImagePlgBit functions
+* 1.2.2.1              修复了MoonImagePlgBit函数在透明度变化时不能显示的BUG										.Fixed the bug in the MoonImagePlgBit function where it could not display when the opacity changed
+* 1.2.2.2  2026.3.16   修复了在切換回GDI時的未定義BUG															.Fixed an undefined bug when switching back to GDI
+* 1.2.2.3              修復了MoonTextFont函數的BUG																.Fixed a bug in the MoonTextFont function
+* 1.2.2.4  2026.4.5    新增了MoonDrawingAreaUV函數,現在可以使用UV矩形坐標											.Added the MoonDrawingAreaUV function, now UV rectangular coordinates can be used
 */
 
 //创建线程函数关键字
@@ -386,7 +401,7 @@ extern void MoonProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJ
 extern int MoonProjectError(void* alpha, int degree, char* text);																											//错误处理
 extern int MoonProjectPause(int mode, int (**function_1)(PROJECTGOD*), int (*function_2)(PROJECTGOD*), int (*function_3)(PROJECTGOD*));										//暂停函数
 extern void MoonProjectFunctionSwitch(int (**function_1)(PROJECTGOD*), int (*function_2)(PROJECTGOD*));																		//函数切换
-#define FUNCTIONSWITCH(function) MoonProjectFunctionSwitch(&project->Drawing, function);																						//函数切换宏
+#define FUNCTIONSWITCH(function) MoonProjectFunctionSwitch(&project->Drawing, function);																					//函数切换宏
 extern int  MoonProjectFindEntityAllNumber(PROJECTGOD* project);																											//统计实体总数
 #if OPEN_SDL
 
@@ -413,6 +428,7 @@ extern void MoonImageDesignated(IMAGE* image);																																//
 extern void MoonSetDrawImage(IMAGE* image, int mode);																														//设置绘图模式
 extern void MoonModifyAlpha(IMAGE* image, int transparent_color);																											//修饰Alpha通道
 extern void MoonImagePlgBit(IMAGE* image_1, IMAGE* image_2, POINT point[4], int color);																						//纹理贴图
+extern void MoonDrawingAreaUV(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height, int uv_x1, int uv_y1, int uv_width, int uv_height);						//UV纹理贴图
 
 #endif
 

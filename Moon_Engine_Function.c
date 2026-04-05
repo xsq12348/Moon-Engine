@@ -1,6 +1,6 @@
 #include"Moon.h"
 
-static char Moon_Engine_VSn[4] = { 1,2,2,3 };
+static char Moon_Engine_VSn[4] = { 1,2,2,4 };
 static TIMELOAD projectfps;
 static int fpsmax, fpsmax2;
 static IMAGE projectdoublebuffer;
@@ -35,7 +35,7 @@ static LRESULT WINAPI WndPorc(HWND hwnd, UINT msgid, WPARAM wparam, LPARAM lpara
 	return DefWindowProc(hwnd, msgid, wparam, lparam);
 }
 
-extern HWND MoonWindow(const wchar_t* name,int window_coord_x, int window_coord_y, int window_width, int window_height)
+extern HWND MoonWindow(const wchar_t* name, int window_coord_x, int window_coord_y, int window_width, int window_height)
 {
 	HINSTANCE hinstance = GetModuleHandle(NULL);
 	WNDCLASS wndclass = { 0 };
@@ -57,7 +57,7 @@ extern HWND MoonWindow(const wchar_t* name,int window_coord_x, int window_coord_
 
 extern void MoonRunWindow()
 {
-	//æ¶ˆæ¯å¾ªç¯
+	//ÏûÏ¢Ñ­»·
 	MSG msg = { 0 };
 	while (GetMessage(&msg, NULL, 0, 0))
 	{
@@ -67,7 +67,7 @@ extern void MoonRunWindow()
 }
 
 static CREATETHREADFUNCTION(ProjectLogicThread)
-{	
+{
 	GETTHREADRESOURCE(PROJECTGOD*, project);
 	while (!project->DEAD)
 		project->Logic(project);
@@ -76,7 +76,7 @@ static CREATETHREADFUNCTION(ProjectLogicThread)
 
 extern void MoonProjectInit(PROJECTGOD* project, const wchar_t* project_name, int x, int y, int width, int height, int fps, void (*ProjectSetting_1)(PROJECTGOD*))
 {
-	printf("\n[ProjectInit]åˆå§‹åŒ–å‡½æ•°è¿›å…¥æˆåŠŸ\n");
+	printf("\n[ProjectInit]³õÊ¼»¯º¯Êı½øÈë³É¹¦\n");
 	printf("                                          ___     \n      ___    ___  ______  ______  ___    /  /         \n     /   \\  /   \\/  __  \\/  __  \\/   \\  /  /     \n    /  /\\ \\/  /\\   /  \\    /  \\    /\\ \\/  /    \n   /  /  \\___/  \\  \\__/    \\__/   /  \\   /       \n  /  /           \\______/\\____   /    \\_/          \n /  /                        /  /                     \n/__/                        /__/                      \n");
 	printf("MoonEngine[%d.%d.%d.%d]\n", Moon_Engine_VSn[0], Moon_Engine_VSn[1], Moon_Engine_VSn[2], Moon_Engine_VSn[3]);
 	/*
@@ -97,7 +97,7 @@ extern void MoonProjectInit(PROJECTGOD* project, const wchar_t* project_name, in
 	}
 #if OPEN_SDL
 
-	//__ SDLå®ç°
+	//__ SDLÊµÏÖ
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_Init(SDL_INIT_AUDIO);
 	char windowname[1024] = { NULL };
@@ -125,25 +125,25 @@ extern void MoonProjectInit(PROJECTGOD* project, const wchar_t* project_name, in
 	MoonCreateImage(project, &projectdoublebuffer, project->window_width, project->window_height);
 #else
 	MoonCreateEntityIndex(project, moon_renderer, (char*)"ProjectSDLRenderer", sizeof(SDL_Renderer*));
-	MoonRendererLoad(project);//åŠ è½½æ¸²æŸ“å™¨
+	MoonRendererLoad(project);//¼ÓÔØäÖÈ¾Æ÷
 	MoonCreateImage(project, &projectdoublebuffer, project->window_width, project->window_height);
 
 #endif
 	if (ProjectSetting_1 != NULL)ProjectSetting_1(project);
-	printf("\n[ProjectInit]åˆå§‹åŒ–å®Œæˆ\n");
+	printf("\n[ProjectInit]³õÊ¼»¯Íê³É\n");
 }
 
 #if OPEN_SDL
 
 static CREATETHREADFUNCTION(ProjectDrawingThread)
 {
-	//__ SDLå®ç°
+	//__ SDLÊµÏÖ
 	GETTHREADRESOURCE(PROJECTGOD*, project);
 	HashFindEntity(project, "ProjectBitmap", IMAGE, projectbitmap);
 	HashFindEntity(project, "ProjectSDLRenderer", SDL_Renderer, renderer);
-	int runload[3] = { 0 };//å¸§ç‡è®¡æ—¶å™¨
-	printf("[ProjectDrawingThread]æ¸²æŸ“å™¨: %p, çº¹ç†: %p\n", renderer, projectbitmap->image.bitmapgpu);
-	//ä¸»å¾ªç¯
+	int runload[3] = { 0 };//Ö¡ÂÊ¼ÆÊ±Æ÷
+	printf("[ProjectDrawingThread]äÖÈ¾Æ÷: %p, ÎÆÀí: %p\n", renderer, projectbitmap->image.bitmapgpu);
+	//Ö÷Ñ­»·
 	while (!project->DEAD)
 	{
 		runload[0] = clock();
@@ -175,9 +175,9 @@ static CREATETHREADFUNCTION(ProjectDrawingThread)
 	//GDI
 	GETTHREADRESOURCE(PROJECTGOD*, project);
 	HashFindEntity(project, "ProjectBitmap", IMAGE, projectbitmap);
-	int runload[3] = { 0 };//å¸§ç‡è®¡æ—¶å™¨
+	int runload[3] = { 0 };//Ö¡ÂÊ¼ÆÊ±Æ÷
 	HDC hdc = GetDC(project->hwnd);
-	//ä¸»å¾ªç¯
+	//Ö÷Ñ­»·
 	while (!project->DEAD)
 	{
 		runload[0] = clock();
@@ -188,7 +188,7 @@ static CREATETHREADFUNCTION(ProjectDrawingThread)
 		{
 			MoonBoxFull(projectbitmap, 0, 0, project->window_width, project->window_height, RGB(0, 0, 0));
 			project->Drawing(project);
-			BitBlt(hdc, 0, 0, project->window_width, project->window_height, projectbitmap->image.hdc, 0, 0, SRCCOPY);			
+			BitBlt(hdc, 0, 0, project->window_width, project->window_height, projectbitmap->image.hdc, 0, 0, SRCCOPY);
 		}
 		runload[1] = clock();
 		runload[2] = runload[1] - runload[0];
@@ -201,23 +201,23 @@ static CREATETHREADFUNCTION(ProjectDrawingThread)
 
 extern void MoonProjectRun(PROJECTGOD* project, int (*ProjectSetting_2)(PROJECTGOD*), int(*ProjectLogic)(PROJECTGOD*), int(*ProjectDrawing)(PROJECTGOD*))
 {
-	int runload[3] = { 0 };//å¸§ç‡è®¡æ—¶å™¨
-	printf("\n[ProjectRun]å¼•æ“æµç¨‹å‡½æ•°è¿›å…¥æˆåŠŸ!\n");
+	int runload[3] = { 0 };//Ö¡ÂÊ¼ÆÊ±Æ÷
+	printf("\n[ProjectRun]ÒıÇæÁ÷³Ìº¯Êı½øÈë³É¹¦!\n");
 	if (ProjectDrawing == NULL)
 	{
-		MoonProjectError(ProjectDrawing, 1, (char*)"ç»˜å›¾å‡½æ•°ä¼ å…¥å¤±è´¥!");
+		MoonProjectError(ProjectDrawing, 1, (char*)"»æÍ¼º¯Êı´«ÈëÊ§°Ü!");
 		return;
 	}
 	project->Drawing = ProjectDrawing;
 	if (ProjectSetting_2 != NULL)ProjectSetting_2(project);
-	//åŠ è½½é€»è¾‘çº¿ç¨‹
+	//¼ÓÔØÂß¼­Ïß³Ì
 	if (ProjectLogic != NULL)
 	{
 		project->Logic = ProjectLogic;
 		CREATETHREAD(ProjectLogicThread, project);
 	}
 
-	CREATETHREAD(ProjectDrawingThread, project);//åŠ è½½ç»˜ç”»çº¿ç¨‹
+	CREATETHREAD(ProjectDrawingThread, project);//¼ÓÔØ»æ»­Ïß³Ì
 
 #if OPEN_SDL
 
@@ -259,7 +259,7 @@ extern void MoonProjectRun(PROJECTGOD* project, int (*ProjectSetting_2)(PROJECTG
 			}
 			//printf("%d,%d,%d                              \r", mousecoord->x, mousecoord->y, project->Power);
 			(developer || focus) && (project->Power = NOTFOUND) || (project->Power = gamepowermode);
-			//å½“Poweræ”¹å˜æ—¶
+			//µ±Power¸Ä±äÊ±
 			project->Power != modetemp && MoonProjectPause(project->Power < 0, &project->Logic, MoonLogicPause, logic);
 			project->Power != modetemp && MoonProjectPause(project->Power < 0, &project->Drawing, MoonDrawingPause, drawing);
 			modetemp = project->Power;
@@ -272,7 +272,7 @@ extern void MoonProjectRun(PROJECTGOD* project, int (*ProjectSetting_2)(PROJECTG
 	{
 		MSG msg = { 0 };
 		HDC hdc = GetDC(project->hwnd);
-		//è¿™é‡Œæˆ‘æƒ³è¦æ€§èƒ½é«˜ä¸€ç‚¹,å°±ä¸å†™ifäº†
+		//ÕâÀïÎÒÏëÒªĞÔÄÜ¸ßÒ»µã,¾Í²»Ğ´ifÁË
 		HashFindEntity(project, (char*)"ProjectMouseCoord", POINT, mousecoord);
 		HashFindEntity(project, (char*)"ProjectFPS", int, fpsnumber);
 		static int(*drawing)(PROJECTGOD*) = 0, (*logic)(PROJECTGOD*) = 0, developer = FALSE;
@@ -296,7 +296,7 @@ extern void MoonProjectRun(PROJECTGOD* project, int (*ProjectSetting_2)(PROJECTG
 			}
 			switch (msg.message)
 			{
-			case WM_MOUSEMOVE:				
+			case WM_MOUSEMOVE:
 				break;
 			case WM_QUIT:
 				project->DEAD = YES;
@@ -304,7 +304,7 @@ extern void MoonProjectRun(PROJECTGOD* project, int (*ProjectSetting_2)(PROJECTG
 			}
 			focus = GetForegroundWindow() != project->hwnd;
 			(developer || focus) && (project->Power = NOTFOUND) || (project->Power = gamepowermode);
-			//å½“Poweræ”¹å˜æ—¶
+			//µ±Power¸Ä±äÊ±
 			project->Power != modetemp && MoonProjectPause(project->Power < 0, &project->Logic, MoonLogicPause, logic);
 			project->Power != modetemp && MoonProjectPause(project->Power < 0, &project->Drawing, MoonDrawingPause, drawing);
 			modetemp = project->Power;
@@ -315,15 +315,15 @@ extern void MoonProjectRun(PROJECTGOD* project, int (*ProjectSetting_2)(PROJECTG
 	}
 #endif
 
-	printf("\n[ProjectRun]å¼•æ“æµç¨‹ç»“æŸ!\n");
+	printf("\n[ProjectRun]ÒıÇæÁ÷³Ì½áÊø!\n");
 }
 
 extern void MoonProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJECTGOD*))
 {
-	printf("\n[ProjectOver]ç»“æŸå‡½æ•°è¿›å…¥æˆåŠŸ\n");
+	printf("\n[ProjectOver]½áÊøº¯Êı½øÈë³É¹¦\n");
 	if (project == NULL)
 	{
-		MoonProjectError(project, 2, (char*)"æ ¸å¿ƒå¯¹è±¡[projectgod]ä¸¢å¤±!");
+		MoonProjectError(project, 2, (char*)"ºËĞÄ¶ÔÏó[projectgod]¶ªÊ§!");
 		return;
 	}
 	if (ProjectOverSetting != 0)ProjectOverSetting(project);
@@ -331,7 +331,7 @@ extern void MoonProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJ
 	MoonDeletImage(projectbitmap);
 #if OPEN_SDL
 
-	//__ SDLå®ç°
+	//__ SDLÊµÏÖ
 	SDL_DestroyWindow(project->hwnd_sdl);
 	SDL_DestroyRenderer(moon_renderer);
 	SDL_Quit();
@@ -348,7 +348,7 @@ extern void MoonProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJ
 		project->entityindex[i].nameid = NULL;
 		project->entityindex[i].entityindex = NULL;
 	}
-	printf("\n[ProjectOver]èµ„æºæ¸…ç†å®Œæˆ\n");
+	printf("\n[ProjectOver]×ÊÔ´ÇåÀíÍê³É\n");
 }
 
 extern int MoonProjectError(void* alpha, int degree, char* text)
@@ -359,12 +359,12 @@ extern int MoonProjectError(void* alpha, int degree, char* text)
 		General,
 		Mild,
 	};
-	printf("\næ¥è‡ª[%p]çš„[%s]å‘ç”Ÿé”™è¯¯!ç°åœ¨è½¬å…¥é”™è¯¯å¤„ç†å‡½æ•°[ProjectError]", alpha, text);
+	printf("\nÀ´×Ô[%p]µÄ[%s]·¢Éú´íÎó!ÏÖÔÚ×ªÈë´íÎó´¦Àíº¯Êı[ProjectError]", alpha, text);
 	switch (degree)
 	{
-	case Serious:printf("\tç­‰çº§[Serious/ä¸¥é‡]\n"); break;
-	case General:printf("\tç­‰çº§[General/ä¸€èˆ¬]\n"); break;
-	case Mild:printf("\tç­‰çº§[Mild/è½»å¾®]\n"); break;
+	case Serious:printf("\tµÈ¼¶[Serious/ÑÏÖØ]\n"); break;
+	case General:printf("\tµÈ¼¶[General/Ò»°ã]\n"); break;
+	case Mild:printf("\tµÈ¼¶[Mild/ÇáÎ¢]\n"); break;
 	}
 	while (!MoonKeyState(VK_ESCAPE)) MoonSleep(1);
 	return degree;
@@ -385,14 +385,14 @@ extern void MoonProjectFunctionSwitch(int (**function_1)(PROJECTGOD*), int (*fun
 extern int MoonProjectFindEntityAllNumber(PROJECTGOD* project)
 {
 	int all_number = 0;
-	printf("\n   åºå·|åœ°å€            |ç´¢å¼•      |åç§°                          |ç±»å‹      |Hash      |\n");
+	printf("\n   ĞòºÅ|µØÖ·            |Ë÷Òı      |Ãû³Æ                          |ÀàĞÍ      |Hash      |\n");
 	for (int i = 0; i < ENTITYNUMBER; i++)
 		if (project->entityindex[i].length != 0)
 		{
 			all_number++;
 			printf("%-7d|%p|%-10d|%-30s|%-10d|%-10d|\n", all_number, project->entityindex[i].entityindex, i, project->entityindex[i].nameid, project->entityindex[i].length, MoonHash(project->entityindex[i].nameid));
 		}
-	printf("\n[ProjectFindEntityAllNumberå‡½æ•°]è¿›å…¥æˆåŠŸ!\nç»Ÿè®¡åˆ°çš„å®ä½“æ€»æ•°ä¸º[%d]\n", all_number);
+	printf("\n[ProjectFindEntityAllNumberº¯Êı]½øÈë³É¹¦!\nÍ³¼Æµ½µÄÊµÌå×ÜÊıÎª[%d]\n", all_number);
 	return all_number;
 }
 
@@ -405,14 +405,14 @@ static int ProjectConsole(PROJECTGOD* project, int (*developerconsole)(PROJECTGO
 
 static PROJECTMODULE(MoonLogicPause)
 {
-	//printf("[MoonLogicPauseå‡½æ•°]è¿›å…¥æˆåŠŸ!\n");
+	//printf("[MoonLogicPauseº¯Êı]½øÈë³É¹¦!\n");
 	MoonSleep(1);
 	return NOTFOUND;
 }
 
 static PROJECTMODULE(MoonDrawingPause)
 {
-	//printf("[MoonDrawingPauseå‡½æ•°]è¿›å…¥æˆåŠŸ!\n");
+	//printf("[MoonDrawingPauseº¯Êı]½øÈë³É¹¦!\n");
 	MoonSleep(1);
 	return NOTFOUND;
 }

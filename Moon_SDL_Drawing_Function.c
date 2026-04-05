@@ -44,6 +44,13 @@ extern void MoonCreateImage(PROJECTGOD* project, IMAGE* image, int bmpwidth, int
 	printf("\n[MoonCreateImage]äÖÈ¾Æ÷: %p, ÎÆÀí: %p\n", moon_renderer, image->image.bitmapgpu);
 }
 
+extern void MoonDrawingAreaUV(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height, int uv_x1, int uv_y1, int uv_width, int uv_height)
+{
+	SDL_SetRenderTarget(moon_renderer, image_1->image.bitmapgpu);
+	SDL_SetTextureBlendMode(image_2->image.bitmapgpu, SDL_BLENDMODE_BLEND);
+	SDL_RenderTexture(moon_renderer, image_2->image.bitmapgpu, &(SDL_FRect){ uv_x1, uv_y1, uv_width, uv_height }, & (SDL_FRect) { x, y, width, height });
+}
+
 extern void MoonDeletImage(IMAGE* image)
 {
 	SDL_DestroyTexture(image->image.bitmapgpu);
