@@ -23,7 +23,7 @@ extern void MoonDrawingArea(IMAGE* image_1, IMAGE* image_2, int x, int y, int wi
 extern void MoonDrawingAreaAlpha(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height, int transparent_color)
 {
 	SDL_SetRenderTarget(moon_renderer, image_1->image.bitmapgpu);
-	SDL_SetTextureBlendMode(image_2->image.bitmapgpu, SDL_BLENDMODE_BLEND);
+	SDL_SetTextureBlendMode(image_2->image.bitmapgpu, SDL_SCALEMODE_NEAREST);
 	SDL_RenderTexture(moon_renderer, image_2->image.bitmapgpu, NULL, &(SDL_FRect){ x, y, width, height });
 }
 
@@ -34,6 +34,13 @@ extern void MoonDrawingAreaRound(IMAGE* image_1, IMAGE* image_2, int x, int y, i
 	SDL_RenderTextureRotated(moon_renderer, image_2->image.bitmapgpu, NULL, &(SDL_FRect){ x - apx, y - apy, width, height }, deg, & (SDL_FPoint){apx, apy}, SDL_FLIP_NONE);
 }
 
+extern void MoonDrawingAreaUV(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height, int uv_x1, int uv_y1, int uv_width, int uv_height)
+{
+	SDL_SetRenderTarget(moon_renderer, image_1->image.bitmapgpu);
+	SDL_SetTextureScaleMode(image_2->image.bitmapgpu, SDL_SCALEMODE_NEAREST);
+	SDL_RenderTexture(moon_renderer, image_2->image.bitmapgpu, &(SDL_FRect){ uv_x1, uv_y1, uv_width, uv_height }, & (SDL_FRect) { x, y, width, height });
+}
+
 extern void MoonCreateImage(PROJECTGOD* project, IMAGE* image, int bmpwidth, int bmpheight)
 {
 	image->lengths.x = bmpwidth;
@@ -42,13 +49,6 @@ extern void MoonCreateImage(PROJECTGOD* project, IMAGE* image, int bmpwidth, int
 	image->image.height = bmpheight;
 	image->image.bitmapgpu = SDL_CreateTexture(moon_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, bmpwidth, bmpheight);
 	printf("\n[MoonCreateImage]äÖÈ¾Æ÷: %p, ÎÆÀí: %p\n", moon_renderer, image->image.bitmapgpu);
-}
-
-extern void MoonDrawingAreaUV(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height, int uv_x1, int uv_y1, int uv_width, int uv_height)
-{
-	SDL_SetRenderTarget(moon_renderer, image_1->image.bitmapgpu);
-	SDL_SetTextureBlendMode(image_2->image.bitmapgpu, SDL_BLENDMODE_BLEND);
-	SDL_RenderTexture(moon_renderer, image_2->image.bitmapgpu, &(SDL_FRect){ uv_x1, uv_y1, uv_width, uv_height }, & (SDL_FRect) { x, y, width, height });
 }
 
 extern void MoonDeletImage(IMAGE* image)
@@ -150,7 +150,7 @@ extern int MoonAnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int t
 extern int MoonAnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, float widthsize, float heightsize)
 {
 	SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
-	SDL_SetTextureBlendMode(image->image.bitmapgpu, SDL_BLENDMODE_BLEND);
+	SDL_SetTextureBlendMode(image->image.bitmapgpu, SDL_SCALEMODE_NEAREST);
 	if (!animeswitch)return 0;
 	else
 	{
@@ -257,7 +257,7 @@ extern void MoonSDLTextFont(IMAGE* textbuffer, const char* text, int text_transp
 	Uint8 back_r = back_transparent_color & 0xff, back_g = (back_transparent_color & 0xff00) >> 8, back_b = (back_transparent_color & 0xff0000) >> 16, back_alpha = (back_transparent_color & 0xff000000) >> 24;
 	Uint8 text_r = text_transparent_color & 0xff, text_g = (text_transparent_color & 0xff00) >> 8, text_b = (text_transparent_color & 0xff0000) >> 16, text_alpha = (text_transparent_color & 0xff000000) >> 24;
 	SDL_SetRenderTarget(moon_renderer, textbuffer->image.bitmapgpu);
-	SDL_SetTextureBlendMode(textbuffer->image.bitmapgpu, SDL_BLENDMODE_BLEND);
+	SDL_SetTextureBlendMode(textbuffer->image.bitmapgpu, SDL_SCALEMODE_NEAREST);
 	SDL_SetRenderDrawColor(moon_renderer, back_r, back_g, back_b, back_alpha);	
 	SDL_RenderFillRect(moon_renderer, &(const SDL_FRect){0, 0, textbuffer->image.width, textbuffer->image.height});
 	SDL_SetRenderDrawColor(moon_renderer, text_r, text_g, text_b, text_alpha);
