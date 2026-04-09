@@ -1,6 +1,6 @@
 #include"Moon.h"
 
-static char Moon_Engine_VSn[4] = { 1,2,2,5 };
+static char Moon_Engine_VSn[4] = { 1,2,2,6 };
 static TIMELOAD projectfps;
 static int fpsmax, fpsmax2;
 static IMAGE projectdoublebuffer;
@@ -163,7 +163,7 @@ static CREATETHREADFUNCTION(ProjectDrawingThread)
 		}
 		runload[1] = clock();
 		runload[2] = runload[1] - runload[0];
-		project->Power <= 0 && runload[2] < project->timeload.timeload && !MoonTimeLoad(&project->timeload, TRUE) && MoonSleep((project->timeload.timeload - runload[2]));
+		project->Power <= 0 && runload[2] < project->timeload.timeload && MoonSleep((project->timeload.timeload - runload[2]));
 	}
 	//SDL_DestroyRenderer(moon_window_renderer);
 	return 1;
