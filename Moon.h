@@ -199,6 +199,7 @@ Email:1993346266@qq.com
 * 1.2.2.4  2026.4.5    新增了MoonDrawingAreaUV函數,現在可以使用UV矩形坐標											.Added the MoonDrawingAreaUV function, now UV rectangular coordinates can be used
 * 1.2.2.5  2026.4.7    將SDL的透明混合模式改成了SDL_SCALEMODE_NEAREST
 * 1.2.2.6  2026.4.9    修復了幀率控制失效的問題
+* 1.2.2.7  2026.4.13   修復了幀率控制失效的問題
 */
 
 //创建线程函数关键字
@@ -422,6 +423,7 @@ extern void MoonBoxFull(IMAGE* image, int x1, int y1, int x2, int y2,int color);
 
 #if OPEN_SDL
 
+extern void MoonCircle(IMAGE* image, int x, int y, int r, int color);																										//繪製圓
 extern void MoonPixAll(IMAGE* image, MOON_SDL_POINT* points, int allnumber, int color);																						//绘制点
 extern void MoonLineAll(IMAGE* image, MOON_SDL_POINT* points, int allnumber, int color);																					//绘制线
 extern void MoonBoxAll(IMAGE* image, MOON_SDL_RECT* points, int allnumber, int color);																						//绘制矩形

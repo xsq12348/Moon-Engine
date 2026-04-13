@@ -93,6 +93,25 @@ extern void MoonBoxFull(IMAGE* image, int x1, int y1, int x2, int y2, int color)
 	SDL_RenderFillRect(moon_renderer, &(const SDL_FRect){x1, y1, x2 - x1, y2 - y1});
 }
 
+extern void MoonCircle(IMAGE* image, int x, int y, int r, int color)
+{
+	if (r <= 0)return;
+	//需要繪製邊的數量
+	int edge = min(360, 6 * r);					// 2 * Pi * r
+	float rad = 2 * 3.141f / edge;		//360 / edge
+	MOON_SDL_POINT* points = (MOON_SDL_POINT*)malloc(sizeof(MOON_SDL_POINT) * (edge + 1));
+	if (points == NULL)return;
+	for (int i = 0; i < edge; i++)
+	{
+		points[i].x = x + r * cos(rad * i);
+		points[i].y = y + r * sin(rad * i);
+	}
+	points[edge] = points[0];
+	MoonLineAll(image, points, edge + 1, color);
+	free(points);
+}
+
+
 extern void MoonImageLoad(IMAGE* image, const wchar_t** imagefile, int imagenumber)
 {
 	if (imagenumber == 1)
