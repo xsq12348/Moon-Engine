@@ -197,10 +197,10 @@ Email:1993346266@qq.com
 * 1.2.2.2  2026.3.16   修复了在切換回GDI時的未定義BUG															.Fixed an undefined bug when switching back to GDI
 * 1.2.2.3              修復了MoonTextFont函數的BUG																.Fixed a bug in the MoonTextFont function
 * 1.2.2.4  2026.4.5    新增了MoonDrawingAreaUV函數,現在可以使用UV矩形坐標											.Added the MoonDrawingAreaUV function, now UV rectangular coordinates can be used
-* 1.2.2.5  2026.4.7    將SDL的透明混合模式改成了SDL_SCALEMODE_NEAREST												.Changed SDL's alpha blending mode to SDL_SCALEMODE_NEAREST
-* 1.2.2.6  2026.4.9    修復了SDL幀率控制失效的問題																	.Fixed the issue of SDL frame rate control not working
-* 1.2.2.7  2026.4.13   修復了GDI幀率控制失效的問題																	.Fixed the issue of GDI frame rate control not working
-* 1.2.2.8  2026.4.13   新增了image_old功能,減少SDL_SetRenderTarget帶來的狀態切換提升性能								.Added the image_old feature, reducing state switches caused by SDL_SetRenderTarget to improve performance
+* 1.2.2.5  2026.4.7    將SDL的透明混合模式改成了SDL_SCALEMODE_NEAREST											.Changed SDL's alpha blending mode to SDL_SCALEMODE_NEAREST
+* 1.2.2.6  2026.4.9    修復了幀率控制失效的問題																	.Fixed the issue frame rate control not working
+* 1.2.2.7  2026.4.13   新增了	MoonCircle函數,用於繪製圓形														.Added the MoonCircle function, used for drawing circles
+* 1.2.2.8  2026.4.14   新增了image_old功能,減少SDL_SetRenderTarget帶來的狀態切換提升性能							.Added the image_old feature, reducing state switches caused by SDL_SetRenderTarget to improve performance
 */
 
 //创建线程函数关键字
