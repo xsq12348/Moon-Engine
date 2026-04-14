@@ -3,6 +3,7 @@
 #if OPEN_SDL
 
 static SDL_Renderer* moon_renderer = NULL;
+static IMAGE* image_old;
 
 extern void MoonRendererLoad(PROJECTGOD* project)
 {
@@ -15,30 +16,39 @@ extern void MoonRendererLoad(PROJECTGOD* project)
 
 extern void MoonDrawingArea(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height)
 {
-	SDL_SetRenderTarget(moon_renderer, image_1->image.bitmapgpu);
+	if (image_old != image_1)
+		SDL_SetRenderTarget(moon_renderer, image_1->image.bitmapgpu);
 	SDL_SetTextureBlendMode(image_2->image.bitmapgpu, SDL_BLENDMODE_NONE);
 	SDL_RenderTexture(moon_renderer, image_2->image.bitmapgpu, NULL, &(SDL_FRect){ x, y, width, height });
-}
+	image_old = image_1;
+}	
+
 
 extern void MoonDrawingAreaAlpha(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height, int transparent_color)
 {
-	SDL_SetRenderTarget(moon_renderer, image_1->image.bitmapgpu);
+	if (image_old != image_1)
+		SDL_SetRenderTarget(moon_renderer, image_1->image.bitmapgpu);
 	SDL_SetTextureScaleMode(image_2->image.bitmapgpu, SDL_SCALEMODE_NEAREST);
 	SDL_RenderTexture(moon_renderer, image_2->image.bitmapgpu, &(SDL_FRect){ x, y, width, height }, &(SDL_FRect){ x, y, width, height });
+	image_old = image_1;
 }
 
 extern void MoonDrawingAreaRound(IMAGE* image_1, IMAGE* image_2, int x, int y, int apx, int apy, int width, int height, int deg)
 {
-	SDL_SetRenderTarget(moon_renderer, image_1->image.bitmapgpu);
+	if (image_old != image_1)
+		SDL_SetRenderTarget(moon_renderer, image_1->image.bitmapgpu);
 	SDL_SetTextureBlendMode(image_2->image.bitmapgpu, SDL_BLENDMODE_NONE);
 	SDL_RenderTextureRotated(moon_renderer, image_2->image.bitmapgpu, NULL, &(SDL_FRect){ x - apx, y - apy, width, height }, deg, & (SDL_FPoint){apx, apy}, SDL_FLIP_NONE);
+	image_old = image_1;
 }
 
 extern void MoonDrawingAreaUV(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height, int uv_x1, int uv_y1, int uv_width, int uv_height)
 {
-	SDL_SetRenderTarget(moon_renderer, image_1->image.bitmapgpu);
+	if (image_old != image_1)
+		SDL_SetRenderTarget(moon_renderer, image_1->image.bitmapgpu);
 	SDL_SetTextureScaleMode(image_2->image.bitmapgpu, SDL_SCALEMODE_NEAREST);
 	SDL_RenderTexture(moon_renderer, image_2->image.bitmapgpu, &(SDL_FRect){ uv_x1, uv_y1, uv_width, uv_height }, & (SDL_FRect) { x, y, width, height });
+	image_old = image_1;
 }
 
 extern void MoonCreateImage(PROJECTGOD* project, IMAGE* image, int bmpwidth, int bmpheight)
@@ -61,36 +71,44 @@ extern void MoonPix(IMAGE* image, int x, int y, int color)
 {
 	//这里需要兼容GDI的BGR格式
 	Uint8 r = color & 0xff, g = (color & 0xff00) >> 8, b = (color & 0xff0000) >> 16, alpha = (color & 0xff000000) >> 24;
-	SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
+	if (image_old != image)
+		SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
 	SDL_SetRenderDrawColor(moon_renderer, r, g, b, alpha);
 	SDL_RenderPoint(moon_renderer, (float)x, (float)y);
+	image_old = image;
 }
 
 extern void MoonLine(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color)
 {
 	//这里需要兼容GDI的BGR格式
 	Uint8 r = color & 0xff, g = (color & 0xff00) >> 8, b = (color & 0xff0000) >> 16, alpha = (color & 0xff000000) >> 24;
-	SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
+	if (image_old != image)
+		SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
 	SDL_SetRenderDrawColor(moon_renderer, r, g, b, alpha);
 	SDL_RenderLine(moon_renderer, x1, y1, x2, y2);
+	image_old = image;
 }
 
 extern void MoonBox(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color)
 {
 	//这里需要兼容GDI的BGR格式
 	Uint8 r = color & 0xff, g = (color & 0xff00) >> 8, b = (color & 0xff0000) >> 16, alpha = (color & 0xff000000) >> 24;
-	SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
+	if (image_old != image)
+		SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
 	SDL_SetRenderDrawColor(moon_renderer, r, g, b, alpha);
 	SDL_RenderRect(moon_renderer, &(const SDL_FRect){x1, y1, x2 - x1, y2 - y1});
+	image_old = image;
 }
 
 extern void MoonBoxFull(IMAGE* image, int x1, int y1, int x2, int y2, int color)
 {
 	//这里需要兼容GDI的BGR格式
 	Uint8 r = color & 0xff, g = (color & 0xff00) >> 8, b = (color & 0xff0000) >> 16, alpha = (color & 0xff000000) >> 24;
-	SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
+	if (image_old != image)
+		SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
 	SDL_SetRenderDrawColor(moon_renderer, r, g, b, alpha);
 	SDL_RenderFillRect(moon_renderer, &(const SDL_FRect){x1, y1, x2 - x1, y2 - y1});
+	image_old = image;
 }
 
 extern void MoonCircle(IMAGE* image, int x, int y, int r, int color)
@@ -168,7 +186,8 @@ extern int MoonAnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int t
 
 extern int MoonAnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, float widthsize, float heightsize)
 {
-	SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
+	if (image_old != image)
+		SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
 	SDL_SetTextureBlendMode(image->image.bitmapgpu, SDL_BLENDMODE_BLEND);
 	if (!animeswitch)return 0;
 	else
@@ -178,6 +197,7 @@ extern int MoonAnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int 
 		SDL_RenderTexture(moon_renderer, anime->sequenceframes[anime->number].image.bitmapgpu, NULL, &(SDL_FRect){ x, y, anime->sequenceframes[anime->number].lengths.x* widthsize, anime->sequenceframes[anime->number].lengths.y* heightsize });
 	}
 	if (MoonTimeLoad(&(anime->timeload), 1)) ++anime->number;	//添加下一帧	
+	image_old = image;
 	return anime->number;
 }
 
@@ -207,36 +227,44 @@ extern void MoonPixAll(IMAGE* image, MOON_SDL_POINT* points, int allnumber, int 
 {
 	//这里需要兼容GDI的BGR格式
 	Uint8 r = color & 0xff, g = (color & 0xff00) >> 8, b = (color & 0xff0000) >> 16, alpha = (color & 0xff000000) >> 24;
-	SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
+	if (image_old != image)
+		SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
 	SDL_SetRenderDrawColor(moon_renderer, r, g, b, alpha);
 	SDL_RenderPoints(moon_renderer, points, allnumber);
+	image_old = image;
 }
 
 extern void MoonLineAll(IMAGE* image, MOON_SDL_POINT* points,int allnumber,int color)
 {
 	//这里需要兼容GDI的BGR格式
 	Uint8 r = color & 0xff, g = (color & 0xff00) >> 8, b = (color & 0xff0000) >> 16, alpha = (color & 0xff000000) >> 24;
-	SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
+	if (image_old != image)
+		SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
 	SDL_SetRenderDrawColor(moon_renderer, r, g, b, alpha);
 	SDL_RenderLines(moon_renderer, points, allnumber);
+	image_old = image;
 }
 
 extern void MoonBoxAll(IMAGE* image, MOON_SDL_RECT* rect, int allnumber, int color)
 {
 	//这里需要兼容GDI的BGR格式
 	Uint8 r = color & 0xff, g = (color & 0xff00) >> 8, b = (color & 0xff0000) >> 16, alpha = (color & 0xff000000) >> 24;
-	SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
+	if (image_old != image)
+		SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
 	SDL_SetRenderDrawColor(moon_renderer, r, g, b, alpha);
 	SDL_RenderRects(moon_renderer, rect, allnumber);
+	image_old = image;
 }
 
 extern void MoonBoxFullAll(IMAGE* image, MOON_SDL_RECT* rect, int allnumber, int color)
 {
 	//这里需要兼容GDI的BGR格式
 	Uint8 r = color & 0xff, g = (color & 0xff00) >> 8, b = (color & 0xff0000) >> 16, alpha = (color & 0xff000000) >> 24;
-	SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
+	if (image_old != image)
+		SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
 	SDL_SetRenderDrawColor(moon_renderer, r, g, b, alpha);
 	SDL_RenderFillRects(moon_renderer, rect, allnumber);
+	image_old = image;
 }
 
 extern void MoonImageDesignated(IMAGE* image)
