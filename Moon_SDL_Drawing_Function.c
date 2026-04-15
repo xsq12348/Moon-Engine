@@ -244,14 +244,12 @@ extern int MoonGetColor(IMAGE* image, int x, int y)
 	SDL_Rect rect = { x,y,1,1 };
 	SDL_Surface* surface = SDL_RenderReadPixels(moon_renderer, &rect);
 	Uint8* pixel = (Uint8*)surface->pixels;
-	Uint8 r = pixel[0];
+	Uint8 b = pixel[0];
 	Uint8 g = pixel[1];
-	Uint8 b = pixel[2];
+	Uint8 r = pixel[2];
 	Uint8 a = pixel[3];
 	SDL_DestroySurface(surface);
 	int color = r | (g << 8) | (b << 16) | (a << 24);
-	//printf("Pixel at (200, 150): R=%d, G=%d, B=%d, A=%d                \r", b, g, r, a);
-
 	image_old = image;
 	return color;
 }
