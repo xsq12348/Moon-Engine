@@ -42,6 +42,25 @@ extern void MoonDrawingAreaRound(IMAGE* image_1, IMAGE* image_2, int x, int y, i
 	image_old = image_1;
 }
 
+extern void MoonDrawingAreaPlgBit(IMAGE* image_1, IMAGE* image_2, POINT point[4], int color)
+{
+	//需要兼容GDI的BGR格式
+	float r = Lerp(0.f, 1.f, color & 0xff / 255), g = Lerp(0.f, 1.f, ((color & 0xff00) >> 8) / 255), b = Lerp(0.f, 1.f, ((color & 0xff0000) >> 16) / 255), alpha = Lerp(0.f, 1.f, ((color & 0xff000000) >> 24) / 255);
+	SDL_Vertex vertex[4] =
+	{
+		{.color = {.a = alpha,.b = b,.g = g,.r = (float)r},.position = {.x = (float)point[0].x,.y = (float)point[0].y},.tex_coord = {.x = 0.f,.y = 0.f}},	//0
+		{.color = {.a = alpha,.b = b,.g = g,.r = (float)r},.position = {.x = (float)point[1].x,.y = (float)point[1].y},.tex_coord = {.x = 1.f,.y = 0.f}},	//1
+		{.color = {.a = alpha,.b = b,.g = g,.r = (float)r},.position = {.x = (float)point[2].x,.y = (float)point[2].y},.tex_coord = {.x = 0.f,.y = 1.f}},	//2
+		{.color = {.a = alpha,.b = b,.g = g,.r = (float)r},.position = {.x = (float)point[3].x,.y = (float)point[3].y},.tex_coord = {.x = 1.f,.y = 1.f}},	//3
+	};
+	int pointindex[6] = { 0,1,2,1,2,3 };
+	if (image_old != image_1)
+		SDL_SetRenderTarget(moon_renderer, image_1->image.bitmapgpu);
+	SDL_SetTextureBlendMode(image_2->image.bitmapgpu, SDL_BLENDMODE_BLEND_PREMULTIPLIED);
+	SDL_RenderGeometry(moon_renderer, image_2->image.bitmapgpu, vertex, 4, pointindex, 6);
+	image_old = image_1;
+}
+
 extern void MoonDrawingAreaUV(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height, int uv_x1, int uv_y1, int uv_width, int uv_height)
 {
 	if (image_old != image_1)
@@ -220,7 +239,21 @@ extern void MoonTextFont(IMAGE* image, int x, int y, const wchar_t** text, COLOR
 
 extern int MoonGetColor(IMAGE* image, int x, int y)
 {
+	if (image_old != image)
+		SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
+	SDL_Rect rect = { x,y,1,1 };
+	SDL_Surface* surface = SDL_RenderReadPixels(moon_renderer, &rect);
+	Uint8* pixel = (Uint8*)surface->pixels;
+	Uint8 r = pixel[0];
+	Uint8 g = pixel[1];
+	Uint8 b = pixel[2];
+	Uint8 a = pixel[3];
+	SDL_DestroySurface(surface);
+	int color = r | (g << 8) | (b << 16) | (a << 24);
+	//printf("Pixel at (200, 150): R=%d, G=%d, B=%d, A=%d                \r", b, g, r, a);
 
+	image_old = image;
+	return color;
 }
 
 extern void MoonPixAll(IMAGE* image, MOON_SDL_POINT* points, int allnumber, int color)
@@ -309,24 +342,6 @@ extern void MoonSDLTextFont(IMAGE* textbuffer, const char* text, int text_transp
 	SDL_RenderFillRect(moon_renderer, &(const SDL_FRect){0, 0, textbuffer->image.width, textbuffer->image.height});
 	SDL_SetRenderDrawColor(moon_renderer, text_r, text_g, text_b, text_alpha);
 	SDL_RenderDebugText(moon_renderer, 0, 0, text);
-}
-
-
-extern void MoonImagePlgBit(IMAGE* image_1, IMAGE* image_2, POINT point[4], int color)
-{
-	//需要兼容GDI的BGR格式
-	float r = Lerp(0.f, 1.f, color & 0xff / 255), g = Lerp(0.f, 1.f, ((color & 0xff00) >> 8) / 255), b = Lerp(0.f, 1.f, ((color & 0xff0000) >> 16) / 255), alpha = Lerp(0.f, 1.f, ((color & 0xff000000) >> 24) / 255);
-	SDL_Vertex vertex[4] =
-	{
-		{.color = {.a = alpha,.b = b,.g = g,.r = (float)r},.position = {.x = (float)point[0].x,.y = (float)point[0].y},.tex_coord = {.x = 0.f,.y = 0.f}},	//0
-		{.color = {.a = alpha,.b = b,.g = g,.r = (float)r},.position = {.x = (float)point[1].x,.y = (float)point[1].y},.tex_coord = {.x = 1.f,.y = 0.f}},	//1
-		{.color = {.a = alpha,.b = b,.g = g,.r = (float)r},.position = {.x = (float)point[2].x,.y = (float)point[2].y},.tex_coord = {.x = 0.f,.y = 1.f}},	//2
-		{.color = {.a = alpha,.b = b,.g = g,.r = (float)r},.position = {.x = (float)point[3].x,.y = (float)point[3].y},.tex_coord = {.x = 1.f,.y = 1.f}},	//3
-	};
-	int pointindex[6] = { 0,1,2,1,2,3 };
-	SDL_SetRenderTarget(moon_renderer, image_1->image.bitmapgpu);
-	SDL_SetTextureBlendMode(image_2->image.bitmapgpu, SDL_BLENDMODE_BLEND_PREMULTIPLIED);
-	SDL_RenderGeometry(moon_renderer, image_2->image.bitmapgpu, vertex, 4, pointindex, 6);
 }
 
 #endif

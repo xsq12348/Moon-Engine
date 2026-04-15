@@ -42,3 +42,4 @@
 #define AnimeRun MoonAnimeRun
 #define AnimeDelete MoonAnimeDelete
 #define AnimeCreate MoonAnimeCreate
+#define MoonImagePlgBit MoonDrawingAreaPlgBit

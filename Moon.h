@@ -134,7 +134,7 @@ Email:1993346266@qq.com
 * 1.1.6.0              实现了C++的适配,如果要使用C++版本的,请确保您所有.c的文件后缀已经改成.cpp						.C++ adaptation has been implemented. If you want to use the C++ version, please make sure all your .c file extensions have been changed to .cpp.
 * 1.1.6.1              修复了ProjectFindEntityAllNumber函数的计数错误											.Fixed the counting error in the ProjectFindEntityAllNumber function
 * 1.1.6.2              更新了实体系统,现在不再会有堆栈溢出的问题了。
-                       因为PROJECTGOD里的ENTITYINDEX entityindex[ENTITYNUMBER];变成了ENTITYINDEX* entityindex;.The entity system has been updated, and there will no longer be stack overflow issues because ENTITYINDEX entityindex[ENTITYNUMBER]; in PROJECTGOD has been changed to ENTITYINDEX* entityindex;
+					   因为PROJECTGOD里的ENTITYINDEX entityindex[ENTITYNUMBER];变成了ENTITYINDEX* entityindex;.The entity system has been updated, and there will no longer be stack overflow issues because ENTITYINDEX entityindex[ENTITYNUMBER]; in PROJECTGOD has been changed to ENTITYINDEX* entityindex;
 * 1.1.6.3  2025.12.2   修复了引擎内部实体类型不正确的BUG															.Fixed a bug where the internal entity type of the engine was incorrect
 * 1.1.6.4              更新了ProjectFindEntityAllNumber函数,现在会打印更详细的内容								.Updated the ProjectFindEntityAllNumber function, it will now print more detailed informatio
 * 1.1.6.5              将Hash槽位改成质数,减少Hash冲突															.Change the hash slots to prime numbers to reduce hash collisions
@@ -201,6 +201,10 @@ Email:1993346266@qq.com
 * 1.2.2.6  2026.4.9    修復了幀率控制失效的問題																	.Fixed the issue frame rate control not working
 * 1.2.2.7  2026.4.13   新增了	MoonCircle函數,用於繪製圓形														.Added the MoonCircle function, used for drawing circles
 * 1.2.2.8  2026.4.14   新增了image_old功能,減少SDL_SetRenderTarget帶來的狀態切換提升性能							.Added the image_old feature, reducing state switches caused by SDL_SetRenderTarget to improve performance
+* 請注意,由於本人的疏忽,忘記了更新函數不是小版本號,1.2.2.4版本應該是1.2.3.0,那麽1.2.2.7應該是1.2.4.0,但是本人不會再更改舊版本號,從這裏開始應用新版本號
+* 這算是一個小問題,只有1.2.3.x和1.2.4.0有問題
+* 1.2.4.1  2026.4.15   將MoonImagePlgBit函數的名字改成了MoonDrawingAreaPlgBit,您可以開啓兼容模式以使用原來的名字
+* 1.2.4.2			   完成了SDL模式下的MoonGetColor,現在這個函數在SDL下可以使用了
 */
 
 //创建线程函数关键字
@@ -305,53 +309,276 @@ typedef struct
 
 //-------------------------------------------------------------------------------------------基础工具函数-----------------------------------------------------------------------------//
 
+/*
+* 函數 MoonHash
+* 作用 求字符串的Hash值
+* 使用方法 
+* char arr[12] = "Hello_World";
+* int alpha = Moonhash(arr)
+*/
 extern unsigned int MoonHash(char* text);
+
+/*
+* 函數 DegRad
+* 作用 求弧度值
+* 使用方法 
+* float alpha = cos(DegRad(45));
+*/
 #define DegRad(phi) (Pi * (phi) * 1.f / 180.f)																															//角度转弧度
+
+/*
+* 函數 MoonKeyState
+* 作用 獲取硬件狀態
+* 使用方法 
+* _Bool alpha = MoonKeyState(VK_SPACE);
+*/
 extern int MoonKeyState(int Key);																																		//获取按键的值
+
+/*
+* 函數 Lerp
+* 作用 線性插值
+* 使用方法
+* float alpha = Lerp(0, 1, .5f);
+*/
 #define Lerp(alpha, beta, t) ((1.f - (t)) * (alpha) + (t) * (beta))																										//线性插值
+
+/*
+* 函數 RANGE
+* 作用 限制範圍
+* 使用方法
+* int alpha = RANGE(beta, 0, 100);
+*/
 #define RANGE(alpha, alpha_min, alpha_max) (min(max(alpha,alpha_min),alpha_max))																						//限制范围
+
+/*
+* 函數 SETMOUSECOORD
+* 作用 設置鼠標位置
+* 使用方法 
+* SETMOUSECOORD(x, y);
+*/
 #define SETMOUSECOORD( X, Y) SetCursorPos(X, Y)																															//设置鼠标位置
+
+/*
+* 函數 Random
+* 作用 獲取隨機數
+* 使用方法 
+* int alpha = Random(0, 100);
+*/
 #define Random(A, B) (rand() % (B - A) + A)																																//随机数获取
+
+/*
+* 函數 MoonMusic
+* 作用 播放音樂
+* 使用方法
+* MoonMusic("music.mp3");
+*/
 extern void MoonMusic(const wchar_t* File);																																//播放音乐
+
+/*
+* 函數 CMD
+* 作用 开关控制台
+* 使用方法
+* CMD(ON);
+* CMD(OFF);
+*/
 #define CMD(YES_OR_ON) ShowWindow(GetConsoleWindow(), YES_OR_ON? SW_SHOW : SW_HIDE)																						//开关控制台
+
+/*
+* 函數 MoonGetColor
+* 作用 獲取紋理像素顔色
+* 使用方法
+* int color = MoonGetColor(image, 0, 0);
+*/
 extern int MoonGetColor(IMAGE* image, int x, int y);																													//获取像素颜色
+
+/*
+* 函數 MoonTriangleDetection
+* 作用 檢測點與三角形的位置關係
+* 使用方法
+* POINT point[4] = 
+* {
+*	{0,0},
+*	{10,0},
+*	{0,10},
+*	{5,50}
+* };
+* _Bool = MoonTriangleDetection(point[0], point[1], point[2], point[3]);
+*/
 extern int MoonTriangleDetection(POINT a, POINT b, POINT c, POINT p);																									//三角形碰撞检测
+
+/*
+* 函數 MoonRunProgram
+* 作用 运行外部程序
+* 使用方法
+* MoonRunProgram("Game.exe");
+*/
 extern void MoonRunProgram(const wchar_t* name);																														//运行外部程序
 
 //------------------------------------定时函数--------------------------------------------------//
 
+
+/*
+* 函數 MoonTimeLoadInit
+* 作用 初始化定時器
+* 使用方法
+* TIMELOAD load;
+* MoonTimeLoadInit(&load, 100);
+*/
 extern void MoonTimeLoadInit(TIMELOAD* Timeload, int load);																												//初始化定时器
+
+/*
+* 函數 MoonTimeLoad
+* 作用 運行定時器
+* 使用方法
+* MoonTimeLoad(&load, 1);
+*/
 extern int MoonTimeLoad(TIMELOAD* Timeload, int mode);																													//运行定时器
+
+/*
+* 函數 MoonSleep
+* 作用 暫停
+* 使用方法
+* MoonSleep(1);
+*/
 extern int MoonSleep(int timeload);																																		//暂停
 
 //------------------------------------实体函数--------------------------------------------------//
 
+
+/*
+* 函數 MoonFindEntity
+* 作用 尋找實體
+* 使用方法
+* int* entity = (int*)MoonFindEntity(projectgod, (char*)nameid)
+*/
 extern void* MoonFindEntity(PROJECTGOD* project, char* nameid);																											//寻找实体
+
+/*
+* 函數 HashFindEntity
+* 作用 hash寻找实体
+* 使用方法
+* HashFindEntity(project, "ProjectBitmap", int, engineback);
+*/
 #define HashFindEntity(projectgod, nameid, type, entity) type* entity = (type*)MoonFindEntity(projectgod, (char*)nameid)												//hash寻找实体
+
+/*
+* 函數 MoonCreateEntityIndex
+* 作用 注册实体
+* 使用方法
+* static TIMELOAD logictps;
+* MoonCreateEntityIndex(project, &logictps, "LogicTps", sizeof(TIMELOAD));
+*/
 extern int MoonCreateEntityIndex(PROJECTGOD* project, void* arrentity, char* nameid, int length);																		//注册实体
 
 //------------------------------------双缓冲函数------------------------------------------------//
 
+
+/*
+* 函數 MoonCreateImage
+* 作用 创建双缓冲绘图绘图区
+* 使用方法
+* IMAGE buffer;
+* MoonCreateImage(project, &buffer, project->window_width, project->window_height);
+*/
 extern void MoonCreateImage(PROJECTGOD* project, IMAGE* image, int bmpwidth, int bmpheight);																			//创建双缓冲绘图绘图区
+
+/*
+* 函數 MoonDeletImage
+* 作用 删除双缓冲绘图绘图区/紋理
+* 使用方法
+* MoonDeletImage(bitmap);
+*/
 extern void MoonDeletImage(IMAGE* image);																																//删除双缓冲绘图绘图区
 
 //------------------------------------多线程函数------------------------------------------------//
 
+
+/*
+* 函數 创建多线程函数
+* 作用 CREATETHREADFUNCTION
+* 使用方法
+* CREATETHREADFUNCTION(Thread);
+*/
 #define CREATETHREADFUNCTION(NAME)       THREAD NAME(LPARAM lparam)																										//创建多线程函数
+
+/*
+* 函數 CREATETHREAD
+* 作用 创建并运行多线程函数
+* 使用方法
+* CREATETHREAD(Thread, project);
+*/
 #define CREATETHREAD(fuction,resource)   CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)fuction, (LPVOID)resource, 0, NULL);												//创建并运行多线程函数
+
+/*
+* 函數 GETTHREADRESOURCE
+* 作用 获取多綫程函數外部导入的资源
+* 使用方法
+* static CREATETHREADFUNCTION(Thread)
+* {
+*	GETTHREADRESOURCE(PROJECTGOD*, project);
+*	return 1;
+* }
+*/
 #define GETTHREADRESOURCE(type,resource) type resource = (type)lparam;																									//获取外部导入的资源
 
 //------------------------------------字符函数------------------------------------------------//
 
+
+/*
+* 注意!這個函數不好用,就不寫使用方法了
+* 函數 MoonCharToLPCWSTR
+* 作用 字符转换
+* 使用方法
+* MoonCharToLPCWSTR()
+*/
 extern const wchar_t* MoonCharToLPCWSTR(char* str);																														//字符转换
+
+/*
+* 函數 MoonCharToWchar
+* 作用 字符转换
+* 使用方法
+* wchar_t* text1;
+* char* text2 = "Hello";
+* MoonCharToWchar(text1, text2, 5);
+*/
 extern int MoonCharToWchar(wchar_t* text1, char* text2, int len);																										//字符转换
+
+/*
+* 函數
+* 作用 字符转换
+* 使用方法
+* char* text1;
+* wchar_t* text2 = L"Hello";
+* MoonCharToWchar(text1, text2, 5);
+*/
 extern int MoonWcharToChar(char* text1, wchar_t* text2, int len);																										//字符转换
 
+/*
+* 函數 MoonTextFont
+* 作用 在圖像上顯示文字
+* 使用方法
+* MoonTextFont(&image, 10, 10, L"Hello", RGB(255,255,255), TRUE, L"宋體", 24, 24, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE);
+*/
 extern void MoonTextFont(IMAGE* image, int x, int y, const wchar_t* text, COLORREF color, BOOL back, const wchar_t* font, int sizewidth, int sizeheight, int texttilt, int fonttilt, int FW_, int underline, int deleteline, int DEFAULT_);	//显示字符
 
 #if OPEN_SDL
 
+
+/*
+* 函數 MoonSDLTextInit
+* 作用 初始化SDL文字繪製緩衝區
+* 使用方法
+* IMAGE textbuffer;
+* MoonSDLTextInit(project, &textbuffer, "TextBuffer", 256, 64);
+*/
 extern void MoonSDLTextInit(PROJECTGOD* project, IMAGE* textbuffer, const char* entity_name, int back_width, int back_height);								//初始化背景缓冲区
+
+/*
+* 函數 MoonSDLTextFont
+* 作用 使用SDL繪製文字到緩衝區
+* 使用方法
+* MoonSDLTextFont(&textbuffer, "Hello World", RGB(255,255,255), RGB(0,0,0));
+*/
 extern void MoonSDLTextFont(IMAGE* textbuffer, const char* text, int text_transparent_color, int back_transparent_color);									//绘制文字
 
 #endif
@@ -378,10 +605,39 @@ typedef struct MOONBUTTON
 	int (*ButtonModeHover)   (PROJECTGOD* project, struct MOONBUTTON* buton);	//悬停
 }MOONBUTTON;
 
+
+/*
+* 函數 MoonButtonInit
+* 作用 初始化按鈕控件
+* 使用方法
+* MOONBUTTON btn;
+* MoonButtonInit(&btn, 10, 10, 100, 50);
+*/
 extern int MoonButtonInit(MOONBUTTON* button, int x, int y, int width, int height);																							//初始化按钮
+
+/*
+* 函數 MoonButtonDetection
+* 作用 檢測按鈕觸發狀態
+* 使用方法
+* if(MoonButtonDetection(project, "MyButton") == MOON_BUTTONPRESS) { ... }
+*/
 extern int MoonButtonDetection(PROJECTGOD* project, char* name);																											//检测按钮Trigger
+
+/*
+* 函數 MoonButtonSetTriggerMode
+* 作用 更改按鈕觸發方式
+* 使用方法
+* MoonButtonSetTriggerMode(project, "MyButton", MOON_BUTTONPRESS);
+*/
 extern int MoonButtonSetTriggerMode(PROJECTGOD* project, char* name, unsigned char key);																					//更改触发方式
 
+/*
+* 函數 MOONBUTTONCREATE
+* 作用 便捷注冊按鈕
+* 使用方法
+* static MOONBUTTON button
+* MOONBUTTONCREATE(project, name, x, y, w, h, 0, 0, 0);
+*/
 #define MOONBUTTONCREATE(project, name, button, x, y, width, height, Press, Release, Hover) \
 MoonButtonInit(&button,(x), (y), (width), (height));                                        \
 button.ButtonModeHover = Hover;                                                             \
@@ -392,59 +648,336 @@ MoonCreateEntityIndex(project, &button, (char*)name, sizeof(MOONBUTTON));
 
 //-------------------------------------------------------------------------------------------Windows函数----------------------------------------------------------------------------//
 
+
+/*
+* 函數 MoonWindow
+* 作用 創建Windows窗口
+* 使用方法
+* HWND hwnd = MoonWindow(L"MyGame", 100, 100, 800, 600);
+*/
 extern HWND MoonWindow(const wchar_t* name,int window_coord_x, int window_coord_y, int window_width, int window_height);													//创建窗口
+
+/*
+* 注意!内部已經存在消息循環,請不要放入循環中
+* 函數 MoonRunWindow
+* 作用 處理窗口消息循環
+* 使用方法
+* MoonRunWindow();
+*/
 extern void MoonRunWindow();																																				//窗口消息
 
 //-------------------------------------------------------------------------------------------流程函数--------------------------------------------------------------------------------//
 
+
+/*
+* 函數 MoonProjectInit
+* 作用 初始化遊戲項目
+* 使用方法
+* PROJECTGOD game;
+* MoonProjectInit(&game, L"MyGame", 100, 100, 800, 600, 60, GameSetting);
+*/
 extern void MoonProjectInit(PROJECTGOD* project, const wchar_t* project_name, int x, int y, int width, int height, int fps,void (*ProjectSetting_1)(PROJECTGOD*));			//创建项目
+
+/*
+* 函數 MoonProjectRun
+* 作用 運行遊戲項目主循環
+* 使用方法
+* MoonProjectRun(&game, GameInit, GameLogic, GameDrawing);
+*/
 extern void MoonProjectRun(PROJECTGOD* project, int (*ProjectSetting_2)(PROJECTGOD*), int(*ProjectLogic)(PROJECTGOD*), int(*ProjectDrawing)(PROJECTGOD*));					//运行项目
+
+/*
+* 函數 MoonProjectOver
+* 作用 結束遊戲項目，釋放資源
+* 使用方法
+* MoonProjectOver(&game, GameCleanup);
+*/
 extern void MoonProjectOver(PROJECTGOD* project, void (*ProjectOverSetting)(PROJECTGOD*));																					//结束项目
+
+/*
+* 函數
+* 作用
+* 使用方法
+
+*/
 #define PROJECTSETTING(NAME) void NAME(PROJECTGOD* project)																													//创建设置选项
+
+/*
+* 函數
+* 作用
+* 使用方法
+
+*/
 #define PROJECTMODULE(NAME)  int NAME(PROJECTGOD* project)																													//配置模块
+
+/*
+* 函數 MoonProjectError
+* 作用 錯誤處理函數
+* 使用方法
+* MoonProjectError(NULL, 1, "Something went wrong!");
+*/
 extern int MoonProjectError(void* alpha, int degree, char* text);																											//错误处理
+
+/*
+* 注意!這個函數對你的代碼沒有任何作用!僅僅是引擎内部初始化使用的,你可以使用MoonProjectFunctionSwitch來獲得更好的效果
+* 函數 MoonProjectPause
+* 作用 暫停/恢復項目運行
+* 使用方法
+* MoonProjectPause(1, &project->Logic, NULL, NULL);
+*/
 extern int MoonProjectPause(int mode, int (**function_1)(PROJECTGOD*), int (*function_2)(PROJECTGOD*), int (*function_3)(PROJECTGOD*));										//暂停函数
+
+/*
+* 函數 MoonProjectFunctionSwitch
+* 作用 切換項目中的函數指針
+* 使用方法
+* MoonProjectFunctionSwitch(&project->Drawing, NewDrawingFunction);
+*/
 extern void MoonProjectFunctionSwitch(int (**function_1)(PROJECTGOD*), int (*function_2)(PROJECTGOD*));																		//函数切换
+
+/*
+* 函數
+* 作用
+* 使用方法
+
+*/
 #define FUNCTIONSWITCH(function) MoonProjectFunctionSwitch(&project->Drawing, function);																					//函数切换宏
+
+/*
+* 函數 MoonProjectFindEntityAllNumber
+* 作用 統計項目中已註冊的實體總數
+* 使用方法
+* int count = MoonProjectFindEntityAllNumber(project);
+*/
 extern int  MoonProjectFindEntityAllNumber(PROJECTGOD* project);																											//统计实体总数
 #if OPEN_SDL
 
+
+/*
+* 注意!這個函數對你的代碼沒有任何作用!僅僅是引擎内部初始化使用的
+* 函數 MoonRendererLoad
+* 作用 加載SDL渲染器，從實體系統中獲取渲染器和紋理
+* 使用方法
+* MoonRendererLoad(project);
+*/
 extern void MoonRendererLoad(PROJECTGOD* project);																															//加载SDL_Renderer
 
 #endif
 //-------------------------------------------------------------------------------------------绘制函数--------------------------------------------------------------------------------//
 
+
+/*
+* 函數 MoonDrawingArea
+* 作用 將image_2繪製到image_1上，不帶透明度
+* 使用方法
+* MoonDrawingArea(&backBuffer, &sprite, 10, 20, 64, 64);
+*/
 extern void MoonDrawingArea(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height);																			//画板
+
+/*
+* 函數 MoonDrawingAreaAlpha
+* 作用 將image_2繪製到image_1上，帶透明度（透明色）
+* 使用方法
+* MoonDrawingAreaAlpha(&backBuffer, &sprite, 10, 20, 64, 64, TRANSPARENTCOLOR);
+*/
 extern void MoonDrawingAreaAlpha(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height, int transparent_color);												//带透明度的画板
+
+/*
+* 函數 MoonDrawingAreaRound
+* 作用 將image_2旋轉後繪製到image_1上
+* 使用方法
+* MoonDrawingAreaRound(&backBuffer, &sprite, 100, 100, 32, 32, 64, 64, 45);
+*/
 extern void MoonDrawingAreaRound(IMAGE* image_1, IMAGE* image_2, int x, int y, int apx, int apy, int width, int height, int deg);											//旋转的画板
+
+/*
+* 函數 MoonPix
+* 作用 在圖像上繪製一個像素點
+* 使用方法
+* MoonPix(&image, 10, 10, RGB(255,0,0));
+*/
 extern void MoonPix(IMAGE* image, int x, int y, int color);																													//绘制点
+
+/*
+* 函數 MoonLine
+* 作用 在圖像上繪製線條
+* 使用方法
+* MoonLine(&image, 0, 0, 100, 100, 2, RGB(255,255,255));
+*/
 extern void MoonLine(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																					//绘制线
+
+/*
+* 函數 MoonBox
+* 作用 在圖像上繪製矩形邊框
+* 使用方法
+* MoonBox(&image, 10, 10, 100, 100, 2, RGB(255,0,0));
+*/
 extern void MoonBox(IMAGE* image, int x1, int y1, int x2, int y2, int width, int color);																					//绘制矩形
+
+/*
+* 函數 MoonBoxFull
+* 作用 在圖像上繪製填充矩形
+* 使用方法
+* MoonBoxFull(&image, 10, 10, 100, 100, RGB(255,0,0));
+*/
 extern void MoonBoxFull(IMAGE* image, int x1, int y1, int x2, int y2,int color);																							//绘制填充矩形
 
 #if OPEN_SDL
 
+
+/*
+* 函數 MoonCircle
+* 作用 在圖像上繪製圓形
+* 使用方法
+* MoonCircle(&image, 50, 50, 30, RGB(255,0,0));
+*/
 extern void MoonCircle(IMAGE* image, int x, int y, int r, int color);																										//繪製圓
+
+/*
+* 函數 MoonPixAll
+* 作用 批量繪製多個像素點
+* 使用方法
+* MOON_SDL_POINT points[] = {{10,10},{20,20},{30,30}};
+* MoonPixAll(&image, points, 3, RGB(255,0,0));
+*/
 extern void MoonPixAll(IMAGE* image, MOON_SDL_POINT* points, int allnumber, int color);																						//绘制点
+
+/*
+* 函數 MoonLineAll
+* 作用 批量繪製多條線段
+* 使用方法
+* MOON_SDL_POINT lines[] = {{0,0},{100,100},{100,0},{0,100}};
+* MoonLineAll(&image, lines, 4, RGB(255,255,255));
+*/
 extern void MoonLineAll(IMAGE* image, MOON_SDL_POINT* points, int allnumber, int color);																					//绘制线
+
+/*
+* 函數 MoonBoxAll
+* 作用 批量繪製多個矩形邊框
+* 使用方法
+* MOON_SDL_RECT rects[] = {{10,10,50,50},{70,10,50,50}};
+* MoonBoxAll(&image, rects, 2, RGB(255,0,0));
+*/
 extern void MoonBoxAll(IMAGE* image, MOON_SDL_RECT* points, int allnumber, int color);																						//绘制矩形
+
+/*
+* 函數 MoonBoxFullAll
+* 作用 批量繪製多個填充矩形
+* 使用方法
+* MOON_SDL_RECT rects[] = {{10,10,50,50},{70,10,50,50}};
+* MoonBoxFullAll(&image, rects, 2, RGB(255,0,0));
+*/
 extern void MoonBoxFullAll(IMAGE* image, MOON_SDL_RECT* points, int allnumber, int color);																					//绘制填充矩形
+
+/*
+* 函數 MoonImageDesignated
+* 作用 手動指定當前的渲染目標紋理
+* 使用方法
+* MoonImageDesignated(&backBuffer);
+*/
 extern void MoonImageDesignated(IMAGE* image);																																//设置绘图对象
+
+/*
+* 函數 MoonSetDrawImage
+* 作用 設置紋理的混合模式
+*	case 0:return; break; 
+* 	case 1:SDL_SetTextureBlendMode(image->image.bitmapgpu, SDL_BLENDMODE_NONE); break;
+	case 2:SDL_SetTextureBlendMode(image->image.bitmapgpu, SDL_BLENDMODE_BLEND); break;
+	case 3:SDL_SetTextureBlendMode(image->image.bitmapgpu, SDL_BLENDMODE_BLEND_PREMULTIPLIED); break;
+	case 4:SDL_SetTextureBlendMode(image->image.bitmapgpu, SDL_BLENDMODE_ADD); break;
+	case 5:SDL_SetTextureBlendMode(image->image.bitmapgpu, SDL_BLENDMODE_ADD_PREMULTIPLIED); break;
+	case 6:SDL_SetTextureBlendMode(image->image.bitmapgpu, SDL_BLENDMODE_MOD); break;
+	case 7:SDL_SetTextureBlendMode(image->image.bitmapgpu, SDL_BLENDMODE_MUL); break;
+	case 8:SDL_SetTextureBlendMode(image->image.bitmapgpu, SDL_BLENDMODE_INVALID); break;
+* 使用方法
+* MoonSetDrawImage(&sprite, 2);
+*/
 extern void MoonSetDrawImage(IMAGE* image, int mode);																														//设置绘图模式
+
+/*
+* 函數 MoonModifyAlpha
+* 作用 修改整個紋理的全局透明度
+* 使用方法
+* MoonModifyAlpha(&sprite, 128);  // 設置半透明
+*/
 extern void MoonModifyAlpha(IMAGE* image, int transparent_color);																											//修饰Alpha通道
-extern void MoonImagePlgBit(IMAGE* image_1, IMAGE* image_2, POINT point[4], int color);																						//纹理贴图
+
+/*
+* 函數 MoonDrawingAreaPlgBit
+* 作用 將image_2進行四點透視變換後繪製到image_1上（紋理貼圖）
+* 使用方法
+* POINT points[4] = {{0,0},{100,0},{0,100},{100,100}};
+* MoonDrawingAreaPlgBit(&backBuffer, &texture, points, RGB(255,255,255));
+*/
+extern void MoonDrawingAreaPlgBit(IMAGE* image_1, IMAGE* image_2, POINT point[4], int color);																				//纹理贴图
+
+/*
+* 函數 MoonDrawingAreaUV
+* 作用 將image_2的指定UV區域繪製到image_1上
+* 使用方法
+* MoonDrawingAreaUV(&backBuffer, &sprite, 10, 20, 64, 64, 0, 0, 32, 32);
+*/
 extern void MoonDrawingAreaUV(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height, int uv_x1, int uv_y1, int uv_width, int uv_height);						//UV纹理贴图
 
 #endif
 
 //------------------------------------图片------------------------------------------------//
 
+
+/*
+* 函數 MoonImageLoad
+* 作用 加載BMP圖片到紋理中
+* 使用方法
+* const wchar_t* files[] = {L"1.bmp", L"2.bmp"};
+* MoonImageLoad(&image, files, 2);
+*/
 extern void MoonImageLoad(IMAGE* image, const wchar_t** imagefile, int imagenumber);																						//加载图片
+
+/*
+* 函數 MoonImageLoadBatch
+* 作用 批量創建紋理並加載圖片
+* 使用方法
+* IMAGE frames[10];
+* const wchar_t* names[] = {L"frame1.bmp", L"frame2.bmp", ...};
+* MoonImageLoadBatch(project, frames, 10, names, 64, 64);
+*/
 extern void MoonImageLoadBatch(PROJECTGOD* project, IMAGE* image, int totalnumber, const wchar_t** name, int width, int height);											//批量加载图片
 
 //------------------------------------动画------------------------------------------------//
 
+
+/*
+* 函數 MoonAnimeInit
+* 作用 初始化動畫結構體
+* 使用方法
+* ANIME anim;
+* MoonAnimeInit(&anim, "Walk", frames, 100, 8, 64, 64);
+*/
 extern int MoonAnimeInit(ANIME* anime, LPCSTR name, IMAGE* sequenceframes, int timeload, int totalnumber, int width, int height);											//初始化动画
+
+/*
+* 函數 MoonAnimeRun
+* 作用 運行動畫，繪製當前幀
+* 使用方法
+* MoonAnimeRun(&backBuffer, &anim, 1, x, y, 1.0f, 1.0f);
+*/
 extern int MoonAnimeRun(IMAGE* image, ANIME* anime, int animeswitch, int x, int y, float widthsize, float heightsize);														//运行动画
+
+/*
+* 函數 MoonAnimeDelete
+* 作用 刪除動畫並釋放所有序列幀紋理
+* 使用方法
+* MoonAnimeDelete(&anim);
+*/
 extern void MoonAnimeDelete(ANIME* anime);																																	//删除动画
+
+/*
+* 函數 MoonAnimeCreate
+* 作用 一步創建完整的動畫（批量加載圖片+初始化動畫+註冊實體）
+* 使用方法
+* IMAGE frames[10];
+* ANIME anim;
+* const wchar_t* names[] = {L"1.bmp", L"2.bmp", ...};
+* MoonAnimeCreate(project, frames, &anim, 10, names, "PlayerAnim", 100, 64, 64);
+*/
 extern void MoonAnimeCreate(PROJECTGOD* project, IMAGE* image, ANIME* anime, int totalnumber, const wchar_t** animename, char* entityname, int timeload, int width, int height);	//创建动画
