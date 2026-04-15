@@ -342,4 +342,46 @@ extern void MoonSDLTextFont(IMAGE* textbuffer, const char* text, int text_transp
 	SDL_RenderDebugText(moon_renderer, 0, 0, text);
 }
 
+extern int MoonImageHandlePassageMatrix(IMAGE* image, float passage[9], int x, int y, unsigned int width, unsigned int height)
+{
+	//passage == 0 ~ 1.f
+	SDL_SetRenderTarget(moon_renderer, image->image.bitmapgpu);
+	SDL_Rect rect = { x,y,width,height };
+	SDL_Surface* surface = SDL_RenderReadPixels(moon_renderer, &rect);
+	for (int o = 0; o < width; o++)
+		for (int i = 0; i < height; i++)
+		{
+			Uint8 a, b, g, r;
+			Uint32* pixel_all = (Uint32*)surface->pixels;
+			Uint32 pixel = pixel_all[o + i * surface->w];
+			//這裏我真沒招了
+			/*
+			如果按照内部注冊時的RGBA格式,那麽按照以下方式讀取就會變成奇怪的RABG,所以經過調整改成ARGB讀取
+			可能是轉換成Surface時造成的格式轉換成了某種默認的ARGB
+			r = (pixel & 0xff000000) >> 24;
+			a = (pixel & 0x00ff0000) >> 16;
+			b = (pixel & 0x0000ff00) >> 8;
+			g = pixel & 0x000000ff;
+			*/
+			a = (pixel & 0xff000000) >> 24;
+			r = (pixel & 0x00ff0000) >> 16;
+			g = (pixel & 0x0000ff00) >> 8;
+			b = pixel & 0x000000ff;
+			Uint8 newr = RANGE(r * passage[0] + g * passage[3] + b * passage[6], 0, 255),
+				newg = RANGE(r * passage[1] + g * passage[4] + b * passage[7], 0, 255),
+				newb = RANGE(r * passage[2] + g * passage[5] + b * passage[8], 0, 255);
+			Uint32 pixel_new =
+				(newr << 24)
+				| (newg << 16)
+				| (newb << 8)
+				| (a)
+				;
+			pixel_all[o + i * surface->w] = pixel_new;
+		}
+	SDL_UpdateTexture(image->image.bitmapgpu, &rect, surface->pixels, surface->pitch);
+	SDL_DestroySurface(surface);
+	return 1;//ABGR RGBA
+}
+
+
 #endif

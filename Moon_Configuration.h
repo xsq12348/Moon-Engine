@@ -1,5 +1,5 @@
 #pragma once
-#define OPEN_SDL                1
+#define OPEN_SDL                0
 #define MOONMANYENTITY          0
 #define MOONSTANDARDENTITY      1
 #define MOONFEWENTITY           0

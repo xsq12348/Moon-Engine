@@ -205,6 +205,7 @@ Email:1993346266@qq.com
 * 這算是一個小問題,只有1.2.3.x和1.2.4.0有問題
 * 1.2.4.1  2026.4.15   將MoonImagePlgBit函數的名字改成了MoonDrawingAreaPlgBit,您可以開啓兼容模式以使用原來的名字
 * 1.2.4.2			   完成了SDL模式下的MoonGetColor,現在這個函數在SDL下可以使用了
+* 1.2.5.0			   新增了MoonImageHandlePassageMatrix函數,可以修飾紋理顔色通道
 */
 
 //创建线程函数关键字
@@ -918,6 +919,22 @@ extern void MoonDrawingAreaPlgBit(IMAGE* image_1, IMAGE* image_2, POINT point[4]
 * MoonDrawingAreaUV(&backBuffer, &sprite, 10, 20, 64, 64, 0, 0, 32, 32);
 */
 extern void MoonDrawingAreaUV(IMAGE* image_1, IMAGE* image_2, int x, int y, int width, int height, int uv_x1, int uv_y1, int uv_width, int uv_height);						//UV纹理贴图
+
+/*
+* 函數 MoonImageHandlePassageMatrix
+* 作用 修飾Image顔色通道
+* 使用方法
+* 最好不要運行時修飾
+* 
+* 		float matrix[9] =
+		{
+			1.f,0.f,0.f,	//R通道
+			0.f,1.f,0.f,	//G通道
+			0.f,0.f,1.f,	//B通道
+		};
+		MoonImageHandlePassageMatrix(&imagell, matrix, 0, 0, imagell.image.width, imagell.image.height);
+*/
+extern int MoonImageHandlePassageMatrix(IMAGE* image, float passage[9], int x, int y, unsigned int width, unsigned int height);
 
 #endif
 
