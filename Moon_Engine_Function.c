@@ -1,6 +1,6 @@
 #include"Moon.h"
 
-static char Moon_Engine_VSn[4] = { 1,2,5,0 };
+static char Moon_Engine_VSn[4] = { 1,2,5,1 };
 static TIMELOAD projectfps;
 static int fpsmax, fpsmax2;
 static IMAGE projectdoublebuffer;
@@ -194,12 +194,13 @@ static CREATETHREADFUNCTION(ProjectDrawingThread)
 		runload[2] = runload[1] - runload[0];
 		project->Power <= 0 && runload[2] < project->timeload.timeload && MoonSleep((project->timeload.timeload - runload[2]));
 	}
+	return 1;
 }
 
 #endif
 
 
-extern void MoonProjectRun(PROJECTGOD* project, int (*ProjectSetting_2)(PROJECTGOD*), int(*ProjectLogic)(PROJECTGOD*), int(*ProjectDrawing)(PROJECTGOD*))
+extern void MoonProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*), int(*ProjectLogic)(PROJECTGOD*), int(*ProjectDrawing)(PROJECTGOD*))
 {
 	int runload[3] = { 0 };//帧率计时器
 	printf("\n[ProjectRun]引擎流程函数进入成功!\n");

@@ -16,6 +16,7 @@
 #include<Windows.h>
 #include <locale.h>
 #include <wchar.h>
+#include <d3d11.h>
 #if OPEN_SDL
 #include <SDL3\SDL.h>
 #endif
@@ -206,6 +207,21 @@ Email:1993346266@qq.com
 * 1.2.4.1  2026.4.15   將MoonImagePlgBit函數的名字改成了MoonDrawingAreaPlgBit,您可以開啓兼容模式以使用原來的名字
 * 1.2.4.2			   完成了SDL模式下的MoonGetColor,現在這個函數在SDL下可以使用了
 * 1.2.5.0			   新增了MoonImageHandlePassageMatrix函數,可以修飾紋理顔色通道
+* 1.2.5.1  2026.4.16   修復了一些函數返回值的錯誤,比如int (*ProjectSetting_2)(PROJECTGOD*)改成了void (*ProjectSetting_2)(PROJECTGOD*)
+*					   這是一些在C++下的小錯誤
+* 從這個版本開始,我們將逐步把GDI換成DirectX 11
+* 因爲DirectX 11涉及到C++,可能要換語言
+* 這是極其一個重大的更新,遠非重構可比
+* 因此版本號為2.x.x.x
+* 未來的繪圖架構將采用消息式
+* 開發者不再能夠自由的調用繪圖函數,繪圖函數底層將會變成向引擎呼叫消息
+* 引擎根據消息機中的消息來繪圖
+* 不過表現形式上與以前沒有區別
+* 不過不用擔心,作爲作者的我完全不會C++(笑)
+* 大概率依舊會用傳統的C語法來寫作
+* 1.2.5.1版本可能是1.0最後一個版本
+* 
+* 2.0.0.beta	2026.4.16
 */
 
 //创建线程函数关键字
@@ -298,6 +314,7 @@ typedef struct
 #endif
 }IMAGE;
 //动画结构体
+
 typedef struct
 {
 	LPCSTR Name;
@@ -685,7 +702,7 @@ extern void MoonProjectInit(PROJECTGOD* project, const wchar_t* project_name, in
 * 使用方法
 * MoonProjectRun(&game, GameInit, GameLogic, GameDrawing);
 */
-extern void MoonProjectRun(PROJECTGOD* project, int (*ProjectSetting_2)(PROJECTGOD*), int(*ProjectLogic)(PROJECTGOD*), int(*ProjectDrawing)(PROJECTGOD*));					//运行项目
+extern void MoonProjectRun(PROJECTGOD* project, void (*ProjectSetting_2)(PROJECTGOD*), int(*ProjectLogic)(PROJECTGOD*), int(*ProjectDrawing)(PROJECTGOD*));					//运行项目
 
 /*
 * 函數 MoonProjectOver
